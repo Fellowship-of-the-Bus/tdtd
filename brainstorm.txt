@@ -1,0 +1,9 @@
+-two levels which affect each other in different ways simultaneously
+-e.g. water tower on bottom layer that deals damage to stuff above it
+-different kinds of terrain
+  -change abilities of tower based on where its built
+  -shoot slower, do more damage, etc.
+  -can't build everything on certain types of terrain
+  -tower that freezes
+
+-two layer water map, different terrains
