@@ -57,9 +57,7 @@ object GameUI extends BasicGameState {
     val top = new StatusBar()
     val gameArea = new GameArea(0, topHeight, gaWidth, gaHeight)
     val infoView = new InfoView()
-
     ui.addChildren(top, gameArea, infoView)
-    ui.setInput(gc.getInput)
     ui.setState(getID)
     ui.init(gc, sbg)
   }

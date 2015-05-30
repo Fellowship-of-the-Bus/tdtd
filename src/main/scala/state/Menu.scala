@@ -2,16 +2,13 @@ package com.github.fellowship_of_the_bus
 package tdtd
 package state
 
-// import lib.ui.{Button, ToggleButton}
-import lib.ui.{ToggleButton}
+import lib.ui.{Button, ToggleButton}
 import game.IDMap._
 import lib.game.GameConfig
 import lib.game.GameConfig.{Width,Height}
 
 import org.newdawn.slick.{GameContainer, Graphics, Color, Input, KeyListener}
 import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
-
-import ui.Button
 
 object Menu extends BasicGameState {
   val centerx = Width/2-Button.width/2

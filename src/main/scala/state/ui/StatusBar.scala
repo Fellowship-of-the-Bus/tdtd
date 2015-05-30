@@ -4,7 +4,7 @@ package state
 package ui
 
 import lib.game.GameConfig.{Width,Height}
-// import lib.ui.Button
+import lib.ui.Button
 
 import org.newdawn.slick.{GameContainer, Graphics, Color,Input}
 import org.newdawn.slick.state.{StateBasedGame}

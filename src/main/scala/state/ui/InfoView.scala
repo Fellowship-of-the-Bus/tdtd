@@ -91,7 +91,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     g.setLineWidth(lineWidth)
   }
 
-   override def init(gc: GameContainer, sbg: StateBasedGame) = {
+   override def init(gc: GameContainer, sbg: StateBasedGame): Unit = {
 		var g = gc.getGraphics()
 		val font = g.getFont()
 		var w = font.getWidth("Sell")
@@ -125,6 +125,9 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		addChildren(closestButton)
 		addChildren(closestGoalButton)
 		addChildren(buyAIButton)
+
+    println(children)
     super.init(gc, sbg)
+    println("hello")
 	}
 }
