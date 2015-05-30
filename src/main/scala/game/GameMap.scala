@@ -72,7 +72,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     def placeable (r: Float, c:Float) : Int = {
         import GameMap._
         var tmp = getTile(r,c)
-        if (tmp.entrance || tmp.exit || tmp.occupied) {
+        if (tmp.entrance || tmp.exit || tmp.occupied || !tmp.enemies.isEmpty) {
             occupied
         }
         tmp.occupied = true
