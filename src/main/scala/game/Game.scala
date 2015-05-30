@@ -174,7 +174,7 @@ class Game {
     }
     money += sellValue
   }
-  
+
   def getMap(layer: Layer) = map(layer)
 
   def toggleSpeed() = {
