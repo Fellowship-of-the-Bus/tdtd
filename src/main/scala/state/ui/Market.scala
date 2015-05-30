@@ -44,10 +44,5 @@ class Market(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color
   		// set the placement for next button
 			spotX += buttonSize + spacing
   	}
-
-
-	    
-  }
-  
-  
+  }  
 }

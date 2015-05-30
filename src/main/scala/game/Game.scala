@@ -178,6 +178,7 @@ class Game {
   def getMap(layer: Layer) = map(layer)
 
   def toggleSpeed() = {
+    println("do thing")
     numTicks = (numTicks+1) % numSpeeds + 1
   }
 

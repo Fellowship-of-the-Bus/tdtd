@@ -43,9 +43,11 @@ class Pane(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, 
     g.translate(-x, -y)
   }
 
-  def init(gc: GameContainer, sbg: StateBasedGame) = {
+  override def init(gc: GameContainer, sbg: StateBasedGame) = {
+    super.init(gc, sbg)
     for (child <- children) {
       child.init(gc, sbg)
+      child.setState(uiState)
     }
   }
 }

@@ -22,5 +22,6 @@ class GameArea(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     }
 
     addChildren(map1, map2)
+    super.init(gc, sbg)
   }
 }

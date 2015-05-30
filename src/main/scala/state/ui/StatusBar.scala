@@ -6,7 +6,7 @@ package ui
 import lib.game.GameConfig.{Width,Height}
 // import lib.ui.Button
 
-import org.newdawn.slick.{GameContainer, Graphics, Color}
+import org.newdawn.slick.{GameContainer, Graphics, Color,Input}
 import org.newdawn.slick.state.{StateBasedGame}
 
 import GameUI.Dimensions._
@@ -36,5 +36,6 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
       () => game.toggleSpeed)
 
     addChildren(money, sendWave, menu, speed)
+    super.init(gc, sbg)
   }
 }

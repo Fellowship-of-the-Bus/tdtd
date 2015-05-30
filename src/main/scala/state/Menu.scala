@@ -19,11 +19,17 @@ object Menu extends BasicGameState {
 
   implicit var input: Input = null
   implicit var SBGame: StateBasedGame = null
+  var gc: GameContainer = null
 
-  lazy val choices = List(
-    Button("New Game", centerx, 200, () => SBGame.enterState(Mode.GameUIID)),
-    Button("Encyclopedia", centerx, 200+60, () => SBGame.enterState(Mode.EncyclopediaID)),
-    Button("Quit", centerx, 200+90, () => System.exit(0)))
+  lazy val choices = {
+    val lst = List(
+      Button("New Game", centerx, 200, () => SBGame.enterState(Mode.GameUIID)),
+      Button("Encyclopedia", centerx, 200+60, () => SBGame.enterState(Mode.EncyclopediaID)),
+      Button("Quit", centerx, 200+90, () => System.exit(0)))
+    lst.foreach(_.init(gc, SBGame))
+    lst.foreach(_.setState(getID))
+    lst
+  }
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
     implicit val input = gc.getInput
@@ -39,6 +45,7 @@ object Menu extends BasicGameState {
 
   def init(gc: GameContainer, game: StateBasedGame) = {
     input = gc.getInput
+    this.gc = gc
     SBGame = game
     gc.getGraphics.setBackground(Color.cyan)
   }

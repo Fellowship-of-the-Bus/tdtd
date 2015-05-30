@@ -64,6 +64,6 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer)(imp
   }
 
   // override def init(gc: GameContainer, sbg: StateBasedGame) = {
-    
+  //   super.init(gc, sbg)
   // }
 }

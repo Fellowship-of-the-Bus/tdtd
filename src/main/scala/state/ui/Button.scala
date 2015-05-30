@@ -29,7 +29,7 @@ object Button {
 
 }
 
-class Button(text: String, val x: Float, val y: Float, val width: Float, val height: Float, action: () => Unit)
+class Button(text: String, val x: Float, val y: Float, val width: Float, val height: Float, act: () => Unit)
  extends InputAdapter with UIElement {
   object ButtonMode {
     val NORMAL = 0
@@ -38,11 +38,14 @@ class Button(text: String, val x: Float, val y: Float, val width: Float, val hei
   }
   import ButtonMode._
 
-  def this(text: String, x: Float, y: Float, action: () => Unit) =
+  def this(text: String, x: Float, y: Float, act: () => Unit) =
     this(text, x, y, 
       GameConfig.graphics.getFont.getWidth(text) + 5,
       GameConfig.graphics.getFont.getHeight(text) + 5,
-      action)
+      act)
+
+
+  val action = () => if (sbg.getCurrentStateID == uiState) act()
   
   private var mode = NORMAL
 
@@ -53,6 +56,7 @@ class Button(text: String, val x: Float, val y: Float, val width: Float, val hei
     x < newx && newx < x+width && y < newy && newy < y+height
 
   override def setInput(input: Input) = {
+    println("set input")
     input.addMouseListener(this)
   }
 
@@ -113,7 +117,6 @@ class Button(text: String, val x: Float, val y: Float, val width: Float, val hei
     render(g)
   }
 
-  def init(gc: GameContainer, sbg: StateBasedGame): Unit = ()
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int): Unit = ()
   def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = render(g)
 }
