@@ -23,7 +23,6 @@ class Projectile (x: Float, y: Float, e: Enemy, t:Tower) extends GameObject(x,y)
   def tick() {
     val rVec = r - e.r
     val cVec = c - e.c
-    val dist = sqrt((rVec * rVec) + (cVec * cVec))
     var totalDmg = 0.0f
 
     if (dist < speed) {
