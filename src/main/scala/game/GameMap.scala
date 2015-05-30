@@ -46,6 +46,7 @@ class GameMap {
             }
         }
         enemies = enemies.filter(e=> (e.x - x)*(e.x-x) + (e.y - y)*(e.y-y) <= r*r)
+        enemies
     }
     def placable (r: Float, c:Float) : Boolean = {
         var tmp = map(r.toInt)(c.toInt)
