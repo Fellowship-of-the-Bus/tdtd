@@ -53,9 +53,12 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
      mx = x
      my = y
      mode = MOUSE_OVER
-     other.get.mx = mx
-     other.get.my = my
-     other.get.mode = MOUSE_OVER
+     if (other.isEmpty) {
+     } else {
+       other.get.mx = mx
+       other.get.my = my
+       other.get.mode = MOUSE_OVER
+     }
     } else {
       mode = NORMAL
     }
@@ -76,9 +79,12 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
       my = actY
       mode = MOUSE_CLICK
       action(mx, my)
-      other.get.mode = MOUSE_OVER
-      other.get.mx = mx
-      other.get.my = my
+      if (other.isEmpty) {
+      } else {
+        other.get.mode = MOUSE_OVER
+        other.get.mx = mx
+        other.get.my = my
+      }
     }
   }
 
