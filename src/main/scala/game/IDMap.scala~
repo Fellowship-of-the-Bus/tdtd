@@ -22,8 +22,7 @@ object IDMap {
   val IceTowerBottomID = 2201
   val WhirlpoolBottomID = 2202
   val SteamTowerID = 2203
-  
-  val UnderStart = 3001
+
   val FishID = 3001
   val CrabID = 3002
   val JellyfishID = 3003
@@ -31,9 +30,8 @@ object IDMap {
   val WhaleID = 3005
   val SharkID = 3006
   val MegalodonID = 3007
-  val UnderEnd = 3007
 
-  val TopStart = 3107
+
   val DolphinID = 3107
   val PenguinID = 3108
   val AlligatorID = 3109
@@ -41,7 +39,6 @@ object IDMap {
   val TurtleID = 3111
   val HydraID = 3112
   val KrakenID = 3113
-  val TopEnd = 3113
 
   val HarpoonID = 4000
 

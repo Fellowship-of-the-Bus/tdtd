@@ -13,9 +13,10 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer)(imp
   def this(x: Float, y: Float, layer: Layer)(implicit bg: Color, game: Game) = this(x, y, mapWidth, mapHeight, layer)
 
   val map = game.getMap(layer)
-
+  val widthRatio = width / map.mapWidth
+  val heightRatio = height / map.mapHeight
   def convert(r: Float, c: Float) = {
-    (c * width / map.mapWidth, r * height / map.mapHeight)
+    (c * widthRatio, r * heightRatio)
   }
 
   def convert(go: GameObject): (Float, Float) = {
@@ -23,6 +24,13 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer)(imp
     convert(r, c)
   }
 
+  def drawObject( e:GameObject, ex: Float, ey: Float,  g:Graphics) {
+    var image = IDMap.images(e.id)
+    g.scale(e.width*heightRatio/image.getWidth,e.height*widthRatio/image.getHeight)
+    IDMap.images(e.id).draw(ex * image.getWidth/e.width/widthRatio, ey*image.getHeight/e.height/heightRatio)
+    g.scale(image.getWidth/e.width/widthRatio,image.getHeight/e.height/heightRatio)
+  }
+ 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
 
@@ -37,14 +45,19 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer)(imp
         val enemies = tile.enemies
         for (e <- enemies; if (e.active)) {
           val (ex, ey) = convert(e)
-          IDMap.images(e.id).draw(ex, ey)
+          println(s"$ex, $ey")
+          drawObject(e,ex, ey, g)
+//          g.scale(e.width*heightRatio/400f,e.height*widthRatio/300f)
+  //        IDMap.images(e.id).draw(ex * 400f/e.width/widthRatio, ey*300f/e.height/heightRatio)
+    //      g.scale(400f/e.width/widthRatio,300f/e.height/heightRatio)
         }
 
         val tower = tile.tower
         if (! tower.isEmpty) {
           val t = tower.get
           val (tx, ty) = convert(t)
-          IDMap.images(t.id).draw(tx, ty)
+          drawObject(t, tx, ty, g)
+//          IDMap.images(t.id).draw(tx, ty)
         }
       }
     }
