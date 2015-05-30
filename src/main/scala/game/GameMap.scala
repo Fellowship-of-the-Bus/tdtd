@@ -31,7 +31,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     val entranceR = 0
     val exitR = mapHeight-1
 
-    def this() = this(25,25,12,12)
+    def this() = this(13,13,6,6)
 
     var map = new Array[Array[Tile]](mapHeight)
     for (r <- 0 to mapHeight-1) {

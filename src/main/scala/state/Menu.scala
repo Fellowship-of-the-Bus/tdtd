@@ -19,9 +19,7 @@ object Menu extends BasicGameState {
   implicit var SBGame: StateBasedGame = null
 
   lazy val choices = List(
-    // Button("New Game", centerx, 200, () => SBGame.enterState(Mode.OverworldID)),
-    // Button("Load Game", centerx, 200+30, () => SBGame.enterState(Mode.LoadMenuID)),
-    // Button("Options", centerx, 200+60, () => SBGame.enterState(Mode.OptionsID)), 
+    Button("New Game", centerx, 200, () => SBGame.enterState(Mode.GameUIID)),
     Button("Quit", centerx, 200+90, () => System.exit(0)))
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {

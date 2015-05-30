@@ -12,7 +12,7 @@ import lib.game.GameConfig
 class TDTD(gamename: String) extends StateBasedGame(gamename) {    
   def initStatesList(gc: GameContainer) = {
     gc.setShowFPS(true)
-    addState(Menu)
+    // addState(Menu)
     addState(GameUI)
   }
 }

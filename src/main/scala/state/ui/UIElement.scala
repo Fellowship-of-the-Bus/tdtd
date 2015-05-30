@@ -9,10 +9,10 @@ abstract class UIElement(x: Float, y: Float, width: Float, height: Float) {
   val topLeft = (x, y)
   val bottomRight = (x+width, y+height)
 
-  def update(gc: GameContainer, game: StateBasedGame, delta: Int): Unit
-  def render(gc: GameContainer, game: StateBasedGame, g: Graphics): Unit
-  def init(gc: GameContainer, game: StateBasedGame): Unit
+  def update(gc: GameContainer, sbg: StateBasedGame, delta: Int): Unit
+  def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit
+  def init(gc: GameContainer, sbg: StateBasedGame): Unit
 
-  def draw(gc: GameContainer, game: StateBasedGame, g: Graphics): Unit
+  def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit
 }
 

@@ -19,7 +19,8 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
   val dmg = tower.kind.damage
   val speed = tower.kind.speed
   val aoe = tower.kind.aoe
-  val id = tower.kind.projectileID
+  // val id = tower.kind.projectileID
+  val id = 0
   
   def tick() = {
     val rVec = r - tar.r

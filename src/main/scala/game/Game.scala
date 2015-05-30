@@ -95,6 +95,8 @@ class Game {
     money += sellValue
   }
 
+  def getMap(layer: Layer) = map(layer)
+
   var isGameOver = false
   def gameOver() = {
     isGameOver = true
