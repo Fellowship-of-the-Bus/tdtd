@@ -5,10 +5,15 @@ package game
 import IDMap._
 import lib.game.GameConfig.{Height,Width}
 import scala.collection.mutable.Set
+import GameMap._
 
 class Coord (m: Int, n:Int){
-    var c = m
-    var r = n
+    var r = m
+    var c = n
+
+    override def toString = {
+        "(" + r.toString + "," + c.toString +")"
+    }
 }
 
 object GameMap {
@@ -16,6 +21,10 @@ object GameMap {
     val occupied = 0
     val okay = 1
     val semiOccupied = 2
+    val Left = 0
+    val Right = 1
+    val Up = 2
+    val Down = 3
 }
 
 class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
@@ -39,14 +48,15 @@ class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
                         || c.toInt < 0
                         || c.toInt > mapHeight-1) {
             None
+        } else {
+            Some(map(r.toInt)(c.toInt))
         }
-        Some(map(r.toInt)(c.toInt))
     }
     def aoe(r:Float, c:Float, range:Float) = {
-        var left = math.max(r-range,0).toInt
-        var right = math.min(r+range, mapWidth-1).toInt
-        var top = math.max(c-range,0).toInt
-        var bottom = math.min(c+range,mapHeight-1).toInt
+        var left = (math.max(r-range,0)+0.5f).toInt
+        var right = (math.min(r+range, mapWidth-1)+0.5f).toInt
+        var top = (math.max(c-range,0)+0.5f).toInt
+        var bottom = (math.min(c+range,mapHeight-1)+0.5f).toInt
         var enemies = Set[Enemy]()
         for (m <- left to right) {
             for (n <- top to bottom) {
@@ -56,7 +66,6 @@ class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
         enemies = enemies.filter(e => (e.r - r)*(e.r-r) + (e.c - c)*(e.c-c) <= r*r)
         enemies
     }
-    //-1 = blocking, 0 = occupied, 1 = ok
     def placeable (r: Float, c:Float) : Int = {
         import GameMap._
         var tmp = map(r.toInt)(c.toInt)
@@ -74,17 +83,17 @@ class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
         }
     }
     def placeTower (r: Float, c:Float, tower: Tower) = {
-        var tmp = map(r.toInt)(c.toInt)
+        var tmp = map((r+0.5f).toInt)((c+0.5f).toInt)
         tmp.placeTower(tower)
         dijkstras()
         tower.setMap(this)
     }
     def removable (r: Float, c:Float): Boolean = {
-        var tmp = map(r.toInt)(c.toInt)
+        var tmp = map((r+0.5f).toInt)((c+0.5f).toInt)
         tmp.occupied
     }
     def removeTower (r:Float, c:Float) = {
-        var tmp = map(r.toInt)(c.toInt)
+        var tmp = map((r+0.5f).toInt)((c+0.5f).toInt)
         tmp.removeTower()
     }
     def spawn (e: Enemy) = {
@@ -97,62 +106,103 @@ class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
         var sourceR = exitR
         var sourceC = exitC
         var sourceTile = map(exitR)(exitC)
-        map(sourceR)(sourceC).dist = 0
         var Q = Set[Coord]()
         for (r <- 0 to mapHeight-1) {
             for (c <- 0 to mapWidth-1) {
-                if (r != sourceR || c != sourceC) {
-                    map(r)(c).dist = Int.MaxValue
-                }
+                map(r)(c).dist = Int.MaxValue/2
 
-                if (!map(r)(c).occupied)
+                if (!map(r)(c).occupied) {
                     Q += new Coord(r,c)
+                }
             }
         }
+
+        sourceTile.dist = 0
         while (!Q.isEmpty) {
             var curTileCoord = Q.minBy(x=>map(x.r)(x.c).dist)
             var curTile = map(curTileCoord.r)(curTileCoord.c)
-            if (curTile.dist == Int.MaxValue) return true
+            if (curTile.dist == Int.MaxValue/2) {
+                return true
+            }
             Q -= curTileCoord
-            //for each neighbour
-            if (curTileCoord.r-1 >=0) {
-                var neighbour = map(curTileCoord.r-1)(curTileCoord.c)
-                if (curTile.dist + 1 < neighbour.dist) {
-                    neighbour.dist = curTile.dist +1
-                    neighbour.direction = 3 // down
+
+            if (!curTile.occupied) {
+                //for each neighbour
+                if (curTileCoord.r-1 >=0) {
+                    var neighbourCoord = new Coord(curTileCoord.r-1,curTileCoord.c)
+                    var neighbour = map(curTileCoord.r-1)(curTileCoord.c)
+                    if (curTile.dist + 1 < neighbour.dist) {
+                        neighbour.dist = curTile.dist +1
+                        neighbour.direction = Down // down
+                    }
                 }
-            }
-            if (curTileCoord.r+1 <= mapWidth-1) {
-                var neighbour = map(curTileCoord.r+1)(curTileCoord.c)
-                if (curTile.dist + 1 < neighbour.dist) {
-                     neighbour.dist = curTile.dist +1
-                     neighbour.direction = 2 // up
+                if (curTileCoord.r+1 <= mapHeight-1) {
+                    var neighbourCoord = new Coord(curTileCoord.r+1,curTileCoord.c)
+                    var neighbour = map(curTileCoord.r+1)(curTileCoord.c)
+                    if (curTile.dist + 1 < neighbour.dist) {
+                        neighbour.dist = curTile.dist +1
+                        neighbour.direction = Up // up
+                    }
                 }
-            }
-            if (curTileCoord.c-1 >=0) {
-                var neighbour = map(curTileCoord.r)(curTileCoord.c-1)
-                if (curTile.dist + 1 < neighbour.dist) {
-                    neighbour.dist = curTile.dist +1
-                    neighbour.direction = 1 // right
+                if (curTileCoord.c-1 >=0) {
+                    var neighbourCoord = new Coord(curTileCoord.r,curTileCoord.c-1)
+                    var neighbour = map(curTileCoord.r)(curTileCoord.c-1)
+                    if (curTile.dist + 1 < neighbour.dist) {
+                        neighbour.dist = curTile.dist +1
+                        neighbour.direction = Right // right
+                    }
                 }
-            }
-            if (curTileCoord.c+1 <= mapHeight-1) {
-                var neighbour = map(curTileCoord.r)(curTileCoord.c+1)
-                if (curTile.dist + 1 < neighbour.dist) {
-                    neighbour.dist = curTile.dist +1
-                    neighbour.direction = 0 // left
+                if (curTileCoord.c+1 <= mapWidth-1) {
+                    var neighbourCoord = new Coord(curTileCoord.r,curTileCoord.c+1)
+                    var neighbour = map(curTileCoord.r)(curTileCoord.c+1)
+                    if (curTile.dist + 1 < neighbour.dist) {
+                        neighbour.dist = curTile.dist +1
+                        neighbour.direction = Left // left
+                    }
                 }
             }
         }
         false
     }
     override def toString() : String = {
-        var output = ""
-        for (r <- 0 to mapHeight) {
-            for (c <- 0 to mapWidth) {
+        var output = "a\n"
+        for (r <- 0 to mapHeight -1 ){
+            for (c <- 0 to mapWidth-1) {
+                if (map(r)(c).occupied) {
+                    output += "X|"
+                } else {
+                    map(r)(c).direction match {
+                        case Up => output += "^|"
+                        case Down => output += "v|"
+                        case Left => output += "<|"
+                        case Right => output += ">|"
+                    }
+                }
             }
+            output += "\n"
+        }
+        output += "\n"
+        for (r <- 0 to mapHeight -1) {
+            for (c <- 0 to mapWidth -1) {
+                if (map(r)(c).occupied) {
+                    output += "X|"
+                } else {
+                    output += map(r)(c).dist.toString + "|"
+                }
+            }
+            output += "\n"
         }
         output
+    }
+    def ==(that: GameMap) : Boolean = {
+        for (r <- 0 to mapHeight-1) {
+            for (c <- 0 to mapWidth-1) {
+                if (map(r)(c) != that.map(r)(c)) {
+                    return false
+                }
+            }
+        }
+        true
     }
 
 }

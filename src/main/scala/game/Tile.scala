@@ -32,4 +32,7 @@ class Tile {
     def getTower() = {
         tower
     }
+    def ==(that: Tile) {
+        direction == that.direction
+    }
 }
