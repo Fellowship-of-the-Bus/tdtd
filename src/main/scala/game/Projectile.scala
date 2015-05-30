@@ -8,12 +8,12 @@ object Projectile {
   val width = 10
   val height = 10
 
-  def apply(x: Int, y: Int, e: Enemy, tower: Tower) = {
+  def apply(x: Float, y: Float, e: Enemy, tower: Tower) = {
     new Projectile(x, y, e, tower)
   }
 }
 
-abstract class Projectile (x: Float, y: Float, e: Enemy, t:Tower) extends GameObject(x,y) {
+class Projectile (x: Float, y: Float, e: Enemy, t:Tower) extends GameObject(x,y) {
   val width = Projectile.width
   val height = Projectile.height
   val dmg = t.kind.damage
@@ -21,20 +21,20 @@ abstract class Projectile (x: Float, y: Float, e: Enemy, t:Tower) extends GameOb
   val aoe = t.kind.aoe
 
   def tick() {
-    val xVec = x - e.x
-    val yVec = y - e.y
-    val dist = sqrt((xVec * xVec) + (yVec * yVec))
+    val rVec = r - e.r
+    val cVec = c - e.c
+    val dist = sqrt((rVec * rVec) + (cVec * cVec))
     var totalDmg = 0.0f
 
     if (dist < speed) {
       // enemies = get enemies in AoE
-      for (e <- enemies) {
-        totalDmg += e.hit(dmg)
-      }
+      // for (e <- enemies) {
+      //   totalDmg += e.hit(dmg)
+      // }
       inactivate
     } else {
-      x += (xVec / dist) * speed
-      y += (yVec / dist) * speed
+      r += (rVec / dist) * speed
+      c += (cVec / dist) * speed
     }
   }
 }
