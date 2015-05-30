@@ -25,6 +25,7 @@ class TowerSuite extends FunSuite {
 				"Damage: 1.0",
 				"Fire Rate: 1.0 seconds",
 				"Range: 4.0",
+				"Current AI: Random",
 				"Kills: 0",
 				"Damage Dealt: 0.0"
 			)
@@ -40,6 +41,7 @@ class TowerSuite extends FunSuite {
 				"Fire Rate: 2.0 seconds",
 				"Range: 4.0",
 				"Area of Effect: 2.0",
+				"Current AI: Closest to Goal",
 				"Kills: 0",
 				"Damage Dealt: 0.0"
 			)

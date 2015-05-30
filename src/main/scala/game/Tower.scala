@@ -25,6 +25,8 @@ trait TowerType {
 	def speed_=(s: Float): Unit
 	def value: Int
 	def value_=(i: Int): Unit
+	def name: String
+	def name_=(s: String): Unit
 }
 
 abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObject(xc, yc) {
@@ -83,6 +85,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 			ret = ret ++ List(f"Area of Effect: ${kind.aoe}%.1f")
 		}
 		ret = ret ++ List(
+			s"Current AI: ${kind.currAI}",
 			s"Kills: $kills", 
 			f"Damage Dealt: $dmgDone%.1f"
 		)
@@ -147,6 +150,7 @@ object HarpoonTower extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 2.0f
 	var value = 5
+	var name = "Harpoon Tower"
 }
 
 class CannonTower(xc: Float, yc: Float) extends Tower(xc, yc, CannonTower) {
@@ -162,11 +166,12 @@ object CannonTower extends TowerType {
 	var damage = 5.0f
 	var fireRate = 120
 	var aoe = 2.0f
-	var currAI: AI = new RandomAI
+	var currAI: AI = new ClosestToGoalAI
 	var id = CannonTowerID
 	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 20
+	var name = "Cannon Tower"
 }
 
 class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
@@ -221,6 +226,7 @@ object TorpedoTower extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 25
+	var name = "Torpedo Tower"
 }
 
 class OilDrillTower(xc: Float, yc: Float) extends Tower(xc, yc, OilDrillTower) {
@@ -259,6 +265,7 @@ object OilDrillTower extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 50
+	var name = "Oil Drill"
 }
 
 class IceTowerBottom(xc: Float, yc: Float) extends SlowingTower(xc, yc, IceTowerBottom) {
@@ -282,6 +289,7 @@ object IceTowerBottom extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 2.0f
 	var value = 15
+	var name = "Ice Tower"
 }
 
 class IceTowerTop(xc: Float, yc: Float) extends Tower(xc, yc, IceTowerTop) {
@@ -301,6 +309,7 @@ object IceTowerTop extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 0
+	var name = "Ice Tower"
 }
 
 class DepthChargeTower(xc: Float, yc: Float) extends Tower(xc, yc, DepthChargeTower) {
@@ -321,6 +330,7 @@ object DepthChargeTower extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 20
+	var name = "Depth Charge"
 }
 
 class WhirlpoolBottom(xc: Float, yc: Float) extends Tower(xc, yc, WhirlpoolBottom) {
@@ -343,6 +353,7 @@ object WhirlpoolBottom extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 2.0f
 	var value = 5
+	var name = "Whirlpool"
 }
 
 class WhirlpoolTop(xc: Float, yc: Float) extends SlowingTower(xc, yc, WhirlpoolTop) {
@@ -365,6 +376,7 @@ object WhirlpoolTop extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 0
+	var name = "Whirlpool"
 }
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
@@ -412,6 +424,7 @@ object MissileTower extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 40
+	var name = "Missile Tower"
 }
 
 class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
@@ -450,6 +463,7 @@ object NetTower extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 20
+	var name = "Net Tower"
 }
 
 class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
@@ -511,6 +525,7 @@ object SteamTower extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 20
+	var name = "Steam Tower"
 }
 
 object Tower {

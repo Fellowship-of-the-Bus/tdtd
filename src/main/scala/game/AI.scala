@@ -12,6 +12,7 @@ abstract class AI {
 		enemiesD: Set[Enemy], enemiesL: Set[Enemy], enemiesR: Set[Enemy]) : Enemy = {
 		throw new IllegalArgumentException
 	}
+	override def toString() : String
 }
 
 class RandomAI extends AI {
@@ -19,6 +20,8 @@ class RandomAI extends AI {
 	override def pick(r: Float, c: Float, enemies: Set[Enemy]) : Enemy = {
 		enemies.maxBy(x => rand.nextInt())
 	}
+
+	override def toString() : String = "Random"
 }
 
 class ClosestAI extends AI {
@@ -30,12 +33,16 @@ class ClosestAI extends AI {
 			}
 		)
 	}
+
+	override def toString() : String = "Closest to Tower"
 }
 
 class ClosestToGoalAI extends AI {
 	override def pick(r: Float, c: Float, enemies: Set[Enemy]) : Enemy = {
 		enemies.minBy(enemy => enemy.place.dist)
 	}
+
+	override def toString() : String = "Closest to Goal"
 }
 
 class SteamRandomAI extends AI {
@@ -49,4 +56,6 @@ class SteamRandomAI extends AI {
 		val enemies = enemiesU ++ enemiesL ++ enemiesD ++ enemiesR
 		enemies.maxBy(x => rand.nextInt())
 	}
+
+	override def toString() : String = "Random Direction"
 }
