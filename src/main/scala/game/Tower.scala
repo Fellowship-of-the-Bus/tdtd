@@ -44,7 +44,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 
 	def startRound(): Int = 0
 
-	def tick() : Option[Projectile] = {
+	def tick() : List[Projectile] = {
 		if(nextShot == 0) {
 			val enemies = map.aoe(r, c, kind.range)
 			if (!enemies.isEmpty) {
@@ -52,19 +52,46 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 				val target = kind.currAI.pick(r, c, enemies)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
-				Some(proj)
+				List(proj)
 			} else {
-				None
+				List()
 			}
 		} else {
 			nextShot -= 1
-			None
+			List()
 		}
 	}
 
 	def setAI(ai: AI) : Unit = {
 		kind.currAI = ai
 	}
+}
+
+abstract class SlowingTower(xc: Float, yc: Float, towerType: TowerType) extends Tower(xc, yc, towerType) {
+	var slowMult = 0.75f
+	var slowTime = 30
+
+	override def tick() : List[Projectile] = {
+		if (nextShot == 0) {
+			val enemies = map.aoe(r,c, kind.range)
+			if (!enemies.isEmpty) {
+				nextShot = kind.fireRate
+				enemies.foreach(enemy => {
+						val slow = new SlowEffect(slowMult, slowTime)
+						enemy.slow(slow)
+					}
+				)
+			}
+			List()
+		} else {
+			nextShot -= 1
+			List()
+		}
+	}
+}
+
+abstract class MazingTower(xc: Float, yc: Float, towerType: TowerType) extends Tower(xc, yc, towerType) {
+	override def tick() : List[Projectile] = List()
 }
 
 class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
@@ -117,7 +144,7 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 
 	def upgrade(): Unit = {}
 
-	override def tick() : Option[Projectile] = {
+	override def tick() : List[Projectile] = {
 		if(nextShot == 0) {
 			val enemies = maps.foldRight(Set[Enemy]())((map, set) =>
 				if (set.isEmpty) {
@@ -136,13 +163,13 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 				val target = kind.currAI.pick(r, c, enemies)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
-				Some(proj)
+				List(proj)
 			} else {
-				None
+				List()
 			}
 		} else {
 			nextShot -= 1
-			None
+			List()
 		}
 	}
 }
@@ -170,8 +197,6 @@ class OilDrillTower(xc: Float, yc: Float) extends Tower(xc, yc, OilDrillTower) {
 
 	def upgrade(): Unit = {}
 
-	override def tick() : Option[Projectile] = None
-
 	override def startRound() : Int = {
 		kind.value / 10
 	}
@@ -188,9 +213,7 @@ object OilDrillTower extends TowerType {
 	var value = 50
 }
 
-class IceTowerBottom(xc: Float, yc: Float) extends Tower(xc, yc, IceTowerBottom) {
-	var slowMult = 0.75f
-	var slowTime = 30
+class IceTowerBottom(xc: Float, yc: Float) extends SlowingTower(xc, yc, IceTowerBottom) {
 	def upgradeCost(): Int = {
 		1
 	}
@@ -199,23 +222,6 @@ class IceTowerBottom(xc: Float, yc: Float) extends Tower(xc, yc, IceTowerBottom)
 		slowMult -= 0.1f
 	}
 
-	override def tick() : Option[Projectile] = {
-		if (nextShot == 0) {
-			val enemies = map.aoe(r,c, kind.range)
-			if (!enemies.isEmpty) {
-				nextShot = kind.fireRate
-				enemies.foreach(enemy => {
-						val slow = new SlowEffect(slowMult, slowTime)
-						enemy.slow(slow)
-					}
-				)
-			}
-			None
-		} else {
-			nextShot -= 1
-			None
-		}
-	}
 }
 
 object IceTowerBottom extends TowerType {
@@ -234,7 +240,6 @@ class IceTowerTop(xc: Float, yc: Float) extends Tower(xc, yc, IceTowerTop) {
 
 	def upgrade(): Unit = {}
 
-	override def tick() : Option[Projectile] = None
 }
 
 object IceTowerTop extends TowerType {
@@ -267,6 +272,67 @@ object DepthChargeTower extends TowerType {
 	var value = 20
 }
 
+class WhirlpoolBottom(xc: Float, yc: Float) extends Tower(xc, yc, WhirlpoolBottom) {
+	var slowMult = 0.75f
+	var slowTime = 30
+	def upgradeCost(): Int = {
+		1
+	}
+
+	def upgrade(): Unit = {}
+}
+
+object WhirlpoolBottom extends TowerType {
+	var range = 4.0f
+	var damage = 0.0f
+	var fireRate = 10
+	var aoe = 0.0f
+	var currAI: AI = new RandomAI
+	var id = WhirlpoolBottomID
+	var speed = 2.0f
+	var value = 5
+}
+
+class WhirlpoolTop(xc: Float, yc: Float) extends SlowingTower(xc, yc, WhirlpoolTop) {
+	def upgradeCost(): Int = {
+		1
+	}
+
+	def upgrade(): Unit = {
+		slowMult -= 0.1f
+	}
+}
+
+object WhirlpoolTop extends TowerType {
+	var range = 0.0f
+	var damage = 0.0f
+	var fireRate = 120
+	var aoe = 0.0f
+	var currAI: AI = new RandomAI
+	var id = WhirlpoolTopID
+	var speed = 0.0f
+	var value = 0
+}
+
+class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
+	def upgradeCost(): Int = {
+		1
+	}
+
+	def upgrade(): Unit = {}
+}
+
+object MissileTower extends TowerType {
+	var range = 4.0f
+	var damage = 5.0f
+	var fireRate = 20
+	var aoe = 2.0f
+	var currAI: AI = new RandomAI
+	var id = MissileTowerID
+	var speed = 1.0f
+	var value = 20
+}
+
 object Tower {
 	def apply(id: Int, xc: Float, yc: Float) : Tower = {
 		id match {
@@ -277,6 +343,9 @@ object Tower {
 			case IceTowerBottomID => new IceTowerBottom(xc, yc)
 			case IceTowerTopID => new IceTowerTop(xc, yc)
 			case DepthChargeTowerID => new DepthChargeTower(xc, yc)
+			case WhirlpoolBottomID => new WhirlpoolBottom(xc, yc)
+			case WhirlpoolTopID => new WhirlpoolTop(xc, yc)
+			case MissileTowerID => new MissileTower(xc, yc)
 		}
 	}
 }

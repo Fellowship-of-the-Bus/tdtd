@@ -14,6 +14,9 @@ object IDMap{
   val IceTowerBottomID = 2004
   val IceTowerTopID = 2005
   val DepthChargeTowerID = 2006
+  val WhirlpoolTopID = 2007
+  val WhirlpoolBottomID = 2008
+  val MissileTowerID = 2009
 
   val FishID = 3001
   val CrabID = 3002

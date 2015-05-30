@@ -43,10 +43,7 @@ class Game {
 
     for (t <- towers; if (t.active)) {
       val p = t.tick()
-      p match {
-        case Some(project) => projectiles = project::projectiles
-        case None => ()
-      }
+      projectiles = p ++ projectiles
     }
 
     for (e <- enemies; if (e.active)) {
