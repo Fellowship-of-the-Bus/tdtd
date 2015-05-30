@@ -26,28 +26,30 @@ trait EnemyType {
   def height: Float
 }
 
-class SlowEffect(m: Int, t: Int) {
-	var mult = m
-	var time = t
-}
+// tuple containing the magnitude and time remaining on a slow effect 
+class SlowEffect(val mult: Float, var time: Int) {}
+
+// triple containing info projectile needs when it hits an enemy
+class GotHit(val dmg: Float, val money: Int) {}
+// Might need to update for jellyfish duplication
 
 abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} with Lifebar { 
-	//var map: GameMap
 	val base = b
 	val id = base.id
   var hp = (base.maxHp * mult)
   var armor = (base.armor * mult)
   val width = base.width
   val height = base.height
-  //var place = game.getTile(0,0) // update when API is known
+  var place = (map(0,0).getOrElse(null)) // update when Spawn is known
   var speed = base.speed
   var slows: List[SlowEffect] = List()
 
  	def special() {}
 
 
-  def tick() {
+  def tick() : Boolean = {
   	var maxSlow = 0.0f
+    var dist = speed
   	
   	def updateSlow(lst: List[SlowEffect], eff: SlowEffect) = {
   		eff.time -= 1
@@ -64,20 +66,45 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
 
   	special();
   	slows = slows.foldLeft(List[SlowEffect]())((lst, eff) => updateSlow(lst, eff))
+    dist = speed * maxSlow
+    val dir = place.direction
 
-  	// move speed*maxSlow in direction obtained from tile
-  	// If place changed, deregister, register
+    if (dir == 0) {
+      c = c + dist
+    } else if (dir == 1) {
+      c = c - dist
+    } else if (dir == 2) {
+      r = r - dist
+    } else {
+      r = r + dist
+    }
+
+    val nextPlace = map(r,c)
+    nextPlace match {
+      case Some(tile) =>
+        if (place != tile) {
+          place.deregister(this)
+          place = tile
+          place.register(this)
+        }
+        false
+
+      case _ =>
+        place.deregister(this)
+        true
+    }
 	}
 
-	def hit(dmg: Float) = {
+	def hit(dmg: Float) : GotHit = {
 		var dmgDone = max(dmg - armor, 0)
 		hp -= dmgDone
 		if (hp <= 0) {
-			// Award money to game
-			// Deregister from place
+			place.deregister(this)
 			inactivate
-		}
-		dmgDone
+      new GotHit(dmgDone, base.difficulty)
+		} else {
+      new GotHit(dmgDone, 0)
+    }
 	}
 
 	def slow(eff: SlowEffect) {
