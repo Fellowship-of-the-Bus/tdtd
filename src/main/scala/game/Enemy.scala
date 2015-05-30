@@ -265,3 +265,27 @@ object Whale extends EnemyType {
 }
 
 class Whale(mult: Float) extends Enemy(mult, Whale) {} 
+
+object Shark extends EnemyType {
+  val id = SharkID
+  val difficulty = 1
+  val maxHp = 10.0f
+  val armor = 0.0f
+  val speed = 0.8f
+  val width = 0.5f
+  val height = 0.5f
+}
+
+class Shark(mult: Float) extends Enemy(mult, Shark) {} 
+
+object Megalodon extends EnemyType {
+  val id = MegalodonID
+  val difficulty = 1
+  val maxHp = 10.0f
+  val armor = 0.0f
+  val speed = 0.8f
+  val width = 0.5f
+  val height = 0.5f
+}
+
+class Megalodon(mult: Float) extends Enemy(mult, Megalodon) {} 
