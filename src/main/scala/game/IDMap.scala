@@ -7,16 +7,21 @@ object IDMap{
 
   val FotBLogoID = 1000
   val GameOverID = 1001
+
   val HarpoonTowerID = 2000
-  val CannonTowerID = 2001
-  val TorpedoTowerID = 2002
-  val OilDrillTowerID = 2003
-  val IceTowerBottomID = 2004
-  val IceTowerTopID = 2005
-  val DepthChargeTowerID = 2006
-  val WhirlpoolTopID = 2007
-  val WhirlpoolBottomID = 2008
-  val MissileTowerID = 2009
+  val OilDrillTowerID = 2001
+  
+  val CannonTowerID = 2100
+  val IceTowerTopID = 2101
+  val DepthChargeTowerID = 2102
+  val WhirlpoolTopID = 2103
+  val MissileTowerID = 2104
+  val NetTowerID = 2105
+
+  val TorpedoTowerID = 2200
+  val IceTowerBottomID = 2201
+  val WhirlpoolBottomID = 2202
+  val SteamTowerID = 2203
 
   val FishID = 3001
   val CrabID = 3002
@@ -34,6 +39,8 @@ object IDMap{
   val TurtleID = 3111
   val HydraID = 3112
   val KrakenID = 3113
+
+  val HarpoonID = 4000
 
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",

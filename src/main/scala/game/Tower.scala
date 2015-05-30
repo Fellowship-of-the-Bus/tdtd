@@ -19,6 +19,8 @@ trait TowerType {
 	def currAI_=(ai: AI) : Unit
 	def id: Int
 	def id_=(i: Int): Unit
+	def projectileID: Int
+	def projectileID_=(p: Int): Unit
 	def speed: Float
 	def speed_=(s: Float): Unit
 	def value: Int
@@ -109,6 +111,7 @@ object HarpoonTower extends TowerType {
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = HarpoonTowerID
+	var projectileID = HarpoonID
 	var speed = 2.0f
 	var value = 5
 }
@@ -128,6 +131,7 @@ object CannonTower extends TowerType {
 	var aoe = 2.0f
 	var currAI: AI = new RandomAI
 	var id = CannonTowerID
+	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 20
 }
@@ -181,6 +185,7 @@ object TorpedoTower extends TowerType {
 	var aoe = 2.0f
 	var currAI: AI = new RandomAI
 	var id = TorpedoTowerID
+	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 25
 }
@@ -209,6 +214,7 @@ object OilDrillTower extends TowerType {
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = OilDrillTowerID
+	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 50
 }
@@ -231,6 +237,7 @@ object IceTowerBottom extends TowerType {
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = IceTowerBottomID
+	var projectileID = HarpoonID
 	var speed = 2.0f
 	var value = 5
 }
@@ -249,6 +256,7 @@ object IceTowerTop extends TowerType {
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = IceTowerBottomID
+	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 0
 }
@@ -268,6 +276,7 @@ object DepthChargeTower extends TowerType {
 	var aoe = 2.0f
 	var currAI: AI = new RandomAI
 	var id = DepthChargeTowerID
+	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 20
 }
@@ -289,6 +298,7 @@ object WhirlpoolBottom extends TowerType {
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = WhirlpoolBottomID
+	var projectileID = HarpoonID
 	var speed = 2.0f
 	var value = 5
 }
@@ -310,25 +320,135 @@ object WhirlpoolTop extends TowerType {
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = WhirlpoolTopID
+	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 0
 }
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
+	var numTargets = 2
+	def upgradeCost(): Int = {
+		1
+	}
+
+	def upgrade(): Unit = {
+		numTargets += 1
+
+	}
+
+	override def tick() : List[Projectile] = {
+		if(nextShot == 0) {
+			val enemies = map.aoe(r, c, kind.range)
+			if (!enemies.isEmpty) {
+				nextShot = kind.fireRate
+				var projectiles = List[Projectile]()
+				for(i <- 1 to numTargets) {
+					val target = kind.currAI.pick(r, c, enemies)
+					val proj = Projectile(r, c, target, this)
+					proj.setMap(map)
+					projectiles = proj :: projectiles
+					enemies.remove(target)
+				}
+				projectiles
+			} else {
+				List()
+			}
+		} else {
+			nextShot -= 1
+			List()
+		}
+	}
+}
+
+object MissileTower extends TowerType {
+	var range = 5.0f
+	var damage = 10.0f
+	var fireRate = 90
+	var aoe = 0.0f
+	var currAI: AI = new RandomAI
+	var id = MissileTowerID
+	var projectileID = HarpoonID
+	var speed = 1.0f
+	var value = 40
+}
+
+class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
 	def upgradeCost(): Int = {
 		1
 	}
 
 	def upgrade(): Unit = {}
+
+	override def tick(): List[Projectile] = {
+		if(nextShot == 0) {
+			val enemies = map.aoe(r, c, kind.range)
+			if (!enemies.isEmpty) {
+				nextShot = kind.fireRate
+				val target = kind.currAI.pick(r, c, enemies)
+				val proj = Projectile(r, c, target, this)
+				proj.setMap(map)
+				List(proj)
+			} else {
+				List()
+			}
+		} else {
+			nextShot -= 1
+			List()
+		}
+	}
 }
 
-object MissileTower extends TowerType {
+object NetTower extends TowerType {
 	var range = 4.0f
 	var damage = 5.0f
-	var fireRate = 20
+	var fireRate = 120
 	var aoe = 2.0f
 	var currAI: AI = new RandomAI
-	var id = MissileTowerID
+	var id = NetTowerID
+	var projectileID = HarpoonID
+	var speed = 1.0f
+	var value = 20
+}
+
+class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
+	def upgradeCost(): Int = {
+		1
+	}
+
+	def upgrade(): Unit = {}
+
+	override def tick(): List[Projectile] = {
+		if(nextShot == 0) {
+			var enemiesU = Set[Enemy]()
+			var enemiesL = Set[Enemy]()
+			var enemiesD = Set[Enemy]()
+			var enemiesR = Set[Enemy]()
+
+			val enemies = enemiesU ++ enemiesL ++ enemiesR ++ enemiesD
+			if (!enemies.isEmpty) {
+				nextShot = kind.fireRate
+				val target = kind.currAI.pick(r, c, enemies)
+				val proj = Projectile(r, c, target, this)
+				proj.setMap(map)
+				List(proj)
+			} else {
+				List()
+			}
+		} else {
+			nextShot -= 1
+			List()
+		}
+	}
+}
+
+object SteamTower extends TowerType {
+	var range = 4.0f
+	var damage = 5.0f
+	var fireRate = 120
+	var aoe = 2.0f
+	var currAI: AI = new RandomAI
+	var id = SteamTowerID
+	var projectileID = HarpoonID
 	var speed = 1.0f
 	var value = 20
 }
@@ -346,6 +466,8 @@ object Tower {
 			case WhirlpoolBottomID => new WhirlpoolBottom(xc, yc)
 			case WhirlpoolTopID => new WhirlpoolTop(xc, yc)
 			case MissileTowerID => new MissileTower(xc, yc)
+			case NetTowerID => new NetTower(xc, yc)
+			case SteamTowerID => new SteamTower(xc, yc)
 		}
 	}
 }
