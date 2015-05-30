@@ -35,6 +35,9 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	val height = 1.0f
 	val width = 1.0f
 
+	var kills = 0
+	var dmgDone = 0
+
 	def sell(): Int = {
 		inactivate
 		kind.value / 2
@@ -67,6 +70,24 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	def setAI(ai: AI) : Unit = {
 		kind.currAI = ai
 	}
+
+	def describe() : List[String] = {
+		val fireSpeed = kind.fireRate / GameConfig.FrameRate.toFloat
+		var ret = List(
+			s"Value: ${kind.value}",
+			f"Damage: ${kind.damage}%.1f",
+			f"Fire Rate: $fireSpeed%.1f seconds",
+			f"Range: ${kind.range}%.1f"
+		)
+		if (kind.aoe != 0.0f) {
+			ret = ret ++ List(f"Area of Effect: ${kind.aoe}%.1f")
+		}
+		ret = ret ++ List(
+			s"Kills: $kills", 
+			f"Damage Dealt: $dmgDone%.1f"
+		)
+		ret
+	}
 }
 
 abstract class SlowingTower(xc: Float, yc: Float, towerType: TowerType) extends Tower(xc, yc, towerType) {
@@ -90,6 +111,18 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: TowerType) extends 
 			List()
 		}
 	}
+
+	override def describe() : List[String] = {
+		val time = slowTime / GameConfig.FrameRate.toFloat
+		val mult = (slowMult * 100).toInt
+		var ret = List(
+			s"Value: ${kind.value}",
+			s"Slow Multiplier: $mult%",
+			f"Slow Time: $time%.1f seconds",
+			f"Range: ${kind.range}%.1f"
+		)
+		ret
+	}
 }
 
 abstract class MazingTower(xc: Float, yc: Float, towerType: TowerType) extends Tower(xc, yc, towerType) {
@@ -107,7 +140,7 @@ class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
 object HarpoonTower extends TowerType {
 	var range = 4.0f
 	var damage = 1.0f
-	var fireRate = GameConfig.FrameRate
+	var fireRate = 60
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = HarpoonTowerID
@@ -127,7 +160,7 @@ class CannonTower(xc: Float, yc: Float) extends Tower(xc, yc, CannonTower) {
 object CannonTower extends TowerType {
 	var range = 4.0f
 	var damage = 5.0f
-	var fireRate = 20
+	var fireRate = 120
 	var aoe = 2.0f
 	var currAI: AI = new RandomAI
 	var id = CannonTowerID
@@ -205,6 +238,15 @@ class OilDrillTower(xc: Float, yc: Float) extends Tower(xc, yc, OilDrillTower) {
 	override def startRound() : Int = {
 		kind.value / 10
 	}
+
+	override def describe() : List[String] = {
+		var cash = kind.value / 10
+		var ret = List(
+			s"Value: ${kind.value}",
+			s"Cash Earned per Round: $cash"
+		)
+		ret
+	}
 }
 
 object OilDrillTower extends TowerType {
@@ -239,7 +281,7 @@ object IceTowerBottom extends TowerType {
 	var id = IceTowerBottomID
 	var projectileID = HarpoonID
 	var speed = 2.0f
-	var value = 5
+	var value = 15
 }
 
 class IceTowerTop(xc: Float, yc: Float) extends Tower(xc, yc, IceTowerTop) {
@@ -365,7 +407,7 @@ object MissileTower extends TowerType {
 	var damage = 10.0f
 	var fireRate = 90
 	var aoe = 0.0f
-	var currAI: AI = new RandomAI
+	var currAI: AI = new ClosestAI
 	var id = MissileTowerID
 	var projectileID = HarpoonID
 	var speed = 1.0f
@@ -424,10 +466,28 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 			var enemiesD = Set[Enemy]()
 			var enemiesR = Set[Enemy]()
 
+			for(i <- 1 to kind.range.toInt) {
+				map(r+1,c) match {
+					case Some(tile) => enemiesU ++= tile.enemies
+					case None => ()
+				}
+				map(r-1,c) match {
+					case Some(tile) => enemiesD ++= tile.enemies
+					case None => ()
+				}
+				map(r,c+1) match {
+					case Some(tile) => enemiesR ++= tile.enemies
+					case None => ()
+				}
+				map(r,c-1) match {
+					case Some(tile) => enemiesL ++= tile.enemies
+					case None => ()
+				}
+			}
 			val enemies = enemiesU ++ enemiesL ++ enemiesR ++ enemiesD
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
-				val target = kind.currAI.pick(r, c, enemies)
+				val target = kind.currAI.pick(r, c, enemiesU, enemiesD, enemiesL, enemiesR)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
 				List(proj)
@@ -446,7 +506,7 @@ object SteamTower extends TowerType {
 	var damage = 5.0f
 	var fireRate = 120
 	var aoe = 2.0f
-	var currAI: AI = new RandomAI
+	var currAI: AI = new SteamRandomAI
 	var id = SteamTowerID
 	var projectileID = HarpoonID
 	var speed = 1.0f

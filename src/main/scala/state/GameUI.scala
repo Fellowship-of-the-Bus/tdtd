@@ -54,7 +54,7 @@ object GameUI extends BasicGameState {
     SBGame = sbg
     gc.getGraphics.setBackground(bgColor)
 
-    val top = new Pane(0, 0, Width, topHeight)
+    val top = new StatusBar()
     val gameArea = new GameArea(0, topHeight, gaWidth, gaHeight)
     val infoView = new InfoView()
 
