@@ -44,6 +44,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
   var place = (map(0,0).getOrElse(null)) // update when Spawn is known
   var speed = base.speed
   var slows: List[SlowEffect] = List()
+  var dir = 0
 
  	def special() {}
 
@@ -68,7 +69,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
   	special();
   	slows = slows.foldLeft(List[SlowEffect]())((lst, eff) => updateSlow(lst, eff))
     dist = speed * maxSlow
-    val dir = place.direction
+    dir = place.direction
 
     if (dir == 0) {
       c = c + dist
