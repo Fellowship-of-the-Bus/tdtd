@@ -6,14 +6,22 @@ import lib.util.rand
 import lib.game.Lifebar
 import scala.math._
 import IDMap._
-
-
+import TopLayer._
+import BottomLayer._
+import GameMap._
 
 object Enemy {
   def apply (eid: Int, mult: Float) = {
     eid match {
       case FishID => new Fish(mult)
     }
+  }
+  def getLayer(id: Int) = {
+      if (id>= IDMap.UnderStart && id <= IDMap.UnderEnd) {
+          BottomLayer
+      } else {
+          TopLayer
+      }
   }
 }
 
@@ -41,7 +49,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
   var armor = (base.armor * mult)
   val width = base.width
   val height = base.height
-  var place: Tile = null// = (map(0,0).getOrElse(null)) // update when Spawn is known
+  var place : Tile = null //(map(0,0).getOrElse(null)) // update when Spawn is known
   var speed = base.speed
   var slows: List[SlowEffect] = List()
   var dir = 0
@@ -50,7 +58,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
 
 
   def tick() : Boolean = {
-  	var maxSlow = 0.0f
+  	var maxSlow = 1.0f
     var dist = speed
   	
   	def updateSlow(lst: List[SlowEffect], eff: SlowEffect) = {
@@ -70,15 +78,14 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
   	slows = slows.foldLeft(List[SlowEffect]())((lst, eff) => updateSlow(lst, eff))
     dist = speed * maxSlow
     dir = place.direction
-
-    if (dir == 0) {
+    if (dir == Right) {
       c = c + dist
-    } else if (dir == 1) {
+    } else if (dir == Left) {
       c = c - dist
-    } else if (dir == 2) {
-      r = r - dist
-    } else {
+    } else if (dir == Down) {
       r = r + dist
+    } else {
+      r = r - dist
     }
 
     val nextPlace = map(r,c)
@@ -93,6 +100,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
 
       case _ =>
         place.deregister(this)
+        inactivate
         true
     }
 	}
@@ -113,6 +121,11 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
 		slows = eff :: slows
 	}
 
+  override def setMap(m: GameMap) {
+      map = m
+      place = map(r,c).get
+  }
+
 }
 
 object Fish extends EnemyType {
@@ -120,7 +133,7 @@ object Fish extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }

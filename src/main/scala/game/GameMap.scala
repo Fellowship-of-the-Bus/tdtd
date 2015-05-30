@@ -43,6 +43,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     map(entranceR)(entranceC).entrance = true
     map(exitR)(exitC).exit = true
     map(exitR)(exitC).direction = Down //down
+    dijkstras
     def getTile (r: Float, c:Float) = {
         map((r+0.5f).toInt)((c+0.5f).toInt)
     }
