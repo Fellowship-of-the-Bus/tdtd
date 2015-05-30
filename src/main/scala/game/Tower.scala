@@ -365,7 +365,7 @@ object MissileTower extends TowerType {
 	var damage = 10.0f
 	var fireRate = 90
 	var aoe = 0.0f
-	var currAI: AI = new RandomAI
+	var currAI: AI = new ClosestAI
 	var id = MissileTowerID
 	var projectileID = HarpoonID
 	var speed = 1.0f
@@ -424,10 +424,28 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 			var enemiesD = Set[Enemy]()
 			var enemiesR = Set[Enemy]()
 
+			for(i <- 1 to kind.range.toInt) {
+				map(r+1,c) match {
+					case Some(tile) => enemiesU ++= tile.enemies
+					case None => ()
+				}
+				map(r-1,c) match {
+					case Some(tile) => enemiesD ++= tile.enemies
+					case None => ()
+				}
+				map(r,c+1) match {
+					case Some(tile) => enemiesR ++= tile.enemies
+					case None => ()
+				}
+				map(r,c-1) match {
+					case Some(tile) => enemiesL ++= tile.enemies
+					case None => ()
+				}
+			}
 			val enemies = enemiesU ++ enemiesL ++ enemiesR ++ enemiesD
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
-				val target = kind.currAI.pick(r, c, enemies)
+				val target = kind.currAI.pick(r, c, enemiesU, enemiesD, enemiesL, enemiesR)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
 				List(proj)
@@ -446,7 +464,7 @@ object SteamTower extends TowerType {
 	var damage = 5.0f
 	var fireRate = 120
 	var aoe = 2.0f
-	var currAI: AI = new RandomAI
+	var currAI: AI = new SteamRandomAI
 	var id = SteamTowerID
 	var projectileID = HarpoonID
 	var speed = 1.0f
