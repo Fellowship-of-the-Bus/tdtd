@@ -59,10 +59,21 @@ class Game {
   }
 
   def placeTower(tower: Tower, r: Float, c: Float, layer: Layer) = layer match {
-    case BothLayers if (map.forall(_.placeable(r, c))) =>
-      map.foreach(_.placeTower(r, c, tower))
-    case _ if (map(layer).placeable(r,c)) =>
-      map(layer).placeTower(r, c, tower)
+    case BothLayers =>
+      val res1 = map(TopLayer).placeable(r, c)
+      val res2 = map(BottomLayer).placeable(r, c)
+
+      if (res1 == GameMap.okay && res2 == GameMap.okay) {
+        map.foreach(_.placeTower(r, c, tower))        
+        GameMap.okay
+      } else GameMap.semiOccupied
+
+    case _ =>
+      val res = map(layer).placeable(r,c)
+      if (res == GameMap.okay) {
+        map(layer).placeTower(r, c, tower)
+      }
+      res
   }
 
   def newRoundReady() = enemies.isEmpty

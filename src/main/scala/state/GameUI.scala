@@ -12,7 +12,10 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import game.Game
 
+import ui._
+
 object GameUI extends BasicGameState {
+  var ui = new Pane(0, 0, Width, Height, Color.gray)
   val game = new Game
 
   implicit val id = getID
@@ -21,11 +24,11 @@ object GameUI extends BasicGameState {
   implicit var SBGame: StateBasedGame = null
 
   def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
-    implicit val input = gc.getInput
+    this.game.tick()
   }
 
   def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
-
+    ui.render(gc, game, g)
   }
 
   def init(gc: GameContainer, game: StateBasedGame) = {
