@@ -68,7 +68,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     super.draw(gc, sbg, g)
     val lineWidth = g.getLineWidth()
     val font = g.getFont()
-    currentTower = Some(Tower(HarpoonTowerID,0,0))
+    currentTower = Some(Tower(CannonTowerID,0,0))
     g.setColor(Color.black)
     g.setLineWidth(2)
     g.drawLine(0, 25, width, 25)
@@ -77,7 +77,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     	case Some(t) => {
     		var w = font.getWidth(t.kind.name)
     		g.drawString(t.kind.name, width/2 - w/2, 5)
-    		var y = 50
+    		var y = 40
     		for (line <- t.describe()) {
     			g.drawString(line, 5, y)
     			y += 25
@@ -96,7 +96,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		var w = font.getWidth("Sell")
 		var h = font.getHeight("Sell")
 
-		val sellButton = new Button("Sell", width - (w * 1.2f) - 5, 50, w + 5, h + 5, sell)  
+		val sellButton = new Button("Sell", width - (w * 1.2f) - 5, 40, w + 5, h + 5, sell)  
 		w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
 		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 225, w + 5, h + 5, upgrade)
