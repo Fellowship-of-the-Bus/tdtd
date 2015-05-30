@@ -63,7 +63,7 @@ object Options extends BasicGameState {
 
   def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
     for ( item <- choices ) {
-      item.render(g)
+      item.render(gc, game, g)
     }
   }
 
