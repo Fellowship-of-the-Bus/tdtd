@@ -185,4 +185,13 @@ class Game {
   def gameOver() = {
     isGameOver = true
   }
+
+  def upgrade(t: Tower) : Unit = {
+    val cost = t.upgradeCost
+    if (money >= cost) {
+      t.upgrade()
+      money -= cost
+    }
+  }
+
 }

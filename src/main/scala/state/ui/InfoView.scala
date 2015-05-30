@@ -28,7 +28,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   def upgrade() : Unit = {
   	currentTower match {
   		case Some(t) => {
-  			()
+  			game.upgrade(t)
   		}
   		case None => ()
   	}

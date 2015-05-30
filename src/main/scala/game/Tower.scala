@@ -39,6 +39,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 
 	var kills = 0
 	var dmgDone = 0
+	var level = 1
 
 	def sell(): Int = {
 		inactivate
