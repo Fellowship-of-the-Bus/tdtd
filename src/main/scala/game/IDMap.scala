@@ -15,6 +15,21 @@ object IDMap{
   val IceTowerTopID = 2005
   val DepthChargeTowerID = 2006
 
+  val FishID = 3001
+  val CrabID = 3002
+  val JellyfishID = 3003
+  val SquidID = 3004
+  val WhaleID = 3005
+  val MegalodonID = 3006
+  val DolphinID = 3007
+
+  val PenguinID = 3008
+  val AlligatorID = 3009
+  val HippoID = 3010
+  val TurtleID = 3011
+  val HydraID = 3012
+  val KrakenID = 3013
+
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
