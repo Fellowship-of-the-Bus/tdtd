@@ -5,12 +5,14 @@ import IDMap._
 import lib.game.GameConfig.{Width}
 
 abstract class GameObject(xc: Float, yc: Float) {
-  var x = xc
-  var y = yc
+  var r = xc
+  var c = yc
+
+  var map : GameMap = null
 
   def id: Int
-  def width: Int
-  def height: Int
+  def width: Float
+  def height: Float
 
   private var isActive = true
   def active = isActive
@@ -18,5 +20,8 @@ abstract class GameObject(xc: Float, yc: Float) {
 
   def tick(): Unit
 
-  def topLeftCoord = (x-width/2, y-height/2)
+  def topLeftCoord = (r-width/2, c-height/2)
+  def setMap (m: GameMap) = {
+      map = m
+  }
 }
