@@ -16,7 +16,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
   def this(x: Float, y: Float, layer: Layer, gameArea: GameArea)(implicit bg: Color, game: Game) = this(x, y, mapWidth, mapHeight, layer, gameArea)
 
   val map = game.getMap(layer)
-  val mapInput = new MapInput(0,0, width, height, place, this)
+  val mapInput = new MapInput(0,0, width, height, place, this, absoluteX, absoluteY)
   val widthRatio = width / map.mapWidth
   val heightRatio = height / map.mapHeight
   def convert(r: Float, c: Float) = {

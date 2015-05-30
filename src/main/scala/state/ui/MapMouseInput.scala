@@ -12,7 +12,7 @@ import GameUI.Dimensions._
 import game._
 
 
-class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, Float) => Unit, view: MapView)
+class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, Float) => Unit, view: MapView, absX: Float, absY: Float)
  extends InputAdapter {
   object MouseMode {
     val NORMAL = 0
@@ -45,10 +45,13 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   }
 
   override def mouseMoved(oldx:Int, oldy:Int, newx:Int, newy: Int): Unit = {
+    var x = newx - absX.toInt
+    var y = newy - absY.toInt
+    println(s"$newx, $newy, $x, $y, $absX, $absY")
 //    println(s"$newx, $newy")
-   if (inMap(newx, newy)) {
-     mx = newx
-     my = newy
+   if (inMap(x, y)) {
+     mx = x
+     my = y
      mode = MOUSE_OVER
      other.get.mx = mx
      other.get.my = my
@@ -66,9 +69,11 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
 
 //  override def mouseReleased(button:Int
   override def mouseClicked(button: Int, x:Int, y:Int, clickCount:Int): Unit = {
-    if (inMap(x,y) && button == LEFT && clickCount == 1) {
-      mx = x
-      my = y
+    var actX = x - absX.toInt
+    var actY = y - absY.toInt
+    if (inMap(actX,actY) && button == LEFT && clickCount == 1) {
+      mx = actX
+      my = actY
       mode = MOUSE_CLICK
       action(mx, my)
       other.get.mode = MOUSE_OVER

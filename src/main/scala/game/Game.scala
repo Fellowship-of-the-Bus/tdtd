@@ -103,8 +103,8 @@ class Game {
 
       if (res1 == GameMap.okay && res2 == GameMap.okay) {
         map.foreach(_.placeTower(r, c, tower))        
-        GameMap.okay
         money = money - tower.kind.value
+        GameMap.okay
       } else GameMap.semiOccupied
 
     case _ =>
