@@ -86,3 +86,24 @@ class HotWater(x: Float, y: Float, dir: Int, tower:Tower) extends Projectile(x, 
     money
   }
 }
+
+class Net(x: Float, y: Float, tar: Enemy, tower: Tower) extends Projectile(x, y, tar, tower) {
+  override def tick = {
+    val rVec = r - tar.r
+    val cVec = c - tar.c
+    val dist = sqrt((rVec * rVec) + (cVec * cVec)).asInstanceOf[Float]
+
+
+    if (dist < speed) {
+      val enemies = map.aoe(tar.r, tar.c, aoe)
+      // for (e <- enemies) {
+      //   var data = e.slow(dmg)
+      // }
+      inactivate
+    } else {
+      r += (rVec / dist) * speed
+      c += (cVec / dist) * speed
+    }
+    0
+  }
+}
