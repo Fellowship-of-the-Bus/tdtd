@@ -45,7 +45,7 @@ class GameMap {
                 enemies ++= map(m)(n).enemies
             }
         }
-        enemies = enemies.filter(e=> (e.x - x)*(e.x-x) + (e.y - y)*(e.y-y) <= r*r)
+        enemies = enemies.filter(e => (e.r - r)*(e.r-r) + (e.c - c)*(e.c-c) <= r*r)
         enemies
     }
     def placable (r: Float, c:Float) : Boolean = {
