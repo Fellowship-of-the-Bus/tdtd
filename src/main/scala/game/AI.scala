@@ -32,6 +32,12 @@ class ClosestAI extends AI {
 	}
 }
 
+class ClosestToGoalAI extends AI {
+	override def pick(r: Float, c: Float, enemies: Set[Enemy]) : Enemy = {
+		enemies.minBy(enemy => enemy.place.dist)
+	}
+}
+
 class SteamRandomAI extends AI {
 	val rand = new Random()
 	override def pick(r: Float, c: Float, enemies: Set[Enemy]): Enemy = {

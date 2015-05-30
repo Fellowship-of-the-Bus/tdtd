@@ -41,7 +41,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
   var armor = (base.armor * mult)
   val width = base.width
   val height = base.height
-  var place = (map(0,0).getOrElse(null)) // update when Spawn is known
+  var place: Tile = null// = (map(0,0).getOrElse(null)) // update when Spawn is known
   var speed = base.speed
   var slows: List[SlowEffect] = List()
   var dir = 0
