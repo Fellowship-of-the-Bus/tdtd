@@ -8,34 +8,45 @@ object Projectile {
   val width = 0.5f
   val height = 0.5f
 
-  def apply(x: Float, y: Float, e: Enemy, tower: Tower) = {
-    new Projectile(x, y, e, tower)
+  def apply(x: Float, y: Float, tar: Enemy, tower: Tower) = {
+    new Projectile(x, y, tar, tower)
   }
 }
 
-class Projectile (x: Float, y: Float, e: Enemy, t:Tower) extends GameObject(x,y) {
+class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends GameObject(x,y) {
   val width = Projectile.width
   val height = Projectile.height
-  val dmg = t.kind.damage
-  val speed = t.kind.speed
-  val aoe = t.kind.aoe
+  val dmg = tower.kind.damage
+  val speed = tower.kind.speed
+  val aoe = tower.kind.aoe
   val id = 0
   
-  def tick() {
-    val rVec = r - e.r
-    val cVec = c - e.c
+  def tick() = {
+    val rVec = r - tar.r
+    val cVec = c - tar.c
     val dist = sqrt((rVec * rVec) + (cVec * cVec)).asInstanceOf[Float]
     var totalDmg = 0.0f
+    var money = 0
+    var kills = 0
 
     if (dist < speed) {
-      // enemies = get enemies in AoE
-      // for (e <- enemies) {
-      //   totalDmg += e.hit(dmg)
-      // }
+      val enemies = map.aoe(tar.r, tar.c, aoe)
+      for (e <- enemies) {
+        var data = e.hit(dmg)
+        totalDmg += data.dmg
+        money += data.money
+        if (data.money != 0) {
+          kills += 1
+        }
+      }
+      // tower.kills += kills
+      // tower.dmgDone += dmgDone
       inactivate
+      money
     } else {
       r += (rVec / dist) * speed
       c += (cVec / dist) * speed
+      0
     }
   }
 }
