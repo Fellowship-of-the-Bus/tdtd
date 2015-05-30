@@ -16,6 +16,11 @@ class GameArea(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     val map1 = new MapView(0, 0, TopLayer)
     val map2 = new MapView(mapWidth, 0, BottomLayer)
 
+    for (i <- 0 until 4) {
+      val market = new Market(i*towerMarketWidth)
+      addChildren(market)
+    }
+
     addChildren(map1, map2)
   }
 }

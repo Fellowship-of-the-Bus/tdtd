@@ -2,12 +2,14 @@ package com.github.fellowship_of_the_bus
 package tdtd
 package state.ui
 
+import lib.ui._
+
 import org.newdawn.slick.{GameContainer, Graphics, Color}
 import org.newdawn.slick.state.{StateBasedGame}
 
 import game._
 
-class Pane(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, val game: Game) extends UIElement(x, y, width, height) {
+class Pane(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, val game: Game) extends AbstractUIElement(x, y, width, height) {
   private var children: List[UIElement] = List()
 
   def addChildren(child: UIElement, childs: UIElement*): Unit = {
