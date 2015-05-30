@@ -12,9 +12,11 @@ import game._
 class GameArea(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
   def this()(implicit bg: Color, game: Game) = this(0, topHeight, gaWidth, gaHeight)
 
+  var placeSelection : Option[Tower] = None
+  var displaySelection : Option[Tower] = None
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
-    val map1 = new MapView(0, 0, TopLayer)
-    val map2 = new MapView(mapWidth, 0, BottomLayer)
+    val map1 = new MapView(0, 0, TopLayer,this)
+    val map2 = new MapView(mapWidth, 0, BottomLayer,this)
 
     for (i <- 0 until 4) {
       val market = new Market(i*towerMarketWidth)
