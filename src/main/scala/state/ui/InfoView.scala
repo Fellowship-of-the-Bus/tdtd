@@ -64,11 +64,12 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   	}
   }
 
+  def buyAI() : Unit = {}
+
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
     val lineWidth = g.getLineWidth()
     val font = g.getFont()
-    currentTower = Some(Tower(HarpoonTowerID,0,0))
     g.setColor(Color.black)
     g.setLineWidth(2)
     g.drawLine(0, 25, width, 25)
@@ -77,7 +78,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     	case Some(t) => {
     		var w = font.getWidth(t.kind.name)
     		g.drawString(t.kind.name, width/2 - w/2, 5)
-    		var y = 50
+    		var y = 40
     		for (line <- t.describe()) {
     			g.drawString(line, 5, y)
     			y += 25
@@ -96,29 +97,34 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		var w = font.getWidth("Sell")
 		var h = font.getHeight("Sell")
 
-		val sellButton = new Button("Sell", width - (w * 1.2f) - 5, 50, w + 5, h + 5, sell)  
+		val sellButton = new Button("Sell", width - (w * 1.2f) - 5, 40, w + 5, h + 5, sell)  
 		w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
 		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 225, w + 5, h + 5, upgrade)
 
 		w = font.getWidth("Random")
 		h = font.getHeight("Random")
-		val randomButton = new Button("Random", 5, 275, w + 5, h + 5, setRandom)
+		val randomButton = new Button("Random", 5, 285, w + 5, h + 5, setRandom)
 
 		val oldw = w
 		w = font.getWidth("Closest to Tower")
 		h = font.getHeight("Closest to Tower")
-		val closestButton = new Button("Closest to Tower", oldw + 40, 275, w + 5, h + 5, setClosest)
+		val closestButton = new Button("Closest to Tower", oldw + 40, 285, w + 5, h + 5, setClosest)
 
 		w = font.getWidth("Closest to Goal")
 		h = font.getHeight("Closest to Goal")
-		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 310, w + 5, h + 5, setClosestGoal)
+		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 320, w + 5, h + 5, setClosestGoal)
+
+		w = font.getWidth("Buy AI")
+		h = font.getHeight("Buy AI")
+		val buyAIButton = new Button("Buy AI", oldw + 40, 247.5f, w + 5, h + 5, buyAI)
 
 		addChildren(sellButton)
 		addChildren(upgradeButton)
 		addChildren(randomButton)
 		addChildren(closestButton)
 		addChildren(closestGoalButton)
+		addChildren(buyAIButton)
     super.init(gc, sbg)
 	}
 }
