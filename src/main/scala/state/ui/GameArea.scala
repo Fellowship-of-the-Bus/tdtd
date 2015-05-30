@@ -17,6 +17,8 @@ class GameArea(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     val map1 = new MapView(0, 0, TopLayer,this)
     val map2 = new MapView(mapWidth, 0, BottomLayer,this)
+    map1.mapInput.setOther(map2.mapInput)
+    map2.mapInput.setOther(map1.mapInput)
 
     for (i <- 0 until 4) {
       val market = new Market(i*towerMarketWidth)

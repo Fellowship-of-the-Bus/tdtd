@@ -104,12 +104,14 @@ class Game {
       if (res1 == GameMap.okay && res2 == GameMap.okay) {
         map.foreach(_.placeTower(r, c, tower))        
         GameMap.okay
+        money = money - tower.kind.value
       } else GameMap.semiOccupied
 
     case _ =>
       val res = map(layer).placeable(r,c)
       if (res == GameMap.okay) {
         map(layer).placeTower(r, c, tower)
+        money = money - tower.kind.value
       }
       res
   }

@@ -10,6 +10,7 @@ import GameUI.Dimensions._
 import game._
 import game.Layer._
 import game.IDMap._
+import game.GameMap._
 
 class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gameArea : GameArea)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
   def this(x: Float, y: Float, layer: Layer, gameArea: GameArea)(implicit bg: Color, game: Game) = this(x, y, mapWidth, mapHeight, layer, gameArea)
@@ -69,19 +70,36 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
   def place(r:Float, c:Float) {
     var t = gameArea.placeSelection
     if (t.isEmpty) {
-      gameArea.displaySelection = map(r,c).get.getTower
+      if (map(r,c).isEmpty) {
+        gameArea.displaySelection = None
+      } else {
+        gameArea.displaySelection = map(r,c).get.getTower
+      }
     } else {
       if (Layer.layer2Int(layer) == 0) { //topLayer
         t.get.id match {
-          case HarpoonTowerID => game.placeTower(t.get,r,c,layer)
-          case CannonTowerID => game.placeTower(t.get,r,c,layer)
-          case DepthChargeTowerID => game.placeTower(t.get,r,c,layer)
+          case HarpoonTowerID |
+               CannonTowerID  |
+               DepthChargeTowerID  |
+               MissileTowerID |
+               NetTowerID => {
+            if (game.placeTower (t.get,r,c, layer) == okay){
+              gameArea.placeSelection = None
+            }
+          }
+          case OilDrillTowerID => {
+            game.placeTower (t.get,r,c,BothLayers)
+            gameArea.placeSelection = None
+          }
+          case _ => ()
+            
         }
       }
     }
   }
 
-  // override def init(gc: GameContainer, sbg: StateBasedGame) = {
-  //   super.init(gc, sbg)
-  // }
+  override def init(gc: GameContainer, sbg: StateBasedGame) = {
+    mapInput.setInput(gc.getInput)
+    super.init(gc, sbg)
+  }
 }

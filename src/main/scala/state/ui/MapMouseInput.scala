@@ -12,7 +12,7 @@ import GameUI.Dimensions._
 import game._
 
 
-class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, Float) => Unit, view: MapView )
+class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, Float) => Unit, view: MapView)
  extends InputAdapter {
   object MouseMode {
     val NORMAL = 0
@@ -20,11 +20,16 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     val MOUSE_DOWN = 2
     val MOUSE_CLICK = 3
   }
-  println(s"$x,$y,$width,$height")
+//  println(s"$x,$y,$width,$height")
   import MouseMode._
   var mx = 0
   var my = 0
   val LEFT = 0
+
+  var other: Option[MapInput] = None
+  def setOther (mI: MapInput) {
+    other = Some(mI)
+  }
 
   var mode = NORMAL
   def isMouseOver() = mode == MOUSE_OVER
@@ -40,11 +45,14 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   }
 
   override def mouseMoved(oldx:Int, oldy:Int, newx:Int, newy: Int): Unit = {
-    println(s"$newx, $newy")
-    mx = newx
-    my = newy
-    if (inMap(newx, newy)) {
-      mode = MOUSE_OVER
+//    println(s"$newx, $newy")
+   if (inMap(newx, newy)) {
+     mx = newx
+     my = newy
+     mode = MOUSE_OVER
+     other.get.mx = mx
+     other.get.my = my
+     other.get.mode = MOUSE_OVER
     } else {
       mode = NORMAL
     }
@@ -58,11 +66,14 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
 
 //  override def mouseReleased(button:Int
   override def mouseClicked(button: Int, x:Int, y:Int, clickCount:Int): Unit = {
-    mx = x
-    my = y
     if (inMap(x,y) && button == LEFT && clickCount == 1) {
+      mx = x
+      my = y
       mode = MOUSE_CLICK
       action(mx, my)
+      other.get.mode = MOUSE_OVER
+      other.get.mx = mx
+      other.get.my = my
     }
   }
 
@@ -72,8 +83,9 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     val highlightColour = Color.red
 
     if (isMouseOver || isMouseClick) {
-      g.setColor(new Color(255,0,0,(0.5*255).asInstanceOf[Int]))
-      g.fillRect(x/view.widthRatio, y/view.widthRatio, view.widthRatio.toInt, view.heightRatio.toInt)
+      g.setColor(new Color(255,0,0,(0.1*255).asInstanceOf[Int]))
+      g.fillRect((mx/view.widthRatio).toInt*view.widthRatio, 
+                 ((my)/view.heightRatio).toInt*view.heightRatio, view.widthRatio.toInt, view.heightRatio.toInt)
     }
   }
 }
