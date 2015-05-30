@@ -19,7 +19,8 @@ class Projectile (x: Float, y: Float, e: Enemy, t:Tower) extends GameObject(x,y)
   val dmg = t.kind.damage
   val speed = t.kind.speed
   val aoe = t.kind.aoe
-
+  val id = 0
+  
   def tick() {
     val rVec = r - e.r
     val cVec = c - e.c

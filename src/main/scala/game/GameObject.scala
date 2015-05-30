@@ -8,7 +8,7 @@ abstract class GameObject(xc: Float, yc: Float) {
   var r = xc
   var c = yc
 
-  var map : GameMap = null
+  protected var map : GameMap = null
 
   def id: Int
   def width: Float
@@ -17,8 +17,6 @@ abstract class GameObject(xc: Float, yc: Float) {
   private var isActive = true
   def active = isActive
   def inactivate = isActive = false
-
-  def tick(): Unit
 
   def topLeftCoord = (r-width/2, c-height/2)
   def setMap (m: GameMap) = {

@@ -7,6 +7,9 @@ object IDMap{
 
   val FotBLogoID = 1000
   val GameOverID = 1001
+  val HarpoonTowerID = 2000
+  val CannonTowerID = 2001
+  val TorpedoTowerID = 2002
 
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",
