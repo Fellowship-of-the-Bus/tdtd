@@ -125,9 +125,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		addChildren(closestButton)
 		addChildren(closestGoalButton)
 		addChildren(buyAIButton)
-
-    println(children)
     super.init(gc, sbg)
-    println("hello")
 	}
 }
