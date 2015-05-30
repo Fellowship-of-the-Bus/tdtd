@@ -5,8 +5,8 @@ package game
 import scala.math._
 
 object Projectile {
-  val width = 10
-  val height = 10
+  val width = 0.5f
+  val height = 0.5f
 
   def apply(x: Float, y: Float, e: Enemy, tower: Tower) = {
     new Projectile(x, y, e, tower)
