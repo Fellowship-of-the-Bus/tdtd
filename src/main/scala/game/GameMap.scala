@@ -27,7 +27,7 @@ object GameMap {
     val Down = 3
 }
 
-class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
+class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val exitC: Int) {
     val entranceR = 0
     val exitR = mapHeight-1
 
@@ -42,14 +42,14 @@ class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
     }
     map(entranceR)(entranceC).entrance = true
     map(exitR)(exitC).exit = true
-    map(exitR)(exitC).direction = 3 //down
+    map(exitR)(exitC).direction = Down //down
     def apply(r: Float, c:Float) = {
-        if (r.toInt < 0 || r.toInt > mapWidth-1
-                        || c.toInt < 0
-                        || c.toInt > mapHeight-1) {
+        if ((r+0.5f).toInt < 0 || (r+0.5f).toInt > mapWidth-1
+                        || (c+0.5f).toInt < 0
+                        || (c+0.5f).toInt > mapHeight-1) {
             None
         } else {
-            Some(map(r.toInt)(c.toInt))
+            Some(map((r+0.5f).toInt)((c+0.5f).toInt))
         }
     }
     def aoe(r:Float, c:Float, range:Float) = {
@@ -68,7 +68,7 @@ class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
     }
     def placeable (r: Float, c:Float) : Int = {
         import GameMap._
-        var tmp = map(r.toInt)(c.toInt)
+        var tmp = map((r+0.5f).toInt)((c+0.5f).toInt)
         if (tmp.entrance || tmp.exit || tmp.occupied) {
             occupied
         }
@@ -97,7 +97,7 @@ class GameMap (mapWidth: Int, mapHeight: Int, entranceC: Int, exitC: Int) {
         tmp.removeTower()
     }
     def spawn (e: Enemy) = {
-        e.r = entranceR
+        e.r = entranceR - 0.4f
         e.c = entranceC
         map(entranceR)(entranceC).register(e)
         e.setMap(this)
