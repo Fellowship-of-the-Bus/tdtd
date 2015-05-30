@@ -24,6 +24,9 @@ object Layer {
 import Layer._
 
 class Game {
+  val numSpeeds = 2
+  private var numTicks = 1
+
   private var lives = 10
   private var money = 0
   private var wave = 1
@@ -39,20 +42,22 @@ class Game {
 
   var timer = 0
   def tick(): Unit = {
-    if (isGameOver) return
+    for (i <- 0 until numTicks) {
+      if (isGameOver) return
 
-    for (t <- towers; if (t.active)) {
-      val p = t.tick()
-      projectiles = p ++ projectiles
-    }
+      for (t <- towers; if (t.active)) {
+        val p = t.tick()
+        projectiles = p ++ projectiles
+      }
 
-    for (e <- enemies; if (e.active)) {
-      e.tick()
-    }
+      for (e <- enemies; if (e.active)) {
+        e.tick()
+      }
 
-    for (p <- projectiles; if (p.active)) {
-      p.tick()
-    }
+      for (p <- projectiles; if (p.active)) {
+        p.tick()
+      }
+    }      
   }
 
   def placeTower(tower: Tower, r: Float, c: Float, layer: Layer) = layer match {
@@ -96,6 +101,10 @@ class Game {
   }
 
   def getMap(layer: Layer) = map(layer)
+
+  def toggleSpeed() = {
+    numTicks = (numTicks+1) % numSpeeds + 1
+  }
 
   var isGameOver = false
   def gameOver() = {

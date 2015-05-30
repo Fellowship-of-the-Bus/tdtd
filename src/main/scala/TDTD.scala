@@ -28,6 +28,7 @@ object TDTD extends App {
     import GameConfig._
     Native.loadLibraryFromJar()
     val appgc = new AppGameContainer(new TDTD("Two-Dimensional Tower Defense"))
+    GameConfig.graphics = appgc.getGraphics
     appgc.setDisplayMode(Width, Height, false)
     appgc.setTargetFrameRate(FrameRate)
     appgc.setVSync(true)

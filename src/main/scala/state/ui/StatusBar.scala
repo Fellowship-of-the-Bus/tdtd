@@ -20,12 +20,21 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
   }
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
-    val money = new TextBox(width-100, 5, 90, 20,
+    val buttonWidth = 90
+    val buttonHeight = 20
+
+    val money = new TextBox(width-100, 5, buttonWidth, buttonHeight,
       () => s"$$${game.getMoney}")
 
-    val sendWave = new Button("send wave", width-200, 5, 90, 20,
+    val sendWave = new Button("send wave", width-200, 5, buttonWidth, buttonHeight,
       () => game.sendNextWave)
 
-    addChildren(money, sendWave)
+    val menu = new Button("menu", width-200, 10+buttonHeight, buttonWidth, buttonHeight,
+      () => ())
+
+    val speed = new Button("go fast", width-100, 10+buttonHeight, buttonWidth, buttonHeight,
+      () => game.toggleSpeed)
+
+    addChildren(money, sendWave, menu, speed)
   }
 }
