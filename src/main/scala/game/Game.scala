@@ -31,7 +31,7 @@ class Game {
 
   private var towers = List[Tower]()
   private var enemies = List[Enemy]()
-  private var projectiles = List[Projectile]()
+  var projectiles = List[Projectile]()
   private var score = 0
 
   def getMoney = money

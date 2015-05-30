@@ -3,7 +3,7 @@ package tdtd.game
 
 import ui.{Image, Animation}
 
-object IDMap{
+object IDMap {
 
   val FotBLogoID = 1000
   val GameOverID = 1001
