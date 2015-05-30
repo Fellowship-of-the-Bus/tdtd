@@ -12,6 +12,7 @@ class Tile {
     var dist = 0
     var enemies = Set[Enemy]()
     var occupied = false
+    var pathable = true
     var entrance = false
     var exit = false
 
@@ -22,10 +23,29 @@ class Tile {
         enemies -= e
     }
     def placeTower(t: Tower) = {
+        if (t.id != WhirlpoolTopID) {
+          pathable == false
+        }
+
+/*        tower.id match {
+          case HarpoonTowerId => pathable = false
+          case OilDrillTowerID => pathable = false
+          case CannonTowerID => pathable = false
+          case IceTowerTowerID => pathable = false
+          case DepthChargeTowerID => pathable = false
+          case WhilrpoolTopID => pathable = true
+          case MissileTowerID => pathable = false
+          case NetTowerTowerID => pathable = false
+          case TorpedoTowerID => pathable = false
+          case IceTowerBottomID => pathable = false
+          case WhirlpoolBottomID => pathable = false
+          case SteamTowerID => pathable = false
+        }*/
         tower = Some(t)
         occupied = true
     }
     def removeTower() = {
+        pathable = true
         tower = None
         occupied = false
     }

@@ -115,7 +115,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
             for (c <- 0 to mapWidth-1) {
                 map(r)(c).dist = Int.MaxValue/2
 
-                if (!map(r)(c).occupied) {
+                if (map(r)(c).pathable) {
                     Q += new Coord(r,c)
                 }
             }
@@ -130,7 +130,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
             }
             Q -= curTileCoord
 
-            if (!curTile.occupied) {
+            if (curTile.pathable) {
                 //for each neighbour
                 if (curTileCoord.r-1 >=0) {
                     var neighbourCoord = new Coord(curTileCoord.r-1,curTileCoord.c)
