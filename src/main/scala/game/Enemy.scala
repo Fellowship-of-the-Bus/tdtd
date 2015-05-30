@@ -14,6 +14,13 @@ object Enemy {
   def apply (eid: Int, mult: Float) = {
     eid match {
       case FishID => new Fish(mult)
+      case CrabID => new Crab(mult)
+      case SharkID => new Shark(mult)
+      case WhaleID => new Whale(mult)
+
+      case AlligatorID => new Alligator(mult)
+      case TurtleID => new Turtle(mult)
+      case HydraID => new Hydra(mult)
     }
   }
   def getLayer(id: Int) = {

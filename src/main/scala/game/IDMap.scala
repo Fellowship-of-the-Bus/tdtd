@@ -8,6 +8,7 @@ object IDMap {
   val FotBLogoID = 1000
   val GameOverID = 1001
 
+  // Towers
   val HarpoonTowerID = 2000
   val OilDrillTowerID = 2001
   
@@ -23,6 +24,7 @@ object IDMap {
   val WhirlpoolBottomID = 2202
   val SteamTowerID = 2203
   
+  //Enemies
   val UnderStart = 3001
   val FishID = 3001
   val CrabID = 3002
@@ -43,17 +45,45 @@ object IDMap {
   val KrakenID = 3113
   val TopEnd = 3113
 
+  // Projectiles
   val HarpoonID = 4000
+
+  val CannonBallID = 4100
+  val DepthChargeID = 4102
+  val MissileID = 4104
+  val NetID = 4105
+
+  val TorpedoID = 4200
+  val SteamID = 4203
+
 
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
     
-    AlligatorID -> "img/Alligator.png",
+    HarpoonTowerID -> "img/HarpoonTower.png",
+    //OilDrillTowerID -> "img/OilDrillTower.png",
+  
+    CannonTowerID -> "img/CannonTower.png",
+    IceTowerTopID -> "img/IceTowerTop.png",
+    DepthChargeTowerID -> "img/DepthChargeTower.png",
+    WhirlpoolTopID -> "img/Whirlpool.png",
+    MissileTowerID -> "img/MissileTower.png",
+    NetTowerID -> "img/NetTower.png",
+
+    TorpedoTowerID -> "img/TorpedoTower.png",
+    IceTowerBottomID -> "img/IceTowerBottom.png",
+    WhirlpoolBottomID -> "img/WhirlpoolTower.png",
+    SteamTowerID -> "img/SteamTower.png",
+
     CrabID -> "img/Crab.png",
     FishID -> "img/fish.png",
-    HydraID -> "img/Hydra.png",
+    SharkID -> "img/Shark.png",
+    WhaleID -> "img/Whale.png",
+
+    AlligatorID -> "img/Alligator.png",
     TurtleID -> "img/Turtle.png",
+    HydraID -> "img/Hydra.png",
 
     12345 -> Array("img/GameOver.png", "img/FotB-Logo.png")
   )
