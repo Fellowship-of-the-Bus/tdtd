@@ -13,14 +13,15 @@ class TDTD(gamename: String) extends StateBasedGame(gamename) {
   def initStatesList(gc: GameContainer) = {
     gc.setShowFPS(true)
     addState(Menu)
+    addState(GameUI)
   }
 }
 
 object TDTD extends App {
   def makeImg(loc: String) = new Image(loc)
 
-  GameConfig.Width = 800
-  GameConfig.Height = 600
+  GameConfig.Width = 1200
+  GameConfig.Height = 650
   GameConfig.FrameRate = 60
 
   try {
