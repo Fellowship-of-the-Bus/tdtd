@@ -43,6 +43,9 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     map(entranceR)(entranceC).entrance = true
     map(exitR)(exitC).exit = true
     map(exitR)(exitC).direction = Down //down
+    def getTile (r: Float, c:Float) = {
+        map((r+0.5f).toInt)((c+0.5f).toInt)
+    }
     def apply(r: Float, c:Float) = {
         if ((r+0.5f).toInt < 0 || (r+0.5f).toInt > mapWidth-1
                         || (c+0.5f).toInt < 0
@@ -68,7 +71,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     }
     def placeable (r: Float, c:Float) : Int = {
         import GameMap._
-        var tmp = map((r+0.5f).toInt)((c+0.5f).toInt)
+        var tmp = getTile(r,c)
         if (tmp.entrance || tmp.exit || tmp.occupied) {
             occupied
         }
@@ -83,17 +86,17 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         }
     }
     def placeTower (r: Float, c:Float, tower: Tower) = {
-        var tmp = map((r+0.5f).toInt)((c+0.5f).toInt)
+        var tmp = getTile(r,c)
         tmp.placeTower(tower)
         dijkstras()
         tower.setMap(this)
     }
     def removable (r: Float, c:Float): Boolean = {
-        var tmp = map((r+0.5f).toInt)((c+0.5f).toInt)
+        var tmp = getTile(r,c)
         tmp.occupied
     }
     def removeTower (r:Float, c:Float) = {
-        var tmp = map((r+0.5f).toInt)((c+0.5f).toInt)
+        var tmp = getTile(r,c)
         tmp.removeTower()
     }
     def spawn (e: Enemy) = {
