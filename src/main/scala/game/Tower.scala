@@ -6,6 +6,7 @@ import IDMap._
 import scala.collection.mutable.Set
 import lib.game.GameConfig
 import scala.math._
+import GameMap._
 
 trait TowerType {
 	def damage: Float
@@ -672,7 +673,17 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
 				val target = kind.currAI.pick(r, c, enemiesU, enemiesD, enemiesL, enemiesR)
-				val proj = Projectile(r, c, target, this)
+				var dir = Up
+				if (target.r > r) {
+					dir = Down
+				} else if (target.r < r) {
+					dir = Up
+				} else if (target.c > c) {
+					dir = Right
+				} else {
+					dir = Left
+				}
+				val proj = Projectile(r, c, dir, this)
 				proj.setMap(map)
 				List(proj)
 			} else {

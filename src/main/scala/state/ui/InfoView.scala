@@ -112,11 +112,19 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         g.setLineWidth(3)
         g.drawRect(0,0,width,height)
         g.setLineWidth(linew)
-        var ey = 0
-        for(id <- ids) {
+        var ey = 15
+        val font = g.getFont()
+        val sorted = ids.sortBy(x => Tower(x).name)
+        for(id <- sorted) {
           val t = Tower(id)
-          g.drawString("",0,ey)
+          val h = font.getHeight(s"${t.name} hotkey: ${t.hotkey}")
+          g.drawString(s"${t.name} hotkey: ${t.hotkey}",15,ey)
+          ey += h + 15
         }
+        g.drawLine(0,ey,width,ey)
+        var h = font.getHeight("Menu hotkey: Escape")
+        g.drawString("Menu hotkey: Escape", 15, ey)
+        ey += h
         g.translate(-x,-y)
       }
     }
