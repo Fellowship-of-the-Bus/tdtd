@@ -71,7 +71,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) with Li
 
  	def special() {}
 
-  def maxHp = base.maxHp
+  def maxHp = base.maxHp * mult
   
 
   def tick() : Boolean = {
@@ -135,7 +135,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) with Li
 
 	def hit(dmg: Float) : GotHit = {
 		var dmgDone = max(dmg - armor, 0)
-		hp -= dmgDone
+    hp -= dmgDone
 		if (hp <= 0) {
 			place.deregister(this)
 			inactivate

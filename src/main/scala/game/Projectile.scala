@@ -47,8 +47,8 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
           kills += 1
         }
       }
-      // tower.kills += kills
-      // tower.dmgDone += dmgDone
+      tower.kills += kills
+      tower.dmgDone += totalDmg
       inactivate
       money
     } else {
