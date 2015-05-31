@@ -17,8 +17,33 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   def sell() : Unit = {
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
-  			()
-  		}
+        var layer: Layer = BottomLayer
+        println(t.kind.id)
+  			t.kind.id match {
+          case IceTowerBottomID |
+          IceTowerTopID |
+          WhirlpoolBottomID |
+          WhirlpoolTopID |
+          OilDrillTowerID => {
+            layer = BothLayers
+          }
+          case DepthChargeTowerID => {
+            layer = TopLayer
+          }
+          case _ => {
+            val map = t.getMap
+            if (game.map(TopLayer) == map) {
+              layer = TopLayer
+            } else {
+              layer = BottomLayer
+            }
+          }
+        }
+          println(layer)
+          game.sell(t.r, t.c, layer)
+          GameUI.displaySelection = NoSelection
+        }
+  		
   		case _ => ()
   	}
   }
@@ -64,6 +89,18 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 
   def buyAI() : Unit = {}
 
+  override def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {
+    GameUI.displaySelection match {
+      case TowerSelection(t) => super.render(gc, sbg, g)
+      case IDSelection(id) => {
+        g.translate(x,y)
+        draw(gc, sbg, g)
+        g.translate(-x,-y)
+      }
+      case _ => ()
+    }
+  }
+
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
     val lineWidth = g.getLineWidth()
@@ -102,10 +139,10 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
    override def init(gc: GameContainer, sbg: StateBasedGame): Unit = {
 		var g = gc.getGraphics()
 		val font = g.getFont()
-		var w = font.getWidth("Sell")
-		var h = font.getHeight("Sell")
+		var w = font.getWidth("Sell for 50%")
+		var h = font.getHeight("Sell fot 50%")
 
-		val sellButton = new Button("Sell", width - (w * 1.2f) - 5, 40, w + 5, h + 5, sell)  
+		val sellButton = new Button("Sell for 50%", width - w - 10, 40, w + 5, h + 5, sell)  
 		/*w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
 		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 225, w + 5, h + 5, upgrade)

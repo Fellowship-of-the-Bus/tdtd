@@ -50,7 +50,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	protected var nextShot = 0
 	val kind = towerType
 	val id = towerType.id
-
+	var currAI = towerType.currAI
 	val height = 1.0f
 	val width = 1.0f
 	// r += 0.5f
@@ -82,7 +82,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 			val enemies = map.aoe(r, c, kind.range)
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
-				val target = kind.currAI.pick(r, c, enemies)
+				val target = currAI.pick(r, c, enemies)
 				setRotation(target)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
@@ -97,7 +97,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	}
 
 	def setAI(ai: AI) : Unit = {
-		kind.currAI = ai
+		currAI = ai
 	}
 
 	def describe() : List[String] = {
@@ -112,7 +112,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 			ret = ret ++ List(f"Area of Effect: ${kind.aoe}%.1f")
 		}
 		ret = ret ++ List(
-			s"Current AI: ${kind.currAI}",
+			s"Current AI: ${currAI}",
 			s"Kills: $kills", 
 			f"Damage Dealt: $dmgDone%.1f"
 		)
@@ -236,16 +236,17 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 
 	override def tick() : List[Projectile] = {
 		if(nextShot == 0) {
-			val enemies = maps.foldRight(Set[Enemy]())((map, set) =>
-				if (set.isEmpty) {
-					val enemies = map.aoe(r, c, kind.range)
-					if (!enemies.isEmpty) {
-						enemies
+			val enemies = maps.foldRight(Set[Enemy]())((map, set) => {
+					if (set.isEmpty) {
+						val enemies = map.aoe(r, c, kind.range)
+						if (!enemies.isEmpty) {
+							enemies
+						} else {
+							set
+						}
 					} else {
 						set
 					}
-				} else {
-					set
 				}
 			)
 			if (!enemies.isEmpty) {
@@ -253,7 +254,7 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 				val target = kind.currAI.pick(r, c, enemies)
 				setRotation(target)
 				val proj = Projectile(r, c, target, this)
-				proj.setMap(map)
+				proj.setMap(target.getMap)
 				List(proj)
 			} else {
 				List()
@@ -273,7 +274,7 @@ object TorpedoTower extends TowerType {
 	var currAI: AI = new RandomAI
 	var id = TorpedoTowerID
 	var projectileID = HarpoonID
-	var speed = 1.0f
+	var speed = 0.2f
 	var value = 25
 	var name = "Torpedo Tower"
 }
@@ -388,7 +389,7 @@ object DepthChargeTower extends TowerType {
 	var currAI: AI = new RandomAI
 	var id = DepthChargeTowerID
 	var projectileID = HarpoonID
-	var speed = 1.0f
+	var speed = 0.2f
 	var value = 20
 	var name = "Depth Charge"
 }

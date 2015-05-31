@@ -108,10 +108,16 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
         t match {
           case HarpoonTowerID |
                CannonTowerID  |
-               DepthChargeTowerID  |
                MissileTowerID |
                NetTowerID => {
             if (game.placeTower ( Tower(t,r,c) ,r,c, layer) == okay){
+              GameUI.placeSelection = 0
+            }
+          }
+          case DepthChargeTowerID => {
+            val tower = Tower(t,r,c)
+            if (game.placeTower ( tower ,r,c, layer) == okay) {
+              tower.setMap(game.map(BottomLayer))
               GameUI.placeSelection = 0
             }
           }
@@ -126,15 +132,21 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
       } else if (Layer.layer2Int(layer) == 1) { //bottomlayer
         t match {
           case SteamTowerID |
-               TorpedoTowerID |
                HarpoonTowerID => {
             if (game.placeTower(Tower(t,r,c),r,c,layer) == okay) {
               GameUI.placeSelection = 0
             }
           }
+          case TorpedoTowerID => {
+            val tower = Tower(t,r,c)
+            if (game.placeTower(tower,r,c,layer) == okay) {
+              tower.setMap(game.map(TopLayer))
+              GameUI.placeSelection = 0
+            }
+          }
           case OilDrillTowerID => {
             if(game.placeTower(Tower(t,r,c),r,c,BothLayers) == okay) {
-              GameUI.placeSelection = 0
+              
             }
           }
           case WhirlpoolBottomID => {
@@ -147,6 +159,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
               game.spend(whirlbottom.kind.value)
               game.addTowerToList(whirltop)
               game.addTowerToList(whirlbottom)
+              GameUI.placeSelection = 0
             }
           }
           case IceTowerBottomID => {
@@ -159,6 +172,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
               game.spend(icebottom.kind.value)
               game.addTowerToList(icetop)
               game.addTowerToList(icebottom)
+              GameUI.placeSelection = 0
             }
           }
           case _ => ()   
