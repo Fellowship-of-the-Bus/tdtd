@@ -11,7 +11,7 @@ import GameUI.Dimensions._
 import game._
 import IDMap._
 
-class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) extends Pane(x, y, width, height) {
+class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) extends Pane(x, y, width, height)(Color.lightGray) {
   def this()(implicit bg: Color) = this(gaWidth, topHeight, infoViewWidth, gaHeight)
 
   def sell() : Unit = {
@@ -97,7 +97,17 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         draw(gc, sbg, g)
         g.translate(-x,-y)
       }
-      case _ => ()
+      case _ => {
+        g.translate(x,y)
+        g.setColor(Color.lightGray)
+        g.fillRect(0,0,width,height)
+        g.setColor(Color.black)
+        var linew = g.getLineWidth()
+        g.setLineWidth(3)
+        g.drawRect(0,0,width,height)
+        g.setLineWidth(linew)
+        g.translate(-x,-y)
+      }
     }
   }
 
@@ -132,7 +142,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         case NoSelection => {}
       }
 
-    g.drawString("Select AI", 5, 250)
+    g.drawString("Select AI", 5, 340)
     g.setLineWidth(lineWidth)
   }
 
@@ -149,20 +159,20 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 */
 		w = font.getWidth("Random")
 		h = font.getHeight("Random")
-		val randomButton = new Button("Random", 5, 285, w + 5, h + 5, setRandom)
+		val randomButton = new Button("Random", 5, 375, w + 5, h + 5, setRandom)
 
 		val oldw = w
 		w = font.getWidth("Closest to Tower")
 		h = font.getHeight("Closest to Tower")
-		val closestButton = new Button("Closest to Tower", oldw + 40, 285, w + 5, h + 5, setClosest)
+		val closestButton = new Button("Closest to Tower", oldw + 40, 375, w + 5, h + 5, setClosest)
 
 		w = font.getWidth("Closest to Goal")
 		h = font.getHeight("Closest to Goal")
-		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 320, w + 5, h + 5, setClosestGoal)
+		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 410, w + 5, h + 5, setClosestGoal)
 
 		w = font.getWidth("Buy AI")
 		h = font.getHeight("Buy AI")
-		val buyAIButton = new Button("Buy AI", oldw + 40, 247.5f, w + 5, h + 5, buyAI)
+		val buyAIButton = new Button("Buy AI", oldw + 40, 337.5f, w + 5, h + 5, buyAI)
 
 		addChildren(sellButton)
 		//addChildren(upgradeButton)

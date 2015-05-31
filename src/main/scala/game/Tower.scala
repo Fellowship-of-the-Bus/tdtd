@@ -28,6 +28,8 @@ trait TowerType {
 	def value_=(i: Int): Unit
 	def name: String
 	def name_=(s: String): Unit
+	def description: String
+	def description_=(s: String): Unit
 	def describe() : List[String] = {
 		val fireSpeed = fireRate / GameConfig.FrameRate.toFloat
 		var ret = List(
@@ -40,7 +42,8 @@ trait TowerType {
 			ret = ret ++ List(f"Area of Effect: ${aoe}%.1f")
 		}
 		ret = ret ++ List(
-			s"Default AI: ${currAI}"
+			s"Default AI: ${currAI}",
+			s"Description: ${description}"
 		)
 		ret
 	}
@@ -114,7 +117,8 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 		ret = ret ++ List(
 			s"Current AI: ${currAI}",
 			s"Kills: $kills", 
-			f"Damage Dealt: $dmgDone%.1f"
+			f"Damage Dealt: $dmgDone%.1f",
+			s"Description: ${kind.description}"
 		)
 		ret
 	}
@@ -150,7 +154,8 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 			s"Value: ${towerType.value}",
 			s"Slow Multiplier: $mult%",
 			f"Slow Time: $time%.1f seconds",
-			f"Range: ${towerType.range}%.1f"
+			f"Range: ${towerType.range}%.1f",
+			s"Description: ${towerType.description}"
 		)
 		ret
 	}
@@ -173,7 +178,8 @@ trait SlowingTowerType extends TowerType {
 			s"Value: ${value}",
 			s"Slow Multiplier: $mult%",
 			f"Slow Time: $time%.1f seconds",
-			f"Range: ${range}%.1f"
+			f"Range: ${range}%.1f",
+			s"Description: ${description}"
 		)
 		ret
 	}
@@ -199,6 +205,7 @@ object HarpoonTower extends TowerType {
 	var speed = 0.225f
 	var value = 5
 	var name = "Harpoon Tower"
+	var description = "Basic single\n  target tower, can be placed\n  above water and below water"
 }
 
 class CannonTower(xc: Float, yc: Float) extends Tower(xc, yc, CannonTower) {
@@ -220,6 +227,7 @@ object CannonTower extends TowerType {
 	var speed = 0.15f
 	var value = 20
 	var name = "Cannon Tower"
+	var description = "Basic AoE tower\n  can only be placed above water"
 }
 
 class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
@@ -277,6 +285,7 @@ object TorpedoTower extends TowerType {
 	var speed = 0.2f
 	var value = 25
 	var name = "Torpedo Tower"
+	var description = "Single target tower\n  Placed below water, but\n  can fire at both levels"
 }
 
 class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTower) {
@@ -299,7 +308,8 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 		var cash = kind.value / 10
 		var ret = List(
 			s"Value: ${kind.value}",
-			s"Cash Earned per Round: $cash"
+			s"Cash Earned per Round: $cash",
+			s"Description: ${kind.description}"
 		)
 		ret
 	}
@@ -316,12 +326,14 @@ object OilDrillTower extends TowerType {
 	var speed = 0.0f
 	var value = 50
 	var name = "Oil Drill"
+	var description = "Money generator\n  Earns money at the start\n  of each round\n  Takes up spot above and\n  below water"
 
 	override def describe() : List[String] = {
 		var cash = value / 10
 		var ret = List(
 			s"Value: ${value}",
-			s"Cash Earned per Round: $cash"
+			s"Cash Earned per Round: $cash",
+			s"Description: ${description}"
 		)
 		ret
 	}
@@ -351,6 +363,7 @@ object IceTowerBottom extends SlowingTowerType {
 	var name = "Ice Tower"
 	var slowMult = 0.75f
 	var slowTime = 20
+	var description = "Slowing tower\n  Placed below and slows in area\n  Adds ice block to same spot\n  above water which blocks\n  enemies"
 }
 
 class IceTowerTop(xc: Float, yc: Float) extends MazingTower(xc, yc, IceTowerTop) {
@@ -371,6 +384,7 @@ object IceTowerTop extends TowerType {
 	var speed = 0.0f
 	var value = 0
 	var name = "Ice Tower"
+	var description = ""
 }
 
 class DepthChargeTower(xc: Float, yc: Float) extends Tower(xc, yc, DepthChargeTower) {
@@ -392,6 +406,7 @@ object DepthChargeTower extends TowerType {
 	var speed = 0.2f
 	var value = 20
 	var name = "Depth Charge"
+	var description = "AoE tower\n  Placed above water, but fires\n  at enemies below water"
 }
 
 class WhirlpoolBottom(xc: Float, yc: Float) extends MazingTower(xc, yc, WhirlpoolBottom) {
@@ -415,6 +430,7 @@ object WhirlpoolBottom extends TowerType {
 	var speed = 2.0f
 	var value = 5
 	var name = "Whirlpool"
+	var description = "Slowing tower\n  Placed below water, slows\n  enemies in area above water"
 }
 
 class WhirlpoolTop(xc: Float, yc: Float) extends SlowingTower(xc, yc, WhirlpoolTop) {
@@ -440,6 +456,7 @@ object WhirlpoolTop extends SlowingTowerType {
 	var name = "Whirlpool"
 	var slowMult = 0.75f
 	var slowTime = 20
+	var description = ""
 }
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
@@ -493,6 +510,7 @@ object MissileTower extends TowerType {
 	var speed = 0.2f
 	var value = 40
 	var name = "Missile Tower"
+	var description = "Multitarget tower\n  Placed above water\n  Fires at mutliple enemies\n  within range"
 }
 
 class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
@@ -533,6 +551,7 @@ object NetTower extends TowerType {
 	var speed = 0.5f
 	var value = 20
 	var name = "Net Tower"
+	var description = "Single target tower\n  Placed above water\n  Temporarily stops targeted\n  enemy from moving"
 }
 
 class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
@@ -595,6 +614,7 @@ object SteamTower extends TowerType {
 	var speed = 1.0f
 	var value = 20
 	var name = "Steam Tower"
+	var description = "Line damage tower\n  Placed below water\n  Damages all enemies in one\n  in one of four directions"
 }
 
 object Tower {
