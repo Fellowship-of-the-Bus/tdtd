@@ -250,6 +250,7 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
 				val target = kind.currAI.pick(r, c, enemies)
+				setRotation(target)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
 				List(proj)
@@ -459,6 +460,9 @@ class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
 				for(i <- 1 to numTargets) {
 					if (!enemies.isEmpty) {
 						val target = kind.currAI.pick(r, c, enemies)
+						if (i == 1) {
+							setRotation(target)
+						}
 						val proj = Projectile(r, c, target, this)
 						proj.setMap(map)
 						projectiles = proj :: projectiles
@@ -502,6 +506,7 @@ class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
 				val target = kind.currAI.pick(r, c, enemies)
+				setRotation(target)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
 				List(proj)

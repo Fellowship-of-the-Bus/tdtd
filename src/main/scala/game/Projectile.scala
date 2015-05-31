@@ -97,9 +97,9 @@ class Net(x: Float, y: Float, tar: Enemy, tower: Tower) extends Projectile(x, y,
 
     if (dist < speed) {
       val enemies = map.aoe(tar.r, tar.c, aoe)
-      // for (e <- enemies) {
-      //   var data = e.slow(dmg)
-      // }
+        for (e <- enemies) {
+          e.slow(new SlowEffect(0, 40))
+        }
       inactivate
     } else {
       r += (rVec / dist) * speed
