@@ -25,7 +25,7 @@ object GameUI extends BasicGameState {
   object Dimensions {
     val topHeight = 66
     val gaHeight = Height-topHeight
-    val gaWidth = 900
+    val gaWidth = 980
 
     val infoViewWidth = Width-gaWidth
 

@@ -12,7 +12,7 @@ import game.Layer._
 import game.IDMap._
 import game.GameMap._
 
-class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gameArea : GameArea)(implicit bg: Color) extends Pane(x, y, width, height) {
+class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer, gameArea : GameArea)(implicit bg: Color) extends Pane(x, y, width, height) {
   def this(x: Float, y: Float, layer: Layer, gameArea: GameArea)(implicit bg: Color) = this(x, y, mapWidth, mapHeight, layer, gameArea)
 
   var map: GameMap = null

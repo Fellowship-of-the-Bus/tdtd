@@ -21,8 +21,8 @@ class TDTD(gamename: String) extends StateBasedGame(gamename) {
 object TDTD extends App {
   def makeImg(loc: String) = new Image(loc)
 
-  GameConfig.Width = 1200
-  GameConfig.Height = 650
+  GameConfig.Width = 1280
+  GameConfig.Height = 720
   GameConfig.FrameRate = 60
 
   try {
