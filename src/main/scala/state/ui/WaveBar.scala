@@ -31,7 +31,6 @@ class WaveBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Colo
         if (enemy(j) != 0) {
           var image = IDMap.images(wave.get.enemyIDs(j))
           var scale = (height-10).toFloat/image.getHeight.toFloat
-          println(s"$scale")
           if (width/blockWidth < n) {
             scale *= n.toFloat * blockWidth.toFloat / width.toFloat
           }
