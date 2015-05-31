@@ -77,7 +77,9 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
       mx = actX
       my = actY
       mode = MOUSE_CLICK
-      action(mx, my)
+      var c = mx.toFloat/view.widthRatio
+      var r = my.toFloat / view.heightRatio
+      action(r, c)
       if (other.isEmpty) {
       } else {
         other.get.mx = mx
