@@ -182,7 +182,7 @@ class Hippo(mult: Float) extends Enemy(mult, Hippo) {}
 
 object Alligator extends EnemyType {
   val id = AlligatorID
-  val difficulty = 5
+  val difficulty = 3
   val maxHp = 18.0f
   val armor = 0.0f
   val speed = 0.04f
@@ -194,7 +194,7 @@ class Alligator(mult: Float) extends Enemy(mult, Alligator) {}
 
 object Turtle extends EnemyType {
   val id = TurtleID
-  val difficulty = 8
+  val difficulty = 7
   val maxHp = 25.0f
   val armor = 4f
   val speed = 0.035f
@@ -206,7 +206,7 @@ class Turtle(mult: Float) extends Enemy(mult, Turtle) {}
 
 object Dolphin extends EnemyType {
   val id = DolphinID
-  val difficulty = 10
+  val difficulty = 4
   val maxHp = 30.0f
   val armor = 0.0f
   val speed = 0.05f
@@ -262,7 +262,7 @@ class Hydra(mult: Float) extends Enemy(mult, Hydra) {
 
 object Crab extends EnemyType {
   val id = CrabID
-  val difficulty = 1
+  val difficulty = 6
   val maxHp = 25.0f
   val armor = 3.0f
   val speed = 0.035f
@@ -274,7 +274,7 @@ class Crab(mult: Float) extends Enemy(mult, Crab) {}
 
 object Squid extends EnemyType {
   val id = SquidID
-  val difficulty = 1
+  val difficulty = 2
   val maxHp = 15.0f
   val armor = 0.0f
   val speed = 0.05f
@@ -286,7 +286,7 @@ class Squid(mult: Float) extends Enemy(mult, Squid) {}
 
 object Jellyfish extends EnemyType {
   val id = JellyfishID
-  val difficulty = 20
+  val difficulty = 5
   val maxHp = 50.0f
   val armor = 0.0f
   val speed = 0.04f
@@ -298,7 +298,7 @@ class Jellyfish(mult: Float) extends Enemy(mult, Jellyfish) {}
 
 object Whale extends EnemyType {
   val id = WhaleID
-  val difficulty = 30
+  val difficulty = 10
   val maxHp = 100.0f
   val armor = 0.0f
   val speed = 0.03f
@@ -310,7 +310,7 @@ class Whale(mult: Float) extends Enemy(mult, Whale) {}
 
 object Shark extends EnemyType {
   val id = SharkID
-  val difficulty = 1
+  val difficulty = 3
   val maxHp = 20.0f
   val armor = 0.0f
   val speed = 0.04f
