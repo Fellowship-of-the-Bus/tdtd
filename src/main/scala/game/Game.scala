@@ -237,9 +237,9 @@ class Game {
 
   def getMap(layer: Layer) = map(layer)
 
-  def toggleSpeed() = {
+  def toggleSpeed(): Int = {
     numTicks = numTicks % numSpeeds + 1
-    println(numTicks)
+    numTicks
   }
 
   var isGameOver = false

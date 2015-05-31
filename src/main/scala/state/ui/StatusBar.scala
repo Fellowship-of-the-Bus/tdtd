@@ -20,15 +20,8 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
     super.draw(gc, sbg, g)
   }
 
-  def toggleImage(im1: Drawable, im2: Drawable) = {
-    var i = 0
-    def toggler() = {
-      i = (i + 1) % 2
-      if (i == 0) im1
-      else im2
-    }
-    toggler _
-  }
+  // image has to change when game is reset
+  private var speed: ImageButton = null
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     val buttonWidth = 90
@@ -47,15 +40,20 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
         (sbg.enterState(Mode.MenuID))
       })
 
-    val toggler = toggleImage(images(FastForwardOffID), images(FastForwardOnID))
-    val speed = new ImageButton(images(FastForwardOffID), width-100, 10+buttonHeight, buttonWidth, buttonHeight, null)
+    speed = new ImageButton(images(FastForwardOffID), width-100, 10+buttonHeight, buttonWidth, buttonHeight, null)
     val waveBar = new WaveBar(100, 10, width - 400, height - 20)
+
+    val speedImages = Array(images(FastForwardOffID), images(FastForwardOnID))
     speed.setAction(() => {
-      speed.setImage(toggler())
-      game.toggleSpeed
+      val spd = game.toggleSpeed
+      speed.setImage(speedImages(spd-1))
     })
 
-    addChildren(money, sendWave, menu, speed,waveBar)
+    addChildren(money, sendWave, menu, speed, waveBar)
     super.init(gc, sbg)
+  }
+
+  override def reset() = {
+    speed.setImage(images(FastForwardOffID))
   }
 }
