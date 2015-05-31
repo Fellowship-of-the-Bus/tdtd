@@ -189,8 +189,8 @@ class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
 }
 
 object HarpoonTower extends TowerType {
-	var range = 30.0f
-	var damage = 5.0f
+	var range = 2.0f
+	var damage = 1.0f
 	var fireRate = 30
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
@@ -210,14 +210,14 @@ class CannonTower(xc: Float, yc: Float) extends Tower(xc, yc, CannonTower) {
 }
 
 object CannonTower extends TowerType {
-	var range = 4.0f
+	var range = 2.0f
 	var damage = 5.0f
 	var fireRate = 120
-	var aoe = 4.0f
+	var aoe = 1.0f
 	var currAI: AI = new ClosestToGoalAI
 	var id = CannonTowerID
 	var projectileID = CannonballID
-	var speed = 0.1f
+	var speed = 0.15f
 	var value = 20
 	var name = "Cannon Tower"
 }
@@ -267,10 +267,10 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 }
 
 object TorpedoTower extends TowerType {
-	var range = 4.0f
+	var range = 3.5f
 	var damage = 5.0f
-	var fireRate = 20
-	var aoe = 2.0f
+	var fireRate = 90
+	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = TorpedoTowerID
 	var projectileID = HarpoonID
@@ -292,7 +292,7 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 	def upgrade(): Unit = {}
 
 	override def startRound() : Int = {
-		kind.value / 10
+		20
 	}
 
 	override def describe() : List[String] = {
@@ -339,7 +339,7 @@ class IceTowerBottom(xc: Float, yc: Float) extends SlowingTower(xc, yc, IceTower
 }
 
 object IceTowerBottom extends SlowingTowerType {
-	var range = 4.0f
+	var range = 2.0f
 	var damage = 0.0f
 	var fireRate = 10
 	var aoe = 0.0f
@@ -383,9 +383,9 @@ class DepthChargeTower(xc: Float, yc: Float) extends Tower(xc, yc, DepthChargeTo
 
 object DepthChargeTower extends TowerType {
 	var range = 4.0f
-	var damage = 5.0f
-	var fireRate = 120
-	var aoe = 2.0f
+	var damage = 10.0f
+	var fireRate = 150
+	var aoe = 1.0f
 	var currAI: AI = new RandomAI
 	var id = DepthChargeTowerID
 	var projectileID = HarpoonID
@@ -483,8 +483,8 @@ class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
 }
 
 object MissileTower extends TowerType {
-	var range = 5.0f
-	var damage = 10.0f
+	var range = 2.0f
+	var damage = 8.0f
 	var fireRate = 90
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
@@ -523,14 +523,14 @@ class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
 }
 
 object NetTower extends TowerType {
-	var range = 4.0f
-	var damage = 5.0f
-	var fireRate = 120
-	var aoe = 2.0f
+	var range = 2.0f
+	var damage = 0.0f
+	var fireRate = 60
+	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = NetTowerID
 	var projectileID = NetID
-	var speed = 1.0f
+	var speed = 0.5f
 	var value = 20
 	var name = "Net Tower"
 }
@@ -588,7 +588,7 @@ object SteamTower extends TowerType {
 	var range = 4.0f
 	var damage = 5.0f
 	var fireRate = 120
-	var aoe = 2.0f
+	var aoe = 1.0f
 	var currAI: AI = new SteamRandomAI
 	var id = SteamTowerID
 	var projectileID = SteamID
