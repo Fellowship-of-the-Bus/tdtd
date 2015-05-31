@@ -51,7 +51,13 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
     g.rotate(0 , 0 , -e.rotation)
     g.translate(-exPos, -eyPos)
   }
- 
+  
+  def drawOffset( e:GameObject, g:Graphics) {
+    g.translate(-mapWidth, 0)
+    drawObject(e, g)
+    g.translate(mapWidth, 0)
+  }
+
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
 
@@ -68,6 +74,9 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
           val (ex, ey) = convert(e)
           e.draw(g, ex, ey)
           drawObject(e, g)
+          if (Layer.layer2Int(layer) == 1) {
+            drawOffset(e, g)
+          }
         }
 
         val tower = tile.tower
@@ -75,6 +84,9 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
           val t = tower.get
           val (tx, ty) = convert(t)
           drawObject(t, g)
+          if (Layer.layer2Int(layer) == 1) {
+            drawOffset(t, g)
+          }
         }
       }
     }
@@ -83,8 +95,17 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
       if (p.getMap == map) {
         val (px, py) = convert(p)
         drawObject(p, g)
+        if (Layer.layer2Int(layer) == 1) {
+            drawOffset(p, g)
+        }
       }
     }
+
+    if (Layer.layer2Int(layer) == 1) {
+        g.setColor(new Color(0, 99, 0xcc, 50))
+        g.fillRect(0,0,mapWidth,mapHeight)
+    }
+
     mapInput.render(g)
   } 
 

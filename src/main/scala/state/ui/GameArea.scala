@@ -14,8 +14,8 @@ class GameArea(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   def this()(implicit bg: Color) = this(0, topHeight, gaWidth, gaHeight)
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
-    val map1 = new MapView(0, 0, TopLayer,this)
-    val map2 = new MapView(mapWidth, 0, BottomLayer,this)
+    val map1 = new MapView(0, 0, TopLayer,this)(new Color(100, 100, 255, 210))
+    val map2 = new MapView(mapWidth, 0, BottomLayer,this)(new Color(0, 99, 0xcc, 255))
 
     for (i <- 0 until 4) {
       var ids = List[Int]()
@@ -27,7 +27,7 @@ class GameArea(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
       addChildren(market)
     }
 
-    addChildren(map1, map2)
+    addChildren(map2, map1)
 
     super.init(gc, sbg)
     map1.mapInput.setOther(map2.mapInput)

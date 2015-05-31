@@ -366,7 +366,7 @@ object IceTowerTop extends TowerType {
 	var fireRate = 120
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
-	var id = IceTowerBottomID
+	var id = IceTowerTopID
 	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 0
