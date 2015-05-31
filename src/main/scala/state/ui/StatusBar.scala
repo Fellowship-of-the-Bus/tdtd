@@ -23,36 +23,43 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
   // image has to change when game is reset
   private var speed: ImageButton = null
 
+  var speedAction: () => Unit = null
+
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     val buttonWidth = 90
     val buttonHeight = 20
 
-    val lives = new TextBox(5, 10+buttonHeight, buttonWidth, buttonHeight,
+    val lives = new TextBox(5, 15+buttonHeight, buttonWidth, buttonHeight,
       () => s"Lives: ${game.getLives}")
 
-    val money = new TextBox(width-100, 5, buttonWidth, buttonHeight,
+    val waveNum = new TextBox(width-295, 10, buttonWidth-5, buttonHeight,
+      () => s"Wave: ${game.getWaveNumber}")
+
+    val money = new TextBox(width-100, 10, buttonWidth, buttonHeight,
       () => s"$$${game.getMoney}")
 
-    val sendWave = new Button("send wave", width-200, 5, buttonWidth, buttonHeight,
+    val sendWave = new Button("send wave", width-200, 10, buttonWidth, buttonHeight,
       () => game.sendNextWave)
     sendWave.setSelectable(() => game.newRoundReady)
 
-    val menu = new Button("menu", width-200, 10+buttonHeight, buttonWidth, buttonHeight,
+    val menu = new Button("menu", width-200, 15+buttonHeight, buttonWidth, buttonHeight,
       () => {
         gc.setPaused(true)
         (sbg.enterState(Mode.MenuID))
       })
 
-    speed = new ImageButton(images(FastForwardOffID), width-100, 10+buttonHeight, buttonWidth, buttonHeight, null)
+    speed = new ImageButton(images(FastForwardOffID), width-100, 15+buttonHeight, buttonWidth, buttonHeight, null)
     val waveBar = new WaveBar(100, 10, width - 400, height - 20)
 
     val speedImages = Array(images(FastForwardOffID), images(FastForwardOnID))
-    speed.setAction(() => {
+    speedAction = () => {
       val spd = game.toggleSpeed
       speed.setImage(speedImages(spd-1))
-    })
+    }
+    speed.setAction(speedAction)
+    speed.setSelectable(() => !game.isGameOver)
 
-    addChildren(lives, money, sendWave, menu, speed, waveBar)
+    addChildren(lives, money, waveNum, sendWave, menu, speed, waveBar)
     super.init(gc, sbg)
   }
 

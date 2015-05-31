@@ -68,6 +68,7 @@ object GameUI extends BasicGameState {
     }
   }
 
+  var statusBar: StatusBar = null
   def init(gc: GameContainer, sbg: StateBasedGame) = {
     import Dimensions._
 
@@ -78,6 +79,7 @@ object GameUI extends BasicGameState {
     gc.getGraphics.setBackground(bgColor)
 
     val top = new StatusBar()
+    statusBar = top
     val gameArea = new GameArea(0, topHeight, gaWidth, gaHeight)
     val infoView = new InfoView()
     ui.addChildren(top, gameArea, infoView)

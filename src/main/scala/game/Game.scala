@@ -62,7 +62,7 @@ class Game {
 
   private var lives = 10
   var money = 100
-  private var waveNumber = 1
+  private var waveNumber = 0
   var map = Array(new GameMap(), new GameMap())
 
   private var towers = List[Tower]()
@@ -255,6 +255,7 @@ class Game {
   }
 
   def getLives() = lives
+  def getWaveNumber() = waveNumber
 
   def upgrade(t: Tower) : Unit = {
     val cost = t.upgradeCost

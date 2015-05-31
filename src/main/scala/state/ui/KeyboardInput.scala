@@ -14,16 +14,16 @@ import game._
 class KeyboardInput(var game: Game, sbg: StateBasedGame) extends InputAdapter {
 	
 	val KeyMap = Map(
-		    Input.KEY_H -> HarpoonTowerID,
-			Input.KEY_C -> CannonTowerID,
-			Input.KEY_T -> TorpedoTowerID,
-			Input.KEY_O -> OilDrillTowerID,
-			Input.KEY_I -> IceTowerBottomID,
-			Input.KEY_D -> DepthChargeTowerID,
-			Input.KEY_W -> WhirlpoolBottomID,
-			Input.KEY_M -> MissileTowerID,
-			Input.KEY_N -> NetTowerID,
-			Input.KEY_S -> SteamTowerID
+	  Input.KEY_H -> HarpoonTowerID,
+		Input.KEY_C -> CannonTowerID,
+		Input.KEY_T -> TorpedoTowerID,
+		Input.KEY_O -> OilDrillTowerID,
+		Input.KEY_I -> IceTowerBottomID,
+		Input.KEY_D -> DepthChargeTowerID,
+		Input.KEY_W -> WhirlpoolBottomID,
+		Input.KEY_M -> MissileTowerID,
+		Input.KEY_N -> NetTowerID,
+		Input.KEY_S -> SteamTowerID
 	)
 
 	override def setInput(input: Input) = {
@@ -43,6 +43,8 @@ class KeyboardInput(var game: Game, sbg: StateBasedGame) extends InputAdapter {
 				if (game.newRoundReady) {
 					game.sendNextWave
 				}
+			} else if (key == Input.KEY_F) {
+				GameUI.statusBar.speedAction()
 			}
 		}
 	}
