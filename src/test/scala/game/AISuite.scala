@@ -58,7 +58,7 @@ class AISuite extends FunSuite {
 	setOcc(t4,9,5)
 	t4.dijkstras
 	println(t4)
-	test("ClosestAI") {
+/*	test("ClosestAI") {
 		val e1 = createEnemy(1,1, t4)
 		val e2 = createEnemy(1,2, t4)
 		val e3 = createEnemy(3,4, t4)
@@ -67,8 +67,8 @@ class AISuite extends FunSuite {
 		val ai = new ClosestAI
 		val set1 = Set[Enemy](e1, e2, e3, e4, e5)
 		assert(ai.pick(3,3, set1) === e3)
-	}
-	test("ClosestToGoalAI") {
+	}*/
+/*	test("ClosestToGoalAI") {
 		val e1 = createEnemy(0,0, t4)
 		val e2 = createEnemy(1,0, t4)
 		val e3 = createEnemy(1,6, t4)
@@ -79,5 +79,5 @@ class AISuite extends FunSuite {
 		val set = Set[Enemy](e1, e2, e3, e4, e5, e6, e7)
 		val ai = new ClosestToGoalAI
 		assert(ai.pick(0,0,set) === e5)
-	}
+	}*/
 }

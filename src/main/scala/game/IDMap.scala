@@ -111,7 +111,7 @@ object IDMap {
 
 
     HarpoonID -> "img/Harpoon.png",
-    CannonballID -> "img/CannonBall.png",
+    CannonballID -> "img/Cannonball.png",
     MissileID -> "img/Missile.png",
     NetID -> "img/Net.png",
     SteamID -> "img/Steam.png",
