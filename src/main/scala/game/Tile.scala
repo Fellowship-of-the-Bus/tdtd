@@ -24,7 +24,7 @@ class Tile {
     }
     def placeTower(t: Tower) = {
         if (t.id != WhirlpoolTopID) {
-          pathable == false
+          pathable = false
         }
 
 /*        tower.id match {

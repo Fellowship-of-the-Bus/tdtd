@@ -22,4 +22,6 @@ abstract class GameObject(xc: Float, yc: Float) {
   def setMap (m: GameMap) = {
       map = m
   }
+
+  def getMap(): GameMap = map
 }

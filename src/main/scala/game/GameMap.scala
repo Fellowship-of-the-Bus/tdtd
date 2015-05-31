@@ -101,7 +101,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         tmp.removeTower()
     }
     def spawn (e: Enemy) = {
-        e.r = entranceR - 0.4f
+        e.r = entranceR// - 0.4f
         e.c = entranceC
         map(entranceR)(entranceC).register(e)
         e.setMap(this)
@@ -197,16 +197,6 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
             output += "\n"
         }
         output
-    }
-    def ==(that: GameMap) : Boolean = {
-        for (r <- 0 to mapHeight-1) {
-            for (c <- 0 to mapWidth-1) {
-                if (map(r)(c) != that.map(r)(c)) {
-                    return false
-                }
-            }
-        }
-        true
     }
 
 }
