@@ -24,8 +24,8 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
   }
 
   def convert(go: GameObject): (Float, Float) = {
-    val (r,c) = go.topLeftCoord
-    convert(r+0.5f, c+0.5f)
+    val (r,c) = (go.r, go.c)//go.topLeftCoord
+    convert(r, c)
   }
 
   def drawObject( e:GameObject, ex: Float, ey: Float,  g:Graphics) {
