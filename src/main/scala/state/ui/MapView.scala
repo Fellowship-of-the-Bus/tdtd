@@ -63,7 +63,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
 
     for (p <- game.projectiles; if (p.active)) {
       val (px, py) = convert(p)
-      IDMap.images(p.id).draw(px, py)
+      drawObject(p, px, py, g)
     }
     mapInput.render(g)
  } 
