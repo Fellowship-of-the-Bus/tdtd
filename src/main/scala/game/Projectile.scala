@@ -17,7 +17,7 @@ object Projectile {
   }
 
   def apply(x: Float, y: Float, dir: Int, tower: Tower) = {
-
+    new Steam(x, y, dir, tower)
   }
 }
 
