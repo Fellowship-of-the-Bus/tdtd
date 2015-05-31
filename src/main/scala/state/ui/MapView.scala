@@ -60,7 +60,8 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
-
+    
+            
     g.setColor(Color.black)
     for (r <- 0 until map.mapHeight) {
       for (c <- 0 until map.mapWidth) {
@@ -105,6 +106,11 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         g.setColor(new Color(0, 99, 0xcc, 50))
         g.fillRect(0,0,mapWidth,mapHeight)
     }
+
+    g.setColor(new Color(0,0,120, (0.3*255).asInstanceOf[Int]))
+    g.fillRect(map.entranceC*widthRatio, map.entranceR*heightRatio, widthRatio, heightRatio)
+    g.setColor(new Color(0,0,200, (0.3*255).asInstanceOf[Int]))
+    g.fillRect(map.exitC*widthRatio, map.exitR*heightRatio, widthRatio, heightRatio)
 
     GameUI.displaySelection match {
       case TowerSelection(t) => 
