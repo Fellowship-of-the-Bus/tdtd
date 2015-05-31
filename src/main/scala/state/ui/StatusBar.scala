@@ -27,6 +27,9 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
     val buttonWidth = 90
     val buttonHeight = 20
 
+    val lives = new TextBox(5, 10+buttonHeight, buttonWidth, buttonHeight,
+      () => s"Lives: ${game.getLives}")
+
     val money = new TextBox(width-100, 5, buttonWidth, buttonHeight,
       () => s"$$${game.getMoney}")
 
@@ -49,7 +52,7 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
       speed.setImage(speedImages(spd-1))
     })
 
-    addChildren(money, sendWave, menu, speed, waveBar)
+    addChildren(lives, money, sendWave, menu, speed, waveBar)
     super.init(gc, sbg)
   }
 

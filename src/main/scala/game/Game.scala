@@ -126,7 +126,10 @@ class Game {
       }
 
       for (e <- enemies; if (e.active)) {
-        e.tick()
+        if (e.tick()) {
+          lives -= 1
+          if (lives == 0) gameOver
+        }
       }
 
       for (p <- projectiles; if (p.active)) {
@@ -245,6 +248,8 @@ class Game {
   def gameOver() = {
     isGameOver = true
   }
+
+  def getLives() = lives
 
   def upgrade(t: Tower) : Unit = {
     val cost = t.upgradeCost
