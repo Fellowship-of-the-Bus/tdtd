@@ -14,6 +14,8 @@ import IDMap._
 class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) extends Pane(x, y, width, height)(Color.lightGray) {
   def this()(implicit bg: Color) = this(gaWidth, topHeight, infoViewWidth, gaHeight)
 
+  var aiCost = 20
+
   def sell() : Unit = {
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
@@ -84,7 +86,15 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   	}
   }
 
-  def buyAI() : Unit = {}
+  def buyAI() : Unit = {
+    GameUI.displaySelection match {
+      case TowerSelection(t) => {
+        t.boughtAI = true
+        game.money -= aiCost
+      }
+      case _ => ()
+    }
+  }
 
   override def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {
     GameUI.displaySelection match {
@@ -156,20 +166,58 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 */
 		w = font.getWidth("Random")
 		h = font.getHeight("Random")
-		val randomButton = new Button("Random", 5, 375, w + 5, h + 5, setRandom)
+		val randomButton = new Button("Random", 5, 375, w + 5, h + 5, setRandom).setSelectable(() => {
+        GameUI.displaySelection match {
+          case TowerSelection(t) => {
+            t.boughtAI
+          }
+          case _ => {
+            false
+          }
+        }
+      })
 
 		val oldw = w
 		w = font.getWidth("Closest to Tower")
 		h = font.getHeight("Closest to Tower")
-		val closestButton = new Button("Closest to Tower", oldw + 40, 375, w + 5, h + 5, setClosest)
+		val closestButton = new Button("Closest to Tower", oldw + 40, 375, w + 5, h + 5, setClosest).setSelectable(() => {
+        GameUI.displaySelection match {
+          case TowerSelection(t) => {
+            t.boughtAI
+          }
+          case _ => {
+            false
+          }
+        }
+      })
 
 		w = font.getWidth("Closest to Goal")
 		h = font.getHeight("Closest to Goal")
-		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 410, w + 5, h + 5, setClosestGoal)
+		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 410, w + 5, h + 5, setClosestGoal).setSelectable(() => {
+        GameUI.displaySelection match {
+          case TowerSelection(t) => {
+            t.boughtAI
+          }
+          case _ => {
+            false
+          }
+        }
+      })
 
-		w = font.getWidth("Buy AI")
-		h = font.getHeight("Buy AI")
-		val buyAIButton = new Button("Buy AI", oldw + 40, 337.5f, w + 5, h + 5, buyAI)
+		w = font.getWidth(s"Buy AI for $$$aiCost")
+		h = font.getHeight(s"Buy AI for $$$aiCost")
+		val buyAIButton = new Button(s"Buy AI for $$$aiCost", oldw + 40, 337.5f, w + 5, h + 5, buyAI).setSelectable(() => {
+        val bought = GameUI.displaySelection match {
+          case TowerSelection(t) => {
+            t.boughtAI == false
+          }
+          case _ => {
+            true
+          }
+        }
+        val enoughMoney = game.money >= aiCost
+        bought && enoughMoney
+      })
 
 		addChildren(sellButton)
 		//addChildren(upgradeButton)
