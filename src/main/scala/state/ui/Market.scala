@@ -18,6 +18,18 @@ class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, wi
   
   val buttonSize = 50f
 
+  override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
+      super.draw(gc,sbg,g)
+      val spacing = (width - (buttonSize * towers.length)) / (towers.length + 1) 
+      var spotX = spacing + 10
+      val spotY = (height - buttonSize) / 2 - 20
+      for (id <- towers) {
+        val tower = Tower(id)
+        g.drawString(s"$$${tower.value}", spotX, spotY + 75)
+        spotX += buttonSize + spacing
+      }
+  }
+
   // Set the buttons in a market
   override def init(gc: GameContainer, sbg: StateBasedGame) {
   	val spacing = (width - (buttonSize * towers.length)) / (towers.length + 1) 
