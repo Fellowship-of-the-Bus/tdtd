@@ -25,13 +25,16 @@ object GameMap {
     val Right = 1
     val Up = 2
     val Down = 3
+
+    val defaultWidth = 13
+    val defaultHeight = 13
 }
 
 class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val exitC: Int) {
     val entranceR = 0
     val exitR = mapHeight-1
 
-    def this() = this(13,13,6,6)
+    def this() = this(defaultWidth, defaultHeight,6,6)
 
     var map = new Array[Array[Tile]](mapHeight)
     for (r <- 0 to mapHeight-1) {

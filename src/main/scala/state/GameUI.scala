@@ -37,7 +37,7 @@ object GameUI extends BasicGameState {
   }
 
   implicit val bgColor = Color.gray
-  implicit val game = new Game
+  var game: Game = null
 
   val ui = new Pane(0, 0, Width, Height)
   
@@ -45,12 +45,15 @@ object GameUI extends BasicGameState {
 
   implicit var input: Input = null
   implicit var SBGame: StateBasedGame = null
+  var gc: GameContainer = null
 
   var placeSelection : Int = 0
   var displaySelection : Selection = NoSelection
 
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
-    this.game.tick()
+    if (! gc.isPaused()) {
+      this.game.tick()  
+    }
   }
 
   def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {
@@ -59,6 +62,8 @@ object GameUI extends BasicGameState {
 
   def init(gc: GameContainer, sbg: StateBasedGame) = {
     import Dimensions._
+
+    this.gc = gc
 
     input = gc.getInput
     SBGame = sbg
@@ -70,6 +75,21 @@ object GameUI extends BasicGameState {
     ui.addChildren(top, gameArea, infoView)
     ui.setState(getID)
     ui.init(gc, sbg)
+  }
+
+  def newGame() = {
+    gc.setPaused(false)
+    game = new Game
+    // TODO: reset tower selection variables
+    ui.resetGame(game)
+  }
+
+  def resumeGame() = {
+    gc.setPaused(false)
+  }
+
+  def gameInProgress(): Boolean = {
+    game != null && ! game.isGameOver
   }
 
   def getID() = Mode.GameUIID

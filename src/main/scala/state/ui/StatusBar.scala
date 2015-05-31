@@ -13,8 +13,8 @@ import GameUI.Dimensions._
 import game._
 import game.IDMap._
 
-class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
-  def this()(implicit bg: Color, game: Game) = this(0, 0, Width, topHeight)
+class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) extends Pane(x, y, width, height) {
+  def this()(implicit bg: Color) = this(0, 0, Width, topHeight)
 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
@@ -41,7 +41,10 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
       () => game.sendNextWave)
 
     val menu = new Button("menu", width-200, 10+buttonHeight, buttonWidth, buttonHeight,
-      () => ())
+      () => {
+        gc.setPaused(true)
+        (sbg.enterState(Mode.MenuID))
+      })
 
     val toggler = toggleImage(images(FastForwardOffID), images(FastForwardOnID))
     val speed = new ImageButton(images(FastForwardOffID), width-100, 10+buttonHeight, buttonWidth, buttonHeight, null)

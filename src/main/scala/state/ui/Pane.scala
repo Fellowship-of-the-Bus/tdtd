@@ -9,8 +9,9 @@ import org.newdawn.slick.state.{StateBasedGame}
 
 import game._
 
-class Pane(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, val game: Game) extends AbstractUIElement(x, y, width, height) {
-   var children: List[UIElement] = List()
+class Pane(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) extends AbstractUIElement(x, y, width, height) {
+  var children: List[UIElement] = List()
+  protected var game: Game = null
 
   def addChildren(child: UIElement, childs: UIElement*): Unit = {
     val newchildren = child::childs.toList
@@ -55,4 +56,16 @@ class Pane(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, 
       child.init(gc, sbg)
     }
   }
+
+  def resetGame(g: Game): Unit = {
+    game = g
+    reset()
+    for (c <- children) {
+      if (c.isInstanceOf[Pane]) {
+        c.asInstanceOf[Pane].resetGame(game)
+      }
+    }
+  }
+
+  def reset(): Unit = ()
 }

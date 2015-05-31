@@ -12,13 +12,14 @@ import game.Layer._
 import game.IDMap._
 import game.GameMap._
 
-class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gameArea : GameArea)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
-  def this(x: Float, y: Float, layer: Layer, gameArea: GameArea)(implicit bg: Color, game: Game) = this(x, y, mapWidth, mapHeight, layer, gameArea)
+class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gameArea : GameArea)(implicit bg: Color) extends Pane(x, y, width, height) {
+  def this(x: Float, y: Float, layer: Layer, gameArea: GameArea)(implicit bg: Color) = this(x, y, mapWidth, mapHeight, layer, gameArea)
 
-  val map = game.getMap(layer)
+  var map: GameMap = null
   var mapInput = new MapInput(0,0, width, height, place, this, absoluteX, absoluteY)
-  val widthRatio = width / map.mapWidth
-  val heightRatio = height / map.mapHeight
+  val widthRatio = width / GameMap.defaultWidth
+  val heightRatio = height / GameMap.defaultHeight
+
   def convert(r: Float, c: Float) = {
     (c * widthRatio, r * heightRatio)
   }
@@ -151,7 +152,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     mapInput = new MapInput(0,0, width, height, place, this, absoluteX, absoluteY)
     mapInput.setInput(gc.getInput)
+    mapInput.init(gc, sbg)
 
     super.init(gc, sbg)
+  }
+
+  override def reset() = {
+    map = game.getMap(layer)
   }
 }
