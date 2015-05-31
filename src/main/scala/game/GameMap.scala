@@ -77,7 +77,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         import GameMap._
         var tmp = getTile(r,c)
         if (tmp.entrance || tmp.exit || tmp.occupied || !tmp.enemies.isEmpty) {
-            occupied
+            return occupied
         }
         var store = tmp.pathable
         tmp.pathable = false
