@@ -160,7 +160,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
         }
         
       }
-      g.setColor(new Color(0,255,0,(0.1*255).asInstanceOf[Int]))
+      g.setColor(new Color(0,255,0,(0.2*255).asInstanceOf[Int]))
       g.fillRect(nmx, nmy, view.widthRatio.toInt, view.heightRatio.toInt)
     }
   }
