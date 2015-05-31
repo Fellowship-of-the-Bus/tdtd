@@ -430,7 +430,6 @@ class DepthChargeTower(xc: Float, yc: Float) extends Tower(xc, yc, DepthChargeTo
 
 object DepthChargeTower extends TowerType {
   var cost = 0
-  var cost = 0
 	var range = 1.5f
 	var damage = 5.0f
 	var fireRate = 120
