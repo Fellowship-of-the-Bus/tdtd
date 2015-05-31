@@ -156,7 +156,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
               game.addTowerToList(icebottom)
             }
           }
-                
+          case _ => ()   
         }
       }
     }
