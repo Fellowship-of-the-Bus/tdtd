@@ -33,7 +33,7 @@ class GameArea(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     super.init(gc, sbg)
     map1.mapInput.setOther(map2.mapInput)
     map2.mapInput.setOther(map1.mapInput)
-    keyboard = new KeyboardInput(game, sbg)
+    keyboard = new KeyboardInput(game, gc, sbg)
     keyboard.setInput(gc.getInput)
   }
 

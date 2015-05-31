@@ -11,7 +11,7 @@ import game.IDMap._
 import game._
 
 
-class KeyboardInput(var game: Game, sbg: StateBasedGame) extends InputAdapter {
+class KeyboardInput(var game: Game, gc: GameContainer, sbg: StateBasedGame) extends InputAdapter {
 	
 	val KeyMap = Map(
 	  Input.KEY_H -> HarpoonTowerID,
@@ -45,6 +45,9 @@ class KeyboardInput(var game: Game, sbg: StateBasedGame) extends InputAdapter {
 				}
 			} else if (key == Input.KEY_F) {
 				GameUI.statusBar.speedAction()
+			} else if (key == Input.KEY_ESCAPE) {
+				gc.setPaused(true)
+        		(sbg.enterState(Mode.MenuID))
 			}
 		}
 	}

@@ -15,6 +15,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   def this()(implicit bg: Color) = this(gaWidth, topHeight, infoViewWidth, gaHeight)
 
   var aiCost = 20
+  var ids = List[Int]()
 
   def sell() : Unit = {
   	GameUI.displaySelection match {
@@ -111,6 +112,11 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         g.setLineWidth(3)
         g.drawRect(0,0,width,height)
         g.setLineWidth(linew)
+        var ey = 0
+        for(id <- ids) {
+          val t = Tower(id)
+          g.drawString("",0,ey)
+        }
         g.translate(-x,-y)
       }
     }
@@ -228,6 +234,12 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		addChildren(closestButton)
 		addChildren(closestGoalButton)
 		addChildren(buyAIButton)
+
+    for (i <- 0 until 4) {
+      for (k <- TIDRanges(2*i) to TIDRanges((2*i)+1)) {
+        ids = k :: ids
+      }
+    }
     super.init(gc, sbg)
 	}
 
