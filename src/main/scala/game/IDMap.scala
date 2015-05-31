@@ -115,6 +115,7 @@ object IDMap {
     MissileID -> "img/Missile.png",
     NetID -> "img/Net.png",
     SteamID -> "img/Steam.png",
+    TorpedoID -> "img/Torpedo.png",
 
     FastForwardOnID -> "img/FastForward.png",
     FastForwardOffID -> "img/FastForwardOff.png",

@@ -22,6 +22,7 @@ class AISuite extends FunSuite {
 		e
 	}
 	def setOcc(m: GameMap, r: Int, c:Int) {
+	  m.map(r)(c).pathable = false
 	  m.map(r)(c).occupied = true
 	}
 	var t4 = new GameMap(9,10,4,4)
@@ -67,8 +68,9 @@ class AISuite extends FunSuite {
 		val ai = new ClosestAI
 		val set1 = Set[Enemy](e1, e2, e3, e4, e5)
 		assert(ai.pick(3,3, set1) === e3)
-	}*/
-/*	test("ClosestToGoalAI") {
+	}
+	println(t4)
+	test("ClosestToGoalAI") {
 		val e1 = createEnemy(0,0, t4)
 		val e2 = createEnemy(1,0, t4)
 		val e3 = createEnemy(1,6, t4)

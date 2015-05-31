@@ -340,7 +340,7 @@ object TorpedoTower extends TowerType {
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = TorpedoTowerID
-	var projectileID = HarpoonID
+	var projectileID = TorpedoID
 	var speed = 0.3f
 	var value = 30
 	var basename = "Torpedo Tower"
