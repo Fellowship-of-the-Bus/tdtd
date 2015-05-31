@@ -173,10 +173,4 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     super.init(gc, sbg)
 	}
 
-  override def reset() = {
-    val t = Tower(HarpoonTowerID, 6,6)
-    game.placeTower(t, 6,6, BottomLayer)
-
-    game.money += 500
-  }
 }
