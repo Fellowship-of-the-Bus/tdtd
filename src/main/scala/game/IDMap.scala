@@ -76,7 +76,7 @@ object IDMap {
     GameOverID -> "img/GameOver.png",
     
     HarpoonTowerID -> "img/HarpoonTower.png",
-    //OilDrillTowerID -> "img/OilDrillTower.png",
+    OilDrillTowerID -> "img/OilTop.png",
   
     CannonTowerID -> "img/CannonTower.png",
     IceTowerTopID -> "img/IceTowerTop.png",

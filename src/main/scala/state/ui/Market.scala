@@ -6,7 +6,7 @@ package ui
 
 import org.newdawn.slick.{GameContainer, Graphics, Color}
 import org.newdawn.slick.state.{StateBasedGame}
-import lib.ui.Button
+import lib.ui.{Button, Drawable, ImageButton}
 
 import GameUI.Dimensions._
 import game._
@@ -16,7 +16,7 @@ import Tower._
 class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
   def this(parent: GameArea, towers: List[Int], x: Float)(implicit bg: Color, game: Game) = this(parent, towers, x, mapHeight, towerMarketWidth, towerMarketHeight)
 
-  val buttonSize = 20f
+  val buttonSize = 50f
 
   // Set the buttons in a market
   override def init(gc: GameContainer, sbg: StateBasedGame) {
@@ -42,8 +42,10 @@ class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, wi
   	}
 
   	for (id <- towers) {
-  		nButton = new Button("X", spotX, spotY, 20, 20,
-	      () => selectTower(id))
+      nButton = new Button("" + id, spotX, spotY, 50, 50,
+        () => selectTower(id))
+  		//nButton = new ImageButton(images(id), spotX, spotY, 20, 20,
+	    //  () => selectTower(id))
   		addChildren( nButton)
 			spotX += buttonSize + spacing
   	}
