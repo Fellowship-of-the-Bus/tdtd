@@ -89,6 +89,8 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     def placeTower (r: Float, c:Float, tower: Tower) = {
         var tmp = getTile(r,c)
         tmp.placeTower(tower)
+        tower.r = r.toInt
+        tower.c = c.toInt
         dijkstras()
         tower.setMap(this)
     }
