@@ -123,8 +123,12 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         }
         g.drawLine(0,ey,width,ey)
         var h = font.getHeight("Menu hotkey: Escape")
+        ey += 5
         g.drawString("Menu hotkey: Escape", 15, ey)
-        ey += h
+        ey += h + 15
+        h = font.getHeight("Fast forward hotkey: F")
+        g.drawString("Fast forward hotkey: F", 15, ey)
+        ey += h + 15
         g.translate(-x,-y)
       }
     }
