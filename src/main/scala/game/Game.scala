@@ -118,7 +118,6 @@ class Game {
     for (i <- 0 until numTicks) {
       if (isGameOver) return
 
-//      if (newRoundReady) sendNextWave
       if (!spawnQueue.isEmpty) spawn
 
       for (t <- towers; if (t.active)) {
@@ -131,7 +130,7 @@ class Game {
       }
 
       for (p <- projectiles; if (p.active)) {
-        p.tick()
+        money += p.tick()
       }
     }      
   }
