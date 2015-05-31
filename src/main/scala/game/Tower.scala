@@ -49,7 +49,7 @@ trait TowerType {
 abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObject(xc, yc) {
 	protected var nextShot = 0
 	val kind = towerType
-	val id = kind.id
+	val id = towerType.id
 
 	val height = 1.0f
 	val width = 1.0f
@@ -129,7 +129,7 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
 				enemies.foreach(enemy => {
-						val slow = new SlowEffect(kind.slowMult, kind.slowTime)
+						val slow = new SlowEffect(towerType.slowMult, towerType.slowTime)
 						enemy.slow(slow)
 					}
 				)
@@ -141,14 +141,16 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 		}
 	}
 
+	
+
 	override def describe() : List[String] = {
-		val time = kind.slowTime / GameConfig.FrameRate.toFloat
-		val mult = (kind.slowMult * 100).toInt
+		val time = towerType.slowTime / GameConfig.FrameRate.toFloat
+		val mult = (towerType.slowMult * 100).toInt
 		var ret = List(
-			s"Value: ${kind.value}",
+			s"Value: ${towerType.value}",
 			s"Slow Multiplier: $mult%",
 			f"Slow Time: $time%.1f seconds",
-			f"Range: ${kind.range}%.1f"
+			f"Range: ${towerType.range}%.1f"
 		)
 		ret
 	}
