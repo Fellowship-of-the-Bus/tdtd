@@ -20,7 +20,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
         var layer: Layer = BottomLayer
-        println(t.kind.id)
   			t.kind.id match {
           case IceTowerBottomID |
           IceTowerTopID |
@@ -41,7 +40,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
             }
           }
         }
-          println(layer)
           game.sell(t.r, t.c, layer)
           GameUI.displaySelection = NoSelection
         }
@@ -139,7 +137,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         }
         case TowerSelection(t) => {
           var w = font.getWidth(t.kind.name)
-          g.drawString(t.kind.name, width/2 - w/2, 5)
+          g.drawString(t.name, width/2 - w/2, 5)
           var y = 40
           for (line <- t.describe()) {
             g.drawString(line, 5, y)
@@ -149,7 +147,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         case NoSelection => {}
       }
 
-    g.drawString("Select AI", 5, 340)
+    g.drawString("Select AI", 5, 365)
     g.setLineWidth(lineWidth)
   }
 
@@ -162,11 +160,15 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		val sellButton = new Button("Sell for 50%", width - w - 10, 40, w + 5, h + 5, sell)  
 		w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
-		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 225, w + 5, h + 5, upgrade)
+		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 110, w + 5, h + 5, upgrade)
+    upgradeButton.setSelectable(() => GameUI.displaySelection match {
+                                        case TowerSelection(tower) => tower.upgradable && game.getMoney >= tower.upgradeCost()
+                                        case _ => false
+                                        })
 
 		w = font.getWidth("Random")
 		h = font.getHeight("Random")
-		val randomButton = new Button("Random", 5, 375, w + 5, h + 5, setRandom).setSelectable(() => {
+		val randomButton = new Button("Random", 5, 400, w + 5, h + 5, setRandom).setSelectable(() => {
         GameUI.displaySelection match {
           case TowerSelection(t) => {
             t.boughtAI
@@ -180,7 +182,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		val oldw = w
 		w = font.getWidth("Closest to Tower")
 		h = font.getHeight("Closest to Tower")
-		val closestButton = new Button("Closest to Tower", oldw + 40, 375, w + 5, h + 5, setClosest).setSelectable(() => {
+		val closestButton = new Button("Closest to Tower", oldw + 40, 400, w + 5, h + 5, setClosest).setSelectable(() => {
         GameUI.displaySelection match {
           case TowerSelection(t) => {
             t.boughtAI
@@ -193,7 +195,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 
 		w = font.getWidth("Closest to Goal")
 		h = font.getHeight("Closest to Goal")
-		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 410, w + 5, h + 5, setClosestGoal).setSelectable(() => {
+		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 435, w + 5, h + 5, setClosestGoal).setSelectable(() => {
         GameUI.displaySelection match {
           case TowerSelection(t) => {
             t.boughtAI
@@ -206,7 +208,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 
 		w = font.getWidth(s"Buy AI for $$$aiCost")
 		h = font.getHeight(s"Buy AI for $$$aiCost")
-		val buyAIButton = new Button(s"Buy AI for $$$aiCost", oldw + 40, 337.5f, w + 5, h + 5, buyAI).setSelectable(() => {
+		val buyAIButton = new Button(s"Buy AI for $$$aiCost", oldw + 40, 362.5f, w + 5, h + 5, buyAI).setSelectable(() => {
         val bought = GameUI.displaySelection match {
           case TowerSelection(t) => {
             t.boughtAI == false
