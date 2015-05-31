@@ -23,8 +23,8 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
   val id = 0
   
   def tick() = {
-    val rVec = r - tar.r
-    val cVec = c - tar.c
+    val rVec = tar.r - r
+    val cVec = tar.c - c
     val dist = sqrt((rVec * rVec) + (cVec * cVec)).asInstanceOf[Float]
     var totalDmg = 0.0f
     var money = 0
