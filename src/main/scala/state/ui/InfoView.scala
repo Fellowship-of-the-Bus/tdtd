@@ -58,7 +58,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   }
 
   def setRandom() : Unit = {
-  	println("Random")
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
   			t.setAI(new RandomAI)
@@ -68,7 +67,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   }
 
    def setClosest() : Unit = {
-   	println("Closest")
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
   			t.setAI(new ClosestAI)
@@ -78,7 +76,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   }
 
   def setClosestGoal() : Unit = {
-   	println("ClosestGoal")
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
   			t.setAI(new ClosestToGoalAI)

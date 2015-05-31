@@ -31,10 +31,8 @@ class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, wi
   		val price = Tower(id).value
 
   		if (GameUI.placeSelection != id) {
-  			if (game.money > price) {
   				GameUI.placeSelection = id
   				GameUI.displaySelection = IDSelection(id)
-  			}
   		} else {
   			GameUI.placeSelection = 0
   			GameUI.displaySelection = NoSelection
@@ -44,7 +42,7 @@ class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, wi
   	for (id <- towers) {
       val tower = Tower(id)
       nButton = new Button("" + id, spotX, spotY, 50, 50,
-        () => selectTower(id)).setSelectable(() => tower.value < game.getMoney)
+        () => selectTower(id)).setSelectable(() => tower.value <= game.getMoney)
   		//nButton = new ImageButton(images(id), spotX, spotY, 20, 20,
 	    //  () => selectTower(id))
   		addChildren( nButton)
