@@ -39,6 +39,10 @@ class KeyboardInput(var game: Game, sbg: StateBasedGame) extends InputAdapter {
 					GameUI.placeSelection = id
 					GameUI.displaySelection = IDSelection(id)
 				}
+			} else if (key == Input.KEY_SPACE) {
+				if (game.newRoundReady) {
+					game.sendNextWave
+				}
 			}
 		}
 	}

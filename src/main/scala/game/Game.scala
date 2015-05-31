@@ -168,7 +168,7 @@ class Game {
       res
   }
 
-  def newRoundReady() = enemies.isEmpty
+  def newRoundReady() = enemies.isEmpty && !isGameOver
 
   def difficulty(i: Int)= {
     math.exp(i.toFloat*0.05f).toFloat
