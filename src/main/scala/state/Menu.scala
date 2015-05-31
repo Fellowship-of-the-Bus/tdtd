@@ -20,7 +20,14 @@ object Menu extends BasicGameState {
 
   lazy val choices = {
     val lst = List(
-      Button("New Game", centerx, 200, () => SBGame.enterState(Mode.GameUIID)),
+      Button("New Game", centerx, 200, () => {
+        GameUI.newGame
+        SBGame.enterState(Mode.GameUIID)
+      }),
+      Button("Resume Game", centerx, 200+30, () => {
+        GameUI.resumeGame
+        SBGame.enterState(Mode.GameUIID)
+      }).setSelectable(() => GameUI.gameInProgress),
       Button("Encyclopedia", centerx, 200+60, () => SBGame.enterState(Mode.EncyclopediaID)),
       Button("Quit", centerx, 200+90, () => System.exit(0)))
     lst.foreach(_.init(gc, SBGame))

@@ -31,6 +31,9 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     other = Some(mI)
   }
 
+  var gc: GameContainer = null
+  var sbg: StateBasedGame = null
+
   var mode = NORMAL
   def isMouseOver() = mode == MOUSE_OVER
   def isMouseDown() = mode == MOUSE_DOWN
@@ -77,9 +80,11 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
       mx = actX
       my = actY
       mode = MOUSE_CLICK
-      var c = mx.toFloat/view.widthRatio
-      var r = my.toFloat / view.heightRatio
-      action(r, c)
+      if (sbg.getCurrentStateID == Mode.GameUIID) {
+        var c = mx.toFloat/view.widthRatio
+        var r = my.toFloat / view.heightRatio
+        action(r, c)
+      }
       if (other.isEmpty) {
       } else {
         other.get.mx = mx
@@ -89,7 +94,10 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     }
   }
 
-
+  def init(gc: GameContainer, sbg: StateBasedGame) = {
+    this.gc = gc
+    this.sbg = sbg
+  }
 
   def render(g:Graphics) = {
     val highlightColour = Color.red

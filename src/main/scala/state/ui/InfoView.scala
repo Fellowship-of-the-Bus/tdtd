@@ -11,8 +11,8 @@ import GameUI.Dimensions._
 import game._
 import IDMap._
 
-class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
-  def this()(implicit bg: Color, game: Game) = this(gaWidth, topHeight, infoViewWidth, gaHeight)
+class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) extends Pane(x, y, width, height) {
+  def this()(implicit bg: Color) = this(gaWidth, topHeight, infoViewWidth, gaHeight)
 
   var currentTower: Option[Tower] = None
 
@@ -129,11 +129,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		h = font.getHeight("Buy AI")
 		val buyAIButton = new Button("Buy AI", oldw + 40, 247.5f, w + 5, h + 5, buyAI)
 
-    val t = Tower(HarpoonTowerID, 6,6)
-    game.placeTower(t, 6,6, BottomLayer)
-
-    game.money += 500
-
 		addChildren(sellButton)
 		addChildren(upgradeButton)
 		addChildren(randomButton)
@@ -142,4 +137,11 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		addChildren(buyAIButton)
     super.init(gc, sbg)
 	}
+
+  override def reset() = {
+    val t = Tower(HarpoonTowerID, 6,6)
+    game.placeTower(t, 6,6, BottomLayer)
+
+    game.money += 500
+  }
 }
