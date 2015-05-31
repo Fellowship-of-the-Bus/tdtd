@@ -88,6 +88,8 @@ object IDMap {
     HydraID -> "img/Hydra.png",
 
     HarpoonID -> "img/Harpoon.png",
+    CannonBallID -> "img/Harpoon.png",
+    MissileID -> "img/Missile.png",
 
     FastForwardOnID -> "img/FastForward.png",
     FastForwardOffID -> "img/FastForwardOff.png",

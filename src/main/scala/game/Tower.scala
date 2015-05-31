@@ -36,8 +36,8 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 
 	val height = 1.0f
 	val width = 1.0f
-	r += 0.5f
-	c += 0.5f
+	// r += 0.5f
+	// c += 0.5f
 	var kills = 0
 	var dmgDone = 0
 	var level = 1
@@ -167,11 +167,11 @@ object CannonTower extends TowerType {
 	var range = 4.0f
 	var damage = 5.0f
 	var fireRate = 120
-	var aoe = 2.0f
+	var aoe = 4.0f
 	var currAI: AI = new ClosestToGoalAI
 	var id = CannonTowerID
 	var projectileID = HarpoonID
-	var speed = 1.0f
+	var speed = 0.1f
 	var value = 20
 	var name = "Cannon Tower"
 }
@@ -382,7 +382,7 @@ object WhirlpoolTop extends TowerType {
 }
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
-	var numTargets = 2
+	var numTargets = 3
 	def upgradeCost(): Int = {
 		1
 	}
@@ -399,11 +399,13 @@ class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
 				nextShot = kind.fireRate
 				var projectiles = List[Projectile]()
 				for(i <- 1 to numTargets) {
-					val target = kind.currAI.pick(r, c, enemies)
-					val proj = Projectile(r, c, target, this)
-					proj.setMap(map)
-					projectiles = proj :: projectiles
-					enemies.remove(target)
+					if (!enemies.isEmpty) {
+						val target = kind.currAI.pick(r, c, enemies)
+						val proj = Projectile(r, c, target, this)
+						proj.setMap(map)
+						projectiles = proj :: projectiles
+						enemies.remove(target)
+					}
 				}
 				projectiles
 			} else {
@@ -421,10 +423,10 @@ object MissileTower extends TowerType {
 	var damage = 10.0f
 	var fireRate = 90
 	var aoe = 0.0f
-	var currAI: AI = new ClosestAI
+	var currAI: AI = new RandomAI
 	var id = MissileTowerID
-	var projectileID = HarpoonID
-	var speed = 1.0f
+	var projectileID = MissileID
+	var speed = 0.2f
 	var value = 40
 	var name = "Missile Tower"
 }

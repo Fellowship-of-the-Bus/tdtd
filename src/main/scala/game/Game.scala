@@ -62,7 +62,7 @@ class Game {
   var projectiles = List[Projectile]()
   var waves = new Queue[Wave]()
   var spawnQueue = LinkedList[Enemy]()
-  waves.enqueue(new Wave(1,   0,0,0,0,0,0,0,     0,0,1,0,0,0,0))
+  waves.enqueue(new Wave(1,   0,0,0,0,0,0,0,     0,0,5,0,0,0,0))
   
   private var spawnRate = 10
   private var timeToSpawn = 0
