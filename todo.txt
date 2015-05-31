@@ -1,13 +1,12 @@
 functional market menus
 -click button in market, attaches mouse listener that draws an image of the selected tower under the mouse
--should not be able to click button in market if player does not have enough money
--click tile in map with tower selected places tower
-
-display messages and other UI indicators whenever a user does something that they shouldn't
 
 hotkeys
 
 info view should be able to display enemies
 
+dolphin velocity should reset when it turns
+
+display messages and other UI indicators whenever a user does something that they shouldn't
 buttons which are conditionally selectable
 -can't click to place a tower in a location that they shouldn't (can we store whether a location is placable in the map after running Djikstra's? Then we can display green/red depending on whether a tile is placeable)
