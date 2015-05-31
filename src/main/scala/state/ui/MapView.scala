@@ -69,7 +69,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
  } 
   def place(r:Float, c:Float) {
     var t = gameArea.placeSelection
-    if (t.isEmpty) {
+    if (t == 0) {
       if (map(r,c).isEmpty) {
         gameArea.displaySelection = None
       } else {
@@ -77,24 +77,47 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
       }
     } else {
       if (Layer.layer2Int(layer) == 0) { //topLayer
-        t.get.id match {
+        t match {
           case HarpoonTowerID |
                CannonTowerID  |
                DepthChargeTowerID  |
                MissileTowerID |
                NetTowerID => {
-            if (game.placeTower (t.get,r,c, layer) == okay){
-              gameArea.placeSelection = None
+            if (game.placeTower (new Tower(t,r,c) ,r,c, layer) == okay){
+              gameArea.placeSelection = 0
             }
           }
           case OilDrillTowerID => {
-            game.placeTower (t.get,r,c,BothLayers)
-            gameArea.placeSelection = None
+            if (game.placeTower (new Tower(t,r,c) ,r,c,BothLayers) == okay) {
+              gameArea.placeSelection = None
+            }
           }
           case _ => ()
             
         }
-      }
+      } else if (Layer.layer2Int(layer) == 1) { //bottomlayer
+        t match {
+          case SteamTowerID |
+               TorpedoTowerID |
+               HarpoonTowerID => {
+            if (game.placeTower(new Tower(t,r,c),r,c,layer) == okay) {
+              gameArea.placeSelection = None
+            }
+          }
+          case OilDrillTowerID => {
+            if(game.placeTower(new Tower(t,r,c),r,c,BothLayers == okay) {
+              gameArea.placeSelection = None
+            }
+          }
+          case WhirlpoolBottomID => {
+            if (game.map(Layer(TopLayer))(r,c).getTower.isEmpty &&
+                game.map(Layer(BottomLayer)).placeable(r,c) {
+              var whirltop = Tower(WhirlpoolTopID, r, c)
+              var whirlbottom = Tower(t,r,c)
+            }
+          }
+                
+        }
     }
   }
 

@@ -20,11 +20,11 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     val MOUSE_DOWN = 2
     val MOUSE_CLICK = 3
   }
-//  println(s"$x,$y,$width,$height")
   import MouseMode._
   var mx = 0
   var my = 0
   val LEFT = 0
+  var onOther = false
 
   var other: Option[MapInput] = None
   def setOther (mI: MapInput) {
@@ -47,8 +47,6 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   override def mouseMoved(oldx:Int, oldy:Int, newx:Int, newy: Int): Unit = {
     var x = newx - absX.toInt
     var y = newy - absY.toInt
-    println(s"$newx, $newy, $x, $y, $absX, $absY")
-//    println(s"$newx, $newy")
    if (inMap(x, y)) {
      mx = x
      my = y
@@ -57,10 +55,11 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
      } else {
        other.get.mx = mx
        other.get.my = my
-       other.get.mode = MOUSE_OVER
+       other.get.onOther = true
      }
     } else {
       mode = NORMAL
+      other.get.onOther = false
     }
   }
 
@@ -81,9 +80,9 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
       action(mx, my)
       if (other.isEmpty) {
       } else {
-        other.get.mode = MOUSE_OVER
         other.get.mx = mx
         other.get.my = my
+        other.get.onOther = true
       }
     }
   }
@@ -93,7 +92,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   def render(g:Graphics) = {
     val highlightColour = Color.red
 
-    if (isMouseOver || isMouseClick) {
+    if (isMouseOver || isMouseClick || onOther) {
       g.setColor(new Color(255,0,0,(0.1*255).asInstanceOf[Int]))
       g.fillRect((mx/view.widthRatio).toInt*view.widthRatio, 
                  ((my)/view.heightRatio).toInt*view.heightRatio, view.widthRatio.toInt, view.heightRatio.toInt)
