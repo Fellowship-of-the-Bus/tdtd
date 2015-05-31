@@ -10,6 +10,8 @@ import org.newdawn.slick.util.InputAdapter
 
 import GameUI.Dimensions._
 import game._
+import IDMap._
+import game.Layer._
 
 
 class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, Float) => Unit, view: MapView, absX: Float, absY: Float)
@@ -101,11 +103,65 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
 
   def render(g:Graphics) = {
     val highlightColour = Color.red
+    val nmx = (mx/view.widthRatio).toInt*view.widthRatio
+    val nmy = ((my)/view.heightRatio).toInt*view.heightRatio
 
     if (isMouseOver || isMouseClick || onOther) {
+      
+      if (GameUI.placeSelection != NoTowerID) {
+        val t = Tower(GameUI.placeSelection)
+        if (!onOther) {
+          var image = IDMap.images(GameUI.placeSelection)
+          val scaleX = view.widthRatio/image.getWidth
+          val scaleY = view.heightRatio/image.getHeight
+          g.scale(scaleX,scaleY)
+      
+          image.draw(nmx * 1/scaleX, nmy * 1/scaleY)
+      
+          g.scale(1/scaleX, 1/scaleY)
+        }
+
+        def drawRange() {
+          val rx = t.range * view.widthRatio
+          val ry = t.range * view.heightRatio
+          val tx = nmx + 0.5f * view.widthRatio
+          val ty = nmy + 0.5f * view.heightRatio
+          g.setColor(new Color(0, 99, 0, 50))
+          g.fillOval(tx-rx,ty-ry,rx*2,ry*2)
+          g.setColor(new Color(0, 99, 0, 255))
+          g.drawOval(tx-rx,ty-ry,rx*2,ry*2)
+        }
+
+        val l = Layer.layer2Int(view.layer)
+        GameUI.placeSelection match {
+          case TorpedoTowerID => drawRange()
+
+          case CannonTowerID  |
+               MissileTowerID |
+               NetTowerID     |
+               WhirlpoolBottomID =>
+                if (l == 0) {
+                  drawRange()
+                }
+
+          case SteamTowerID     |
+               IceTowerBottomID |
+               DepthChargeTowerID =>
+                if (l == 1) {
+                  drawRange()
+                }
+
+          case HarpoonTowerID =>
+                if (!onOther) {
+                  drawRange()
+                }
+
+          case _ =>
+        }
+        
+      }
       g.setColor(new Color(0,255,0,(0.1*255).asInstanceOf[Int]))
-      g.fillRect((mx/view.widthRatio).toInt*view.widthRatio, 
-                 ((my)/view.heightRatio).toInt*view.heightRatio, view.widthRatio.toInt, view.heightRatio.toInt)
+      g.fillRect(nmx, nmy, view.widthRatio.toInt, view.heightRatio.toInt)
     }
   }
 }
