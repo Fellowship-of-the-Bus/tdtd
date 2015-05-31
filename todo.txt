@@ -3,10 +3,6 @@ functional market menus
 -should not be able to click button in market if player does not have enough money
 -click tile in map with tower selected places tower
 
-fix drawing problem
-
-call startRound on towers whenever a round begins
-
 display messages and other UI indicators whenever a user does something that they shouldn't
 
 hotkeys
