@@ -1,7 +1,7 @@
 package com.github.fellowship_of_the_bus
 package tdtd.game
 
-import ui.{Image, Animation}
+import lib.ui.{Image, Animation, Drawable}
 
 object IDMap {
 
@@ -56,6 +56,8 @@ object IDMap {
   val TorpedoID = 4200
   val SteamID = 4203
 
+  val FastForwardOnID = 9000
+  val FastForwardOffID = 9001
 
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",
@@ -87,10 +89,13 @@ object IDMap {
 
     HarpoonID -> "img/Harpoon.png",
 
+    FastForwardOnID -> "img/FastForward.png",
+    FastForwardOffID -> "img/FastForwardOff.png",
+
     12345 -> Array("img/GameOver.png", "img/FotB-Logo.png")
   )
 
-  lazy val images: Map[Int, ui.Drawable] = imageMap.map { x =>
+  lazy val images: Map[Int, Drawable] = imageMap.map { x =>
     val (id, loc) = x
     val img = loc match {
       case xs: Array[String] => Animation(xs)

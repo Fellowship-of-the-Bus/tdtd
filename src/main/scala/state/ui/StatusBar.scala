@@ -4,19 +4,30 @@ package state
 package ui
 
 import lib.game.GameConfig.{Width,Height}
-import lib.ui.Button
+import lib.ui.{Button, Drawable, ImageButton}
 
 import org.newdawn.slick.{GameContainer, Graphics, Color,Input}
 import org.newdawn.slick.state.{StateBasedGame}
 
 import GameUI.Dimensions._
 import game._
+import game.IDMap._
 
 class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
   def this()(implicit bg: Color, game: Game) = this(0, 0, Width, topHeight)
 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
     super.draw(gc, sbg, g)
+  }
+
+  def toggleImage(im1: Drawable, im2: Drawable) = {
+    var i = 0
+    def toggler() = {
+      i = (i + 1) % 2
+      if (i == 0) im1
+      else im2
+    }
+    toggler _
   }
 
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
@@ -32,8 +43,13 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
     val menu = new Button("menu", width-200, 10+buttonHeight, buttonWidth, buttonHeight,
       () => ())
 
-    val speed = new Button("go fast", width-100, 10+buttonHeight, buttonWidth, buttonHeight,
-      () => game.toggleSpeed)
+    val toggler = toggleImage(images(FastForwardOffID), images(FastForwardOnID))
+    val speed = new ImageButton(images(FastForwardOffID), width-100, 10+buttonHeight, buttonWidth, buttonHeight, null)
+
+    speed.setAction(() => {
+      speed.setImage(toggler())
+      game.toggleSpeed
+    })
 
     addChildren(money, sendWave, menu, speed)
     super.init(gc, sbg)
