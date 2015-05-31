@@ -98,7 +98,17 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
           GameUI.displaySelection = NoSelection
         }else {
           GameUI.displaySelection = map(r,c).get.getTower match {
-            case Some(t) => TowerSelection(t)
+            case Some(tower) => {
+              var tow = tower
+              if (tower.isInstanceOf[MazingTower]) {
+                if (map == game.map(TopLayer)) {
+                  tow = game.map(BottomLayer)(r,c).get.getTower.get
+                } else {
+                  tow = game.map(TopLayer)(r,c).get.getTower.get
+                }
+              }
+              TowerSelection(tow)
+            }
             case None => NoSelection
           }
         }
@@ -110,8 +120,11 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
                CannonTowerID  |
                MissileTowerID |
                NetTowerID => {
-            if (game.placeTower ( Tower(t,r,c) ,r,c, layer) == okay){
+            val tower = Tower(t,r,c)
+            if (game.placeTower ( tower ,r,c, layer) == okay){
               GameUI.placeSelection = 0
+              GameUI.displaySelection = TowerSelection(tower)
+
             }
           }
           case DepthChargeTowerID => {
@@ -119,11 +132,14 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
             if (game.placeTower ( tower ,r,c, layer) == okay) {
               tower.setMap(game.map(BottomLayer))
               GameUI.placeSelection = 0
+              GameUI.displaySelection = TowerSelection(tower)
             }
           }
           case OilDrillTowerID => {
-            if (game.placeTower ( Tower(t,r,c) ,r,c,BothLayers) == okay) {
+            val tower = Tower(t,r,c)
+            if (game.placeTower ( tower ,r,c,BothLayers) == okay) {
               GameUI.placeSelection = 0
+              GameUI.displaySelection = TowerSelection(tower)
             }
           }
           case _ => ()
@@ -133,8 +149,10 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
         t match {
           case SteamTowerID |
                HarpoonTowerID => {
+            val tower = Tower(t,r,c)
             if (game.placeTower(Tower(t,r,c),r,c,layer) == okay) {
               GameUI.placeSelection = 0
+              GameUI.displaySelection = TowerSelection(tower)
             }
           }
           case TorpedoTowerID => {
@@ -142,14 +160,18 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
             if (game.placeTower(tower,r,c,layer) == okay) {
               tower.setMap(game.map(TopLayer))
               GameUI.placeSelection = 0
+              GameUI.displaySelection = TowerSelection(tower)
             }
           }
           case OilDrillTowerID => {
-            if(game.placeTower(Tower(t,r,c),r,c,BothLayers) == okay) {
-              
+            val tower = Tower(t,r,c)
+            if(game.placeTower(tower,r,c,BothLayers) == okay) {
+              GameUI.placeSelection = 0
+              GameUI.displaySelection = TowerSelection(tower)
             }
           }
           case WhirlpoolBottomID => {
+            val tower = Tower(t,r,c)
             if (game.map(Layer.layer2Int(TopLayer))(r,c).get.getTower.isEmpty &&
                 game.map(Layer.layer2Int(BottomLayer)).placeable(r,c) == okay ){
               var whirltop = Tower(WhirlpoolTopID, r, c)
@@ -160,9 +182,11 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
               game.addTowerToList(whirltop)
               game.addTowerToList(whirlbottom)
               GameUI.placeSelection = 0
+              GameUI.displaySelection = TowerSelection(tower)
             }
           }
           case IceTowerBottomID => {
+            val tower = Tower(t,r,c)
             if (game.map(Layer.layer2Int(TopLayer)).placeable(r,c) == okay &&
                 game.map(Layer.layer2Int(BottomLayer)).placeable(r,c) == okay) {
               var icetop = Tower(IceTowerTopID,r,c)
@@ -173,6 +197,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
               game.addTowerToList(icetop)
               game.addTowerToList(icebottom)
               GameUI.placeSelection = 0
+              GameUI.displaySelection = TowerSelection(tower)
             }
           }
           case _ => ()   

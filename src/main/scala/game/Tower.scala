@@ -428,7 +428,7 @@ class WhirlpoolTop(xc: Float, yc: Float) extends SlowingTower(xc, yc, WhirlpoolT
 }
 
 object WhirlpoolTop extends SlowingTowerType {
-	var range = 0.0f
+	var range = 4.0f
 	var damage = 0.0f
 	var fireRate = 120
 	var aoe = 0.0f
@@ -436,7 +436,7 @@ object WhirlpoolTop extends SlowingTowerType {
 	var id = WhirlpoolTopID
 	var projectileID = HarpoonID
 	var speed = 0.0f
-	var value = 0
+	var value = 15
 	var name = "Whirlpool"
 	var slowMult = 0.75f
 	var slowTime = 20
