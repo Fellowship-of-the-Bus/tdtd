@@ -61,7 +61,7 @@ class Game {
   private var numTicks = 1
 
   private var lives = 10
-  var money = 100
+  var money = 200
   private var waveNumber = 0
   var map = Array(new GameMap(), new GameMap())
 
