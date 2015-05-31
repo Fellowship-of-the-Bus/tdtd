@@ -79,9 +79,10 @@ object GameUI extends BasicGameState {
 
   def newGame() = {
     gc.setPaused(false)
-    game = new Game
-    // TODO: reset tower selection variables
+    game = new Game    
     ui.resetGame(game)
+    placeSelection = NoTowerID
+    displaySelection = NoSelection
   }
 
   def resumeGame() = {
