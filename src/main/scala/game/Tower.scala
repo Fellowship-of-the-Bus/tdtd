@@ -144,7 +144,7 @@ class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
 
 object HarpoonTower extends TowerType {
 	var range = 30.0f
-	var damage = 1.0f
+	var damage = 3.0f
 	var fireRate = 30
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
@@ -545,6 +545,22 @@ object Tower {
 			case MissileTowerID => new MissileTower(xc, yc)
 			case NetTowerID => new NetTower(xc, yc)
 			case SteamTowerID => new SteamTower(xc, yc)
+		}
+	}
+	def apply(id: Int) : TowerType = {
+		id match {
+			case HarpoonTowerID => HarpoonTower
+			case CannonTowerID => CannonTower
+			case TorpedoTowerID => TorpedoTower
+			case OilDrillTowerID => OilDrillTower
+			case IceTowerBottomID => IceTowerBottom
+			case IceTowerTopID => IceTowerTop
+			case DepthChargeTowerID => DepthChargeTower
+			case WhirlpoolBottomID => WhirlpoolBottom
+			case WhirlpoolTopID => WhirlpoolTop
+			case MissileTowerID => MissileTower
+			case NetTowerID => NetTower
+			case SteamTowerID => SteamTower
 		}
 	}
 }
