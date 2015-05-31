@@ -103,7 +103,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     val highlightColour = Color.red
 
     if (isMouseOver || isMouseClick || onOther) {
-      g.setColor(new Color(255,0,0,(0.1*255).asInstanceOf[Int]))
+      g.setColor(new Color(0,255,0,(0.1*255).asInstanceOf[Int]))
       g.fillRect((mx/view.widthRatio).toInt*view.widthRatio, 
                  ((my)/view.heightRatio).toInt*view.heightRatio, view.widthRatio.toInt, view.heightRatio.toInt)
     }

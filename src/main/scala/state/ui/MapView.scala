@@ -106,6 +106,23 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
         g.fillRect(0,0,mapWidth,mapHeight)
     }
 
+    GameUI.displaySelection match {
+      case TowerSelection(t) => 
+        if (t.getMap == map || t.id == TorpedoTowerID) {
+          val rx = t.kind.range * widthRatio
+          val ry = t.kind.range * heightRatio
+          var (tx, ty) = convert(t)
+          tx += 0.5f * widthRatio
+          ty += 0.5f * heightRatio
+          g.setColor(new Color(0, 99, 0, 50))
+          g.fillOval(tx-rx,ty-ry,rx*2,ry*2)
+          g.setColor(new Color(0, 99, 0, 255))
+          g.drawOval(tx-rx,ty-ry,rx*2,ry*2)
+        }
+
+      case _ => 0
+    }
+
     mapInput.render(g)
   } 
 
