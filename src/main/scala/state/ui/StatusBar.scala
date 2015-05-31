@@ -39,6 +39,7 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
 
     val sendWave = new Button("send wave", width-200, 5, buttonWidth, buttonHeight,
       () => game.sendNextWave)
+    sendWave.setSelectable(() => game.newRoundReady)
 
     val menu = new Button("menu", width-200, 10+buttonHeight, buttonWidth, buttonHeight,
       () => {

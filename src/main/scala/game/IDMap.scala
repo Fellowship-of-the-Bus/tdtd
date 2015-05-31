@@ -93,13 +93,22 @@ object IDMap {
     SteamTowerID -> "img/SteamTower.png",
 
     CrabID -> "img/Crab.png",
-    FishID -> "img/fish.png",
+    FishID -> "img/Fish.png",
     SharkID -> "img/Shark.png",
     WhaleID -> "img/Whale.png",
+    //temporary start
+    JellyfishID -> "img/Alligator.png",
+    SquidID -> "img/Turtle.png",
+    MegalodonID -> "img/Hydra.png",
+    //temporary end
 
     AlligatorID -> "img/Alligator.png",
     TurtleID -> "img/Turtle.png",
     HydraID -> "img/Hydra.png",
+    //temporary start
+    HippoID -> "img/Crab.png",
+    DolphinID -> "img/Fish.png",
+
 
     HarpoonID -> "img/Harpoon.png",
     CannonballID -> "img/CannonBall.png",

@@ -17,10 +17,15 @@ object Enemy {
       case CrabID => new Crab(mult)
       case SharkID => new Shark(mult)
       case WhaleID => new Whale(mult)
+      case JellyfishID => new Jellyfish(mult)
+      case SquidID => new Squid(mult)
+      case MegalodonID => new Megalodon(mult)
 
       case AlligatorID => new Alligator(mult)
       case TurtleID => new Turtle(mult)
       case HydraID => new Hydra(mult)
+      case HippoID => new Hippo(mult)
+      case DolphinID => new Dolphin(mult)
     }
   }
   def getLayer(id: Int) = {

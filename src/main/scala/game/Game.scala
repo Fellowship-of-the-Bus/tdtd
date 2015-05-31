@@ -6,7 +6,9 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import IDMap._
 import lib.game.GameConfig.{Height,Width}
-import scala.collection.mutable.{Queue, LinkedList}
+import scala.collection.mutable.{LinkedList}
+import scala.collection.immutable.Queue
+
 
 class Layer
 case object BothLayers extends Layer
@@ -42,12 +44,16 @@ class Wave (
   val whaleN : Int,
   val megalodonN : Int) {
 
-  val enemyNumbers = 
+  var enemyNumbers = 
     Array(hippoN, alligatorN, turtleN, dolphinN, penguinN, krakenN, hydraN,
       crabN, squidN, fishN, jellyfishN, sharkN, whaleN, megalodonN)
   val enemyIDs = Array (HippoID, AlligatorID, TurtleID, DolphinID,PenguinID,KrakenID,HydraID,
                   CrabID,SquidID,FishID,JellyfishID,SharkID,WhaleID,MegalodonID)
+  override def toString () ={
+    enemyNumbers.foldLeft("")((x,c) => x + c.toString)
+  }
 }
+
 
 
 class Game {
@@ -62,10 +68,28 @@ class Game {
   private var towers = List[Tower]()
   private var enemies = List[Enemy]()
   var projectiles = List[Projectile]()
-  var waves = new Queue[Wave]()
+  var waves = Queue[Wave]()
   var spawnQueue = LinkedList[Enemy]()
-  waves.enqueue(new Wave(1,   0,0,0,0,0,0,0,     0,0,5,0,0,0,0))
-  waves.enqueue(new Wave(2,   0,2,3,0,0,0,6,     20,0,5,0,5,1,0))
+  waves = waves.enqueue(new Wave(1,   0,10,0,0,0,0,0,     0,0,0,0,0,0,0))   //normal/none
+  waves = waves.enqueue(new Wave(2,   0,0,0,0,0,0,0,     0,0,0,0,10,0,0))   //none/normal
+  waves = waves.enqueue(new Wave(3,   0,15,0,0,0,0,0,     0,0,0,0,15,0,0))  //normal/normal
+  waves = waves.enqueue(new Wave(4,   6,0,0,0,0,0,0,     0,0,0,0,0,6,0))    //hp/hp
+  waves = waves.enqueue(new Wave(5,   0,0,10,0,0,0,0,     10,0,0,0,0,0,0))  //armour/armour
+  waves =  waves.enqueue(new Wave(6,   0,0,0,10,0,0,0,     0,10,0,0,0,0,0))    //fast/fast
+  waves =  waves.enqueue(new Wave(7,   0,15,0,0,0,0,0,     0,0,30,5,0,0,0))    //normal/swarm+split
+  waves =  waves.enqueue(new Wave(8,   5,0,0,8,0,0,0,     0,0,0,0,12,0,0))    //hp+fast/normal
+  waves =  waves.enqueue(new Wave(9,   0,0,0,0,0,0,1,     0,0,0,0,15,0,0))    //boss/normal
+  waves =  waves.enqueue(new Wave(10,   0,0,10,0,0,0,0,     0,0,0,0,0,0,1))   //armour/boss
+  waves =  waves.enqueue(new Wave(11,   5,0,8,0,0,0,0,     0,0,30,0,0,0,0))   //hp+armour/swarm
+  waves =  waves.enqueue(new Wave(12,   0,15,0,10,0,0,0,     0,15,0,0,0,0,0))   //normal+fast/fast
+  waves =  waves.enqueue(new Wave(13,   10,0,10,0,0,0,0,     10,0,0,6,0,0,0))   //armour+hp/split+armour
+  waves =  waves.enqueue(new Wave(14,   0,0,10,10,0,0,0,     0,0,35,6,0,0,0))   //fast+armour/swarm+split
+  waves =  waves.enqueue(new Wave(15,   0,0,0,0,0,0,1,     0,0,35,0,0,0,0))   //boss/swarm
+  waves =  waves.enqueue(new Wave(16,   0,0,10,0,0,0,0,     0,0,0,0,0,0,1))   //armour/boss
+  waves =  waves.enqueue(new Wave(17,   6,10,0,8,0,0,0,     0,10,30,5,6,0,0))   //all but armour/all but armour
+  waves =  waves.enqueue(new Wave(18,   6,10,8,8,0,0,0,     10,10,30,5,6,0,0))   //everything/everything
+  waves =  waves.enqueue(new Wave(19,   0,0,0,0,0,0,2,     0,0,0,0,0,0,2))   //boss/boss
+  waves =  waves.enqueue(new Wave(20,   4,6,6,6,0,0,2,     8,8,35,4,4,0,2))   //boss+everything/boss+everything
   
   private var spawnRate = 20
   private var timeToSpawn = 0
@@ -94,7 +118,7 @@ class Game {
     for (i <- 0 until numTicks) {
       if (isGameOver) return
 
-      if (newRoundReady) sendNextWave
+//      if (newRoundReady) sendNextWave
       if (!spawnQueue.isEmpty) spawn
 
       for (t <- towers; if (t.active)) {
@@ -144,30 +168,35 @@ class Game {
 
   def newRoundReady() = enemies.isEmpty
 
+  def difficulty(i: Int)= {
+    math.exp(i.toFloat*0.05f).toFloat
+  }
   def sendNextWave() = {
-    var w = waves.dequeue()
+    var (w, tmp) = waves.dequeue
+    waves = tmp
     for ( i <- 0 to 13) {
       for (j <- 0 to w.enemyNumbers(i)-1) {
         i match {
-          case 0 => spawnQueue = spawnQueue :+ Enemy(HippoID, waveNumber)
-          case 1 => spawnQueue = spawnQueue :+ Enemy(AlligatorID, waveNumber) 
-          case 2 => spawnQueue = spawnQueue :+ Enemy(TurtleID, waveNumber) 
-          case 3 => spawnQueue = spawnQueue :+ Enemy(DolphinID, waveNumber) 
-          case 4 => spawnQueue = spawnQueue :+ Enemy(PenguinID, waveNumber) 
-          case 5 => spawnQueue = spawnQueue :+ Enemy(KrakenID, waveNumber) 
-          case 6 => spawnQueue = spawnQueue :+ Enemy(HydraID, waveNumber) 
-          case 7 => spawnQueue = spawnQueue :+ Enemy(CrabID, waveNumber) 
-          case 8 => spawnQueue = spawnQueue :+ Enemy(SquidID, waveNumber) 
-          case 9 => spawnQueue = spawnQueue :+ Enemy(FishID, waveNumber) 
-          case 10 => spawnQueue = spawnQueue :+ Enemy(JellyfishID, waveNumber) 
-          case 11 => spawnQueue = spawnQueue :+ Enemy(SharkID, waveNumber) 
-          case 12 => spawnQueue = spawnQueue :+ Enemy(WhaleID, waveNumber) 
-          case 13 => spawnQueue = spawnQueue :+ Enemy(MegalodonID, waveNumber) 
+          case 0 => spawnQueue = spawnQueue :+ Enemy(HippoID, difficulty(waveNumber))
+          case 1 => spawnQueue = spawnQueue :+ Enemy(AlligatorID, difficulty(waveNumber)) 
+          case 2 => spawnQueue = spawnQueue :+ Enemy(TurtleID, difficulty(waveNumber)) 
+          case 3 => spawnQueue = spawnQueue :+ Enemy(DolphinID, difficulty(waveNumber)) 
+          case 4 => spawnQueue = spawnQueue :+ Enemy(PenguinID, difficulty(waveNumber)) 
+          case 5 => spawnQueue = spawnQueue :+ Enemy(KrakenID, difficulty(waveNumber)) 
+          case 6 => spawnQueue = spawnQueue :+ Enemy(HydraID, difficulty(waveNumber)) 
+          case 7 => spawnQueue = spawnQueue :+ Enemy(CrabID, difficulty(waveNumber)) 
+          case 8 => spawnQueue = spawnQueue :+ Enemy(SquidID, difficulty(waveNumber)) 
+          case 9 => spawnQueue = spawnQueue :+ Enemy(FishID, difficulty(waveNumber)) 
+          case 10 => spawnQueue = spawnQueue :+ Enemy(JellyfishID, difficulty(waveNumber)) 
+          case 11 => spawnQueue = spawnQueue :+ Enemy(SharkID, difficulty(waveNumber)) 
+          case 12 => spawnQueue = spawnQueue :+ Enemy(WhaleID, difficulty(waveNumber)) 
+          case 13 => spawnQueue = spawnQueue :+ Enemy(MegalodonID, difficulty(waveNumber)) 
         }
       }
     }
     waveNumber += 1
-    waves.enqueue(new Wave(waveNumber, 0,0,0,0,0,0,0,   0,0,0,0,0,0,0))
+    w.enemyNumbers = w.enemyNumbers.map(x => (x*difficulty(waveNumber/2)).toInt)
+    waves = waves.enqueue(w)
     for (t <- towers) {
       money += t.startRound()
     }
@@ -180,7 +209,7 @@ class Game {
       val l = Enemy.getLayer(e.id)
       map(l).spawn(e)
       if (e.id == FishID) {
-        timeToSpawn = spawnRate/2
+        timeToSpawn = spawnRate/4
       } else {
         timeToSpawn = spawnRate
       }
