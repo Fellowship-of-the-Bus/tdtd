@@ -41,10 +41,8 @@ class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, wi
 
   	for (id <- towers) {
       val tower = Tower(id)
-      nButton = new Button("" + id, spotX, spotY, 50, 50,
-        () => selectTower(id)).setSelectable(() => tower.value <= game.getMoney)
-  		//nButton = new ImageButton(images(id), spotX, spotY, 20, 20,
-	    //  () => selectTower(id))
+  		nButton = new ImageButton(images(id).copy, spotX, spotY, 50, 50,
+	     () => selectTower(id)).setSelectable(() => tower.value <= game.getMoney)
   		addChildren( nButton)
 			spotX += buttonSize + spacing
   	}
