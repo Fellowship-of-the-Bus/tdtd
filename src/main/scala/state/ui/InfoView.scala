@@ -150,11 +150,11 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
             g.drawString(line, 5, y)
             y += 25
           }
+          g.drawString("Select AI", 5, 365)
         }
         case NoSelection => {}
       }
 
-    g.drawString("Select AI", 5, 365)
     g.setLineWidth(lineWidth)
   }
 
