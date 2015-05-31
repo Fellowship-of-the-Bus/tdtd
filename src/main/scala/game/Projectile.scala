@@ -97,6 +97,8 @@ class Steam(x: Float, y: Float, val dir: Int, tower:Tower) extends Projectile(x,
                 kills += 1
               }
             }
+            tower.kills += kills
+            tower.dmgDone += totalDmg
             place = tile
           } else {
             inactivate
