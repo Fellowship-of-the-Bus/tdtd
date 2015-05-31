@@ -5,6 +5,7 @@ package game
 import IDMap._
 import scala.collection.mutable.Set
 import lib.game.GameConfig
+import scala.math._
 
 trait TowerType {
 	def damage: Float
@@ -69,12 +70,20 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 
 	def startRound(): Int = 0
 
+	def setRotation(tar: Enemy) {
+		val rVec = tar.r - r
+    	var cVec = tar.c - c
+    	val theta = atan2(rVec, cVec)
+      	rotation = toDegrees(theta).asInstanceOf[Float] + 90f
+	}
+
 	def tick() : List[Projectile] = {
 		if(nextShot == 0) {
 			val enemies = map.aoe(r, c, kind.range)
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
 				val target = kind.currAI.pick(r, c, enemies)
+				setRotation(target)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
 				List(proj)

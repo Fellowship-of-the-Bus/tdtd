@@ -7,6 +7,7 @@ import lib.game.GameConfig.{Width}
 abstract class GameObject(xc: Float, yc: Float) {
   var r = xc
   var c = yc
+  var rotation = 0f
 
   protected var map : GameMap = null
 

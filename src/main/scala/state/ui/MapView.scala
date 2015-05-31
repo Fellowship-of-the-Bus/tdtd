@@ -29,11 +29,23 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
     convert(r, c)
   }
 
-  def drawObject( e:GameObject, ex: Float, ey: Float,  g:Graphics) {
+  def drawObject( e:GameObject, g:Graphics) {
     var image = IDMap.images(e.id)
+    val (ex, ey) = convert(e)
+    val exPos = ex + 0.5f * (e.width * widthRatio)
+    val eyPos = ey + 0.5f * (e.height * heightRatio)
+
+    g.translate(exPos, eyPos)
+    g.rotate(0 , 0 , e.rotation)
+    g.translate(-exPos, -eyPos)
     g.scale(e.width*heightRatio/image.getWidth,e.height*widthRatio/image.getHeight)
+    
     IDMap.images(e.id).draw(ex * image.getWidth/e.width/widthRatio, ey*image.getHeight/e.height/heightRatio)
+    
     g.scale(image.getWidth/e.width/widthRatio,image.getHeight/e.height/heightRatio)
+    g.translate(exPos, eyPos)
+    g.rotate(0 , 0 , -e.rotation)
+    g.translate(-exPos, -eyPos)
   }
  
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
@@ -50,14 +62,14 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
         val enemies = tile.enemies
         for (e <- enemies; if (e.active)) {
           val (ex, ey) = convert(e)
-          drawObject(e,ex, ey, g)
+          drawObject(e, g)
         }
 
         val tower = tile.tower
         if (! tower.isEmpty) {
           val t = tower.get
           val (tx, ty) = convert(t)
-          drawObject(t, tx, ty, g)
+          drawObject(t, g)
         }
       }
     }
@@ -65,11 +77,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
     for (p <- game.projectiles; if (p.active)) {
       if (p.getMap == map) {
         val (px, py) = convert(p)
-        drawObject(p, px, py, g)
+        drawObject(p, g)
       }
     }
     mapInput.render(g)
   } 
+
   def place(r:Float, c:Float) {
     var t = GameUI.placeSelection
     if (t == NoTowerID) {

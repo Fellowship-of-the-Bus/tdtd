@@ -44,6 +44,8 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
       inactivate
       money
     } else {
+      val theta = atan2(rVec, cVec)
+      rotation = toDegrees(theta).asInstanceOf[Float] + 90f
       r += (rVec / dist) * speed
       c += (cVec / dist) * speed
       0

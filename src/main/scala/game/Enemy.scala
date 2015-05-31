@@ -93,13 +93,18 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
     } else {
       timeToCheck -= 1
     }
+
     if (dir == Right) {
+      rotation = 90
       c = c + dist
     } else if (dir == Left) {
+      rotation = 270
       c = c - dist
     } else if (dir == Down) {
+      rotation = 180
       r = r + dist
     } else {
+      rotation = 0
       r = r - dist
     }
 
