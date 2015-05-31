@@ -20,7 +20,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
         var layer: Layer = BottomLayer
-        println(t.kind.id)
   			t.kind.id match {
           case IceTowerBottomID |
           IceTowerTopID |
@@ -41,7 +40,6 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
             }
           }
         }
-          println(layer)
           game.sell(t.r, t.c, layer)
           GameUI.displaySelection = NoSelection
         }
