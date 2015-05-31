@@ -47,7 +47,7 @@ object GameUI extends BasicGameState {
   implicit var SBGame: StateBasedGame = null
   var gc: GameContainer = null
 
-  var placeSelection : Int = 0
+  var placeSelection : Int = NoTowerID
   var displaySelection : Selection = NoSelection
 
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
