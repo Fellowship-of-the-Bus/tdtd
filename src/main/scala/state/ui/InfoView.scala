@@ -14,53 +14,51 @@ import IDMap._
 class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) extends Pane(x, y, width, height) {
   def this()(implicit bg: Color) = this(gaWidth, topHeight, infoViewWidth, gaHeight)
 
-  var currentTower: Option[Tower] = None
-
   def sell() : Unit = {
-  	currentTower match {
-  		case Some(t) => {
+  	GameUI.displaySelection match {
+  		case TowerSelection(t) => {
   			()
   		}
-  		case None => ()
+  		case _ => ()
   	}
   }
 
   def upgrade() : Unit = {
-  	currentTower match {
-  		case Some(t) => {
+  	GameUI.displaySelection match {
+  		case TowerSelection(t) => {
   			game.upgrade(t)
   		}
-  		case None => ()
+  		case _ => ()
   	}
   }
 
   def setRandom() : Unit = {
   	println("Random")
-  	currentTower match {
-  		case Some(t) => {
+  	GameUI.displaySelection match {
+  		case TowerSelection(t) => {
   			t.setAI(new RandomAI)
   		}
-  		case None => ()
+  		case _ => ()
   	}
   }
 
    def setClosest() : Unit = {
    	println("Closest")
-  	currentTower match {
-  		case Some(t) => {
+  	GameUI.displaySelection match {
+  		case TowerSelection(t) => {
   			t.setAI(new ClosestAI)
   		}
-  		case None => ()
+  		case _ => ()
   	}
   }
 
   def setClosestGoal() : Unit = {
    	println("ClosestGoal")
-  	currentTower match {
-  		case Some(t) => {
+  	GameUI.displaySelection match {
+  		case TowerSelection(t) => {
   			t.setAI(new ClosestToGoalAI)
   		}
-  		case None => ()
+  		case _ => ()
   	}
   }
 
@@ -108,10 +106,10 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		var h = font.getHeight("Sell")
 
 		val sellButton = new Button("Sell", width - (w * 1.2f) - 5, 40, w + 5, h + 5, sell)  
-		w = font.getWidth("Upgrade")
+		/*w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
 		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 225, w + 5, h + 5, upgrade)
-
+*/
 		w = font.getWidth("Random")
 		h = font.getHeight("Random")
 		val randomButton = new Button("Random", 5, 285, w + 5, h + 5, setRandom)
@@ -130,7 +128,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		val buyAIButton = new Button("Buy AI", oldw + 40, 247.5f, w + 5, h + 5, buyAI)
 
 		addChildren(sellButton)
-		addChildren(upgradeButton)
+		//addChildren(upgradeButton)
 		addChildren(randomButton)
 		addChildren(closestButton)
 		addChildren(closestGoalButton)

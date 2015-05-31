@@ -78,7 +78,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	}
 
 	def tick() : List[Projectile] = {
-		if(nextShot == 0) {
+		if(nextShot <= 0) {
 			val enemies = map.aoe(r, c, kind.range)
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
@@ -184,7 +184,8 @@ class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
 		1
 	}
 
-	def upgrade(): Unit = {}
+	def upgrade(): Unit = { kind.damage += 1
+		kind.fireRate -= 1}
 }
 
 object HarpoonTower extends TowerType {
