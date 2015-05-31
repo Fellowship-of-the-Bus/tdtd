@@ -98,7 +98,7 @@ object IDMap {
     WhaleID -> "img/Whale.png",
     //temporary start
     JellyfishID -> "img/Alligator.png",
-    SquidID -> "img/Turtle.png",
+    SquidID -> "img/Squid.png",
     MegalodonID -> "img/Hydra.png",
     //temporary end
 
@@ -107,7 +107,7 @@ object IDMap {
     HydraID -> "img/Hydra.png",
     //temporary start
     HippoID -> "img/Crab.png",
-    DolphinID -> "img/Fish.png",
+    DolphinID -> "img/Dolphin.png",
 
 
     HarpoonID -> "img/Harpoon.png",
