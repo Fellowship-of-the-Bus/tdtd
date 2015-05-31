@@ -152,6 +152,9 @@ class Game {
     }
     waveNumber += 1
     waves.enqueue(new Wave(waveNumber, 0,0,0,0,0,0,0,   0,0,0,0,0,0,0))
+    for (t <- towers) {
+      t.startRound()
+    }
   }
   def spawn() = {
     if (timeToSpawn == 0) {

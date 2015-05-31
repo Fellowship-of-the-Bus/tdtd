@@ -61,6 +61,9 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
   var slows: List[SlowEffect] = List()
   var dir = 0
 
+  val dirCheckTime = 20
+  var timeToCheck = 0
+
  	def special() {}
 
 
@@ -84,7 +87,12 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
   	special();
   	slows = slows.foldLeft(List[SlowEffect]())((lst, eff) => updateSlow(lst, eff))
     dist = speed * maxSlow
-    dir = place.direction
+    if (timeToCheck == 0) {
+      dir = place.direction
+      timeToCheck = dirCheckTime - 3 + rand(3)
+    } else {
+      timeToCheck -= 1
+    }
     if (dir == Right) {
       c = c + dist
     } else if (dir == Left) {

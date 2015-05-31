@@ -67,7 +67,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
                 enemies ++= map(m)(n).enemies
             }
         }
-        enemies = enemies.filter(e => (e.r - r)*(e.r-r) + (e.c - c)*(e.c-c) <= r*r)
+        enemies = enemies.filter(e => (e.r - r)*(e.r-r) + (e.c - c)*(e.c-c) <= range*range)
         enemies
     }
     def placeable (r: Float, c:Float) : Int = {
