@@ -68,14 +68,18 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
       }
     }
     mapInput.render(g)
- } 
+  } 
   def place(r:Float, c:Float) {
     var t = gameArea.placeSelection
     if (t == 0) {
       if (map(r,c).isEmpty) {
-        gameArea.displaySelection = None
+        gameArea.displaySelection = 0
       } else {
-        gameArea.displaySelection = map(r,c).get.getTower
+        if (map(r,c).get.getTower.isEmpty) {
+          gameArea.displaySelection = 0 
+        }else {
+          gameArea.displaySelection = map(r,c).get.getTower.get.id
+        }
       }
     } else {
       if (Layer.layer2Int(layer) == 0) { //topLayer
@@ -85,13 +89,13 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
                DepthChargeTowerID  |
                MissileTowerID |
                NetTowerID => {
-            if (game.placeTower (new Tower(t,r,c) ,r,c, layer) == okay){
+            if (game.placeTower ( Tower(t,r,c) ,r,c, layer) == okay){
               gameArea.placeSelection = 0
             }
           }
           case OilDrillTowerID => {
-            if (game.placeTower (new Tower(t,r,c) ,r,c,BothLayers) == okay) {
-              gameArea.placeSelection = None
+            if (game.placeTower ( Tower(t,r,c) ,r,c,BothLayers) == okay) {
+              gameArea.placeSelection = 0
             }
           }
           case _ => ()
@@ -102,24 +106,25 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
           case SteamTowerID |
                TorpedoTowerID |
                HarpoonTowerID => {
-            if (game.placeTower(new Tower(t,r,c),r,c,layer) == okay) {
-              gameArea.placeSelection = None
+            if (game.placeTower(Tower(t,r,c),r,c,layer) == okay) {
+              gameArea.placeSelection = 0
             }
           }
           case OilDrillTowerID => {
-            if(game.placeTower(new Tower(t,r,c),r,c,BothLayers == okay) {
-              gameArea.placeSelection = None
+            if(game.placeTower(Tower(t,r,c),r,c,BothLayers) == okay) {
+              gameArea.placeSelection = 0
             }
           }
           case WhirlpoolBottomID => {
-            if (game.map(Layer(TopLayer))(r,c).getTower.isEmpty &&
-                game.map(Layer(BottomLayer)).placeable(r,c) {
+            if (game.map(Layer.layer2Int(TopLayer))(r,c).get.getTower.isEmpty &&
+                game.map(Layer.layer2Int(BottomLayer)).placeable(r,c) == okay ){
               var whirltop = Tower(WhirlpoolTopID, r, c)
               var whirlbottom = Tower(t,r,c)
             }
           }
                 
         }
+      }
     }
   }
 

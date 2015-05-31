@@ -55,7 +55,7 @@ class Game {
   private var lives = 10
   private var money = 0
   private var waveNumber = 1
-  private var map = Array(new GameMap(), new GameMap())
+  var map = Array(new GameMap(), new GameMap())
 
   private var towers = List[Tower]()
   private var enemies = List[Enemy]()

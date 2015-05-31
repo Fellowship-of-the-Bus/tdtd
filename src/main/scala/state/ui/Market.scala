@@ -14,7 +14,7 @@ import IDMap._
 import Tower._
 
 class Market(val parent: GameArea, x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
-  def this(x: Float)(implicit bg: Color, game: Game) = this(null, x, mapHeight, towerMarketWidth, towerMarketHeight)
+  def this(parent: GameArea, x: Float)(implicit bg: Color, game: Game) = this(parent, x, mapHeight, towerMarketWidth, towerMarketHeight)
 
   val buttonSize = 10f
 
