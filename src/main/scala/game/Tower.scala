@@ -33,6 +33,8 @@ trait TowerType {
   def cost_=(i:Int): Unit
 	def description: String
 	def description_=(s: String): Unit
+	def hotkey: Char
+	def hotkey_=(c: Char): Unit
 	def describe() : List[String] = {
 		val fireSpeed = fireRate / GameConfig.FrameRate.toFloat
 		var ret = List(
@@ -51,7 +53,8 @@ trait TowerType {
 		}
 		ret = ret ++ List(
 			s"Default AI: ${currAI}",
-			s"Description: ${description}"
+			s"Description: ${description}",
+			s"Hotkey: ${hotkey}"
 		)
 		ret
 	}
@@ -261,7 +264,8 @@ trait SlowingTowerType extends TowerType {
 			s"Slow Multiplier: $mult%",
 			f"Slow Time: $time%.1f seconds",
 			f"Range: ${range}%.1f",
-			s"Description: ${description}"
+			s"Description: ${description}",
+			s"Hotkey: ${hotkey}"
 		)
 		ret
 	}
@@ -285,6 +289,7 @@ object HarpoonTower extends TowerType {
 	var basename = "Harpoon Tower"
 	var name = "Harpoon Tower"
 	var description = "Basic single\n  target tower, can be placed\n  above water and below water"
+	var hotkey = 'H'
   init
 }
 
@@ -305,6 +310,7 @@ object CannonTower extends TowerType {
 	var basename = "Cannon Tower"
 	var name = "Cannon Tower"
 	var description = "Basic AoE tower\n  can only be placed above water"
+	var hotkey = 'C'
   init
 }
 
@@ -362,6 +368,7 @@ object TorpedoTower extends TowerType {
 	var basename = "Torpedo Tower"
 	var name = "Torpedo Tower"
 	var description = "Single target tower\n  Placed below water, but\n  can fire at both levels"
+	var hotkey = 'T'
   init
 }
 
@@ -412,6 +419,7 @@ object OilDrillTower extends TowerType {
 	var basename = "Oil Drill"
 	var name = "Oil Drill"
 	var description = "Money generator\n  Earns money at the start\n  of each round\n  Takes up spot above and\n  below water"
+	var hotkey = 'O'
 
 
 	override def describe() : List[String] = {
@@ -447,6 +455,7 @@ object IceTowerBottom extends SlowingTowerType {
 	var slowMult = 0.75f
 	var slowTime = 20
 	var description = "Slowing tower\n  Placed below and slows in area\n  Adds ice block to same spot\n  above water which blocks\n  enemies"
+	var hotkey = 'I'
   init
 }
 
@@ -471,6 +480,7 @@ object IceTowerTop extends TowerType {
 	var basename = "Ice Tower"
 	var name = "Ice Tower"
 	var description = ""
+	var hotkey = 'I'
 }
 
 class DepthChargeTower(xc: Float, yc: Float) extends Tower(xc, yc, DepthChargeTower) {
@@ -490,6 +500,7 @@ object DepthChargeTower extends TowerType {
 	var basename = "Depth Charge"
 	var name = "Depth Charge"
 	var description = "AoE tower\n  Placed above water, but fires\n  at enemies below water"
+	var hotkey = 'D'
   init
 }
 
@@ -512,6 +523,7 @@ object WhirlpoolBottom extends TowerType {
 	var basename = "Whirlpool"
 	var name = "Whirlpool"
 	var description = "Slowing tower\n  Placed below water, slows\n  enemies in area above water"
+	var hotkey = 'W'
   init
 }
 
@@ -535,6 +547,7 @@ object WhirlpoolTop extends SlowingTowerType {
 	var slowMult = 0.75f
 	var slowTime = 20
 	var description = ""
+	var hotkey = 'W'
 }
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
@@ -583,6 +596,7 @@ object MissileTower extends TowerType {
 	var basename = "Missile Tower"
 	var name = "Missile Tower"
 	var description = "Multitarget tower\n  Placed above water\n  Fires at mutliple enemies\n  within range"
+	var hotkey = 'M'
   init
 }
 
@@ -623,6 +637,7 @@ object NetTower extends TowerType {
 	var basename = "Net Tower"
 	var name = "Net Tower"
 	var description = "Single target tower\n  Placed above water\n  Temporarily stops targeted\n  enemy from moving"
+	var hotkey = 'N'
   init
 }
 
@@ -684,6 +699,7 @@ object SteamTower extends TowerType {
 	var basename = "Steam Tower"
 	var name = "Steam Tower"
 	var description = "Line damage tower\n  Placed below water\n  Damages all enemies in one\n  in one of four directions"
+	var hotkey = 'S'
   init
 }
 

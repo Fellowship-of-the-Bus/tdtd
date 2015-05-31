@@ -131,8 +131,9 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
           g.drawString(t.name, width/2 - w/2, 5)
           var y = 40
           for (line <- t.describe()) {
+            val h = font.getHeight(line)
             g.drawString(line, 5, y)
-            y += 25
+            y += h + 15
           }
         }
         case TowerSelection(t) => {
