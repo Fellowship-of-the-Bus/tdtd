@@ -29,12 +29,15 @@ trait TowerType {
 	def name: String
   def basename: String
 	def name_=(s: String): Unit
+  def cost : Int
+  def cost_=(i:Int): Unit
 	def description: String
 	def description_=(s: String): Unit
 	def describe() : List[String] = {
 		val fireSpeed = fireRate / GameConfig.FrameRate.toFloat
 		var ret = List(
 			s"Value: ${value}",
+      s"Upgrade Cost: $cost",
 			f"Damage: ${damage}%.1f",
 			f"Fire Rate: $fireSpeed%.1f seconds",
 			f"Range: ${range}%.1f"
@@ -64,25 +67,34 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	var level = 1
 	var boughtAI = false
 
-  towerType.name = towerType.basename + " Level 1"
 	def sell(): Int = {
 		inactivate
 		kind.value / 2
 	}
 
-  def upgradable = level < 3
+  towerType.name = towerType.basename + " Level 1"
 
+  def upgradable () = level < 3
+  
+  var damage = towerType.damage
+  var fireRate = towerType.fireRate
+  var range = towerType.range
+  var aoe = towerType.aoe
+  var speed = towerType.speed
+  var value = towerType.value
+  var name = towerType.name
+  var basename = towerType.basename
 
 	def upgrade() = {
     var att = TowerMap.towerMap((id,level+1))
     level += 1
-    towerType.damage = att.dmg.toFloat
-    towerType.fireRate = att.rate
-    towerType.range = att.range
-    towerType.aoe = att.aoe
-    towerType.speed = att.projspd
-    towerType.value += att.cost
-    towerType.name = towerType.basename + s" Level $level"
+    damage = att.dmg.toFloat
+    fireRate = att.rate
+    range = att.range
+    aoe = att.aoe
+    speed = att.projspd
+    value += att.cost
+    name = basename + s" Level $level"
   }
 
     
@@ -128,15 +140,15 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	}
 
 	def describe() : List[String] = {
-		val fireSpeed = kind.fireRate / GameConfig.FrameRate.toFloat
+		val fireSpeed = fireRate / GameConfig.FrameRate.toFloat
 		var ret = List(
-			s"Value: ${kind.value}",
-			f"Damage: ${kind.damage}%.1f",
+			s"Value: ${value}",
+			f"Damage: ${damage}%.1f",
 			f"Fire Rate: $fireSpeed%.1f seconds",
-			f"Range: ${kind.range}%.1f"
+			f"Range: ${range}%.1f"
 		)
-		if (kind.aoe != 0.0f) {
-			ret = ret ++ List(f"Area of Effect: ${kind.aoe}%.1f")
+		if (aoe != 0.0f) {
+			ret = ret ++ List(f"Area of Effect: ${aoe}%.1f")
 		}
 		ret = ret ++ List(
 			s"Current AI: ${currAI}",
@@ -150,11 +162,12 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 
 abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) extends Tower(xc, yc, towerType) {
 	override val kind = towerType
+  var slowMult = towerType.slowMult
 
   override def upgrade = {
     var att = TowerMap.towerMap((id,level+1))
     super.upgrade()
-    towerType.slowMult = 1f - att.slow/100
+    slowMult = 1f - att.slow/100
   }
     
 
@@ -181,12 +194,12 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 
 	override def describe() : List[String] = {
 		val time = towerType.slowTime / GameConfig.FrameRate.toFloat
-		val mult = (towerType.slowMult * 100).toInt
+		val mult = (slowMult * 100).toInt
 		var ret = List(
-			s"Value: ${towerType.value}",
+			s"Value: ${value}",
 			s"Slow Multiplier: $mult%",
 			f"Slow Time: $time%.1f seconds",
-			f"Range: ${towerType.range}%.1f",
+			f"Range: ${range}%.1f",
 			s"Description: ${towerType.description}"
 		)
 		ret
@@ -222,6 +235,7 @@ class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
 }
 
 object HarpoonTower extends TowerType {
+  var cost = 0
 	var range = 2.0f
 	var damage = 2.0f
 	var fireRate = 60
@@ -240,6 +254,7 @@ class CannonTower(xc: Float, yc: Float) extends Tower(xc, yc, CannonTower) {
 }
 
 object CannonTower extends TowerType {
+  var cost = 0
 	var range = 2.5f
 	var damage = 5.0f
 	var fireRate = 120
@@ -295,6 +310,7 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 }
 
 object TorpedoTower extends TowerType {
+  var cost = 0
 	var range = 3.25f
 	var damage = 6.0f
 	var fireRate = 90
@@ -329,7 +345,7 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 
 	override def describe() : List[String] = {
 		var ret = List(
-			s"Value: ${kind.value}",
+			s"Value: ${value}",
 			s"Cash Earned per Round: $cash",
 			s"Description: ${kind.description}"
 		)
@@ -338,6 +354,7 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 }
 
 object OilDrillTower extends TowerType {
+  var cost = 0
 	var range = 0.0f
 	var damage = 0.0f
 	var fireRate = 0
@@ -368,6 +385,7 @@ class IceTowerBottom(xc: Float, yc: Float) extends SlowingTower(xc, yc, IceTower
 }
 
 object IceTowerBottom extends SlowingTowerType {
+  var cost = 0
 	var range = 1.0f
 	var damage = 0.0f
 	var fireRate = 10
@@ -392,6 +410,7 @@ class IceTowerTop(xc: Float, yc: Float) extends MazingTower(xc, yc, IceTowerTop)
 }
 
 object IceTowerTop extends TowerType {
+  var cost = 0
 	var range = 0.0f
 	var damage = 0.0f
 	var fireRate = 120
@@ -410,6 +429,8 @@ class DepthChargeTower(xc: Float, yc: Float) extends Tower(xc, yc, DepthChargeTo
 }
 
 object DepthChargeTower extends TowerType {
+  var cost = 0
+  var cost = 0
 	var range = 1.5f
 	var damage = 5.0f
 	var fireRate = 120
@@ -430,6 +451,7 @@ class WhirlpoolBottom(xc: Float, yc: Float) extends MazingTower(xc, yc, Whirlpoo
 }
 
 object WhirlpoolBottom extends TowerType {
+  var cost = 0
 	var range = 4.0f
 	var damage = 0.0f
 	var fireRate = 10
@@ -449,6 +471,7 @@ class WhirlpoolTop(xc: Float, yc: Float) extends SlowingTower(xc, yc, WhirlpoolT
 }
 
 object WhirlpoolTop extends SlowingTowerType {
+  var cost = 0
 	var range = 4.0f
 	var damage = 0.0f
 	var fireRate = 1
@@ -498,6 +521,7 @@ class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
 }
 
 object MissileTower extends TowerType {
+  var cost = 0
 	var range = 2.0f
 	var damage = 3.0f
 	var fireRate = 40
@@ -536,6 +560,7 @@ class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
 }
 
 object NetTower extends TowerType {
+  var cost = 0
 	var range = 2.0f
 	var damage = 0.0f
 	var fireRate = 90
@@ -595,6 +620,7 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 }
 
 object SteamTower extends TowerType {
+  var cost = 0
 	var range = 2.5f
 	var damage = 5.0f
 	var fireRate = 90

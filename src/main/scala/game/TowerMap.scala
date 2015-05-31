@@ -11,7 +11,7 @@ import java.util.Scanner
 class Attribute(
   val id: Int,
   val level: Int,
-  val dmg: Int,
+  val dmg: Float,
   val rate: Int,
   val range: Float,
   val aoe: Float,
@@ -36,8 +36,12 @@ object TowerMap {
     "steam"-> SteamTowerID
   )
 
-  val towerFile = "data/Tower.csv"
-  val tmp = getClass.getResourceAsStream(towerFile)
+  val towerFile = "data/tower.csv"
+  val classFile = "TowerMap.class"
+  val f = new File(".")
+
+  println (f.getAbsolutePath())
+  val tmp = TDTD.getClass.getClassLoader().getResourceAsStream(towerFile)
   println(tmp)
   val file = new File(towerFile)
   val s = new Scanner(tmp)
@@ -48,7 +52,7 @@ object TowerMap {
     if(strings(0) != "tower") {
       var att = new Attribute(stringMap(strings(0)),
                       strings(1).toInt,
-                      strings(2).toInt,
+                      strings(2).toFloat,
                       strings(3).toInt,
                       strings(4).toFloat,
                       strings(5).toFloat,
