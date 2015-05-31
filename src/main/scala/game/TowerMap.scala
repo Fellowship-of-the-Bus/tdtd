@@ -36,7 +36,7 @@ object TowerMap {
     "steam"-> SteamTowerID
   )
 
-  val towerFile = "data/tower.csv"
+  val towerFile = "data/Tower.csv"
   val classFile = "TowerMap.class"
   val f = new File(".")
 

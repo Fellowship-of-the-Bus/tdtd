@@ -37,7 +37,11 @@ trait TowerType {
 		val fireSpeed = fireRate / GameConfig.FrameRate.toFloat
 		var ret = List(
 			s"Value: ${value}",
-      s"Upgrade Cost: $cost",
+      if (cost == 0) {
+        "Max Level"
+      } else {
+        s"Upgrade Cost: $cost"
+      },
 			f"Damage: ${damage}%.1f",
 			f"Fire Rate: $fireSpeed%.1f seconds",
 			f"Range: ${range}%.1f"
@@ -161,7 +165,11 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 		val fireSpeed = fireRate / GameConfig.FrameRate.toFloat
 		var ret = List(
 			s"Value: ${value}",
-      s"Upgrade Cost: $cost",
+      if (cost == 0) {
+        "Max Level"
+      } else {
+        s"Upgrade Cost: $cost"
+      },
 			f"Damage: ${damage}%.1f",
 			f"Fire Rate: $fireSpeed%.1f seconds",
 			f"Range: ${range}%.1f"
@@ -216,7 +224,11 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 		val mult = (slowMult * 100).toInt
 		var ret = List(
 			s"Value: ${value}",
-      s"Upgrade Cost: $cost",
+      if (cost == 0) {
+        "Max Level"
+      } else {
+        s"Upgrade Cost: $cost"
+      },
 			s"Slow Multiplier: $mult%",
 			f"Slow Time: $time%.1f seconds",
 			f"Range: ${range}%.1f",
@@ -241,7 +253,11 @@ trait SlowingTowerType extends TowerType {
 		val mult = (slowMult * 100).toInt
 		var ret = List(
 			s"Value: ${value}",
-      s"Upgrade Cost: $cost",
+      if (cost ==0) {
+        "Max Level"
+      } else {
+        s"Upgrade Cost: $cost"
+      },
 			s"Slow Multiplier: $mult%",
 			f"Slow Time: $time%.1f seconds",
 			f"Range: ${range}%.1f",
@@ -370,7 +386,11 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 	override def describe() : List[String] = {
 		var ret = List(
 			s"Value: ${value}",
-      s"Upgrade Cost: $cost",
+      if (cost == 0) {
+        "Max Level"
+      } else {
+        s"Upgrade Cost: $cost"
+      },
 			s"Cash Earned per Round: $cash",
 			s"Description: ${kind.description}"
 		)
@@ -398,6 +418,7 @@ object OilDrillTower extends TowerType {
     val cash = 30
 		var ret = List(
 			s"Value: ${value}",
+      s"Upgrade Cost: $cash",
 			s"Cash Earned per Round: $cash",
 			s"Description: ${description}"
 		)
@@ -450,7 +471,6 @@ object IceTowerTop extends TowerType {
 	var basename = "Ice Tower"
 	var name = "Ice Tower"
 	var description = ""
-  init
 }
 
 class DepthChargeTower(xc: Float, yc: Float) extends Tower(xc, yc, DepthChargeTower) {
@@ -515,7 +535,6 @@ object WhirlpoolTop extends SlowingTowerType {
 	var slowMult = 0.75f
 	var slowTime = 20
 	var description = ""
-  init
 }
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {

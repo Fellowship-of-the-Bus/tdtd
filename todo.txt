@@ -7,6 +7,8 @@ info view should be able to display enemies
 
 dolphin velocity should reset when it turns
 
+tower that can be put only on one side should only be drawn on that side when being placed
+
 display messages and other UI indicators whenever a user does something that they shouldn't
 buttons which are conditionally selectable
 -can't click to place a tower in a location that they shouldn't (can we store whether a location is placable in the map after running Djikstra's? Then we can display green/red depending on whether a tile is placeable)
