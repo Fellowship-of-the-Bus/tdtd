@@ -119,6 +119,9 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		h = font.getHeight("Buy AI")
 		val buyAIButton = new Button("Buy AI", oldw + 40, 247.5f, w + 5, h + 5, buyAI)
 
+    val t = Tower(HarpoonTowerID, 8,10)
+    game.placeTower(t, 8, 10, BottomLayer)
+
 		addChildren(sellButton)
 		addChildren(upgradeButton)
 		addChildren(randomButton)

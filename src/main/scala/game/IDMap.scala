@@ -85,6 +85,8 @@ object IDMap {
     TurtleID -> "img/Turtle.png",
     HydraID -> "img/Hydra.png",
 
+    HarpoonID -> "img/Harpoon.png",
+
     12345 -> Array("img/GameOver.png", "img/FotB-Logo.png")
   )
 

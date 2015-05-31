@@ -59,6 +59,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 				nextShot = kind.fireRate
 				val target = kind.currAI.pick(r, c, enemies)
 				val proj = Projectile(r, c, target, this)
+				println("Tower fired")
 				proj.setMap(map)
 				List(proj)
 			} else {
@@ -142,14 +143,14 @@ class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
 }
 
 object HarpoonTower extends TowerType {
-	var range = 4.0f
-	var damage = 1.0f
-	var fireRate = 60
+	var range = 30.0f
+	var damage = 5.0f
+	var fireRate = 30
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = HarpoonTowerID
 	var projectileID = HarpoonID
-	var speed = 2.0f
+	var speed = 0.1f
 	var value = 5
 	var name = "Harpoon Tower"
 }

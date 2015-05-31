@@ -5,8 +5,8 @@ package game
 import scala.math._
 
 object Projectile {
-  val width = 0.5f
-  val height = 0.5f
+  val width = 1.0f
+  val height = 1.0f
 
   def apply(x: Float, y: Float, tar: Enemy, tower: Tower) = {
     new Projectile(x, y, tar, tower)
@@ -19,8 +19,7 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
   val dmg = tower.kind.damage
   val speed = tower.kind.speed
   val aoe = tower.kind.aoe
-  // val id = tower.kind.projectileID
-  val id = 0
+  val id = tower.kind.projectileID
   
   def tick() = {
     val rVec = tar.r - r
