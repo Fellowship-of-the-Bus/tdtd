@@ -74,18 +74,28 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     g.setLineWidth(2)
     g.drawLine(0, 25, width, 25)
 
-    currentTower match {
-    	case Some(t) => {
-    		var w = font.getWidth(t.kind.name)
-    		g.drawString(t.kind.name, width/2 - w/2, 5)
-    		var y = 40
-    		for (line <- t.describe()) {
-    			g.drawString(line, 5, y)
-    			y += 25
-    		}
-    	}
-    	case None => ()
-    }
+    GameUI.displaySelection match {
+        case IDSelection(id) => {
+          var t = Tower(id)
+          var w = font.getWidth(t.name)
+          g.drawString(t.name, width/2 - w/2, 5)
+          var y = 40
+          for (line <- t.describe()) {
+            g.drawString(line, 5, y)
+            y += 25
+          }
+        }
+        case TowerSelection(t) => {
+          var w = font.getWidth(t.kind.name)
+          g.drawString(t.kind.name, width/2 - w/2, 5)
+          var y = 40
+          for (line <- t.describe()) {
+            g.drawString(line, 5, y)
+            y += 25
+          }
+        }
+        case NoSelection => {}
+      }
 
     g.drawString("Select AI", 5, 250)
     g.setLineWidth(lineWidth)
@@ -121,6 +131,8 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 
     val t = Tower(HarpoonTowerID, 6,6)
     game.placeTower(t, 6,6, BottomLayer)
+
+    game.money += 500
 
 		addChildren(sellButton)
 		addChildren(upgradeButton)

@@ -12,7 +12,14 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import game.Game
 
+import game.Tower
+
 import ui._
+
+class Selection
+case class IDSelection(id: Int) extends Selection
+case class TowerSelection(t: Tower) extends Selection
+case object NoSelection extends Selection
 
 object GameUI extends BasicGameState {
   object Dimensions {
@@ -38,6 +45,9 @@ object GameUI extends BasicGameState {
 
   implicit var input: Input = null
   implicit var SBGame: StateBasedGame = null
+
+  var placeSelection : Int = 0
+  var displaySelection : Selection = NoSelection
 
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
     this.game.tick()

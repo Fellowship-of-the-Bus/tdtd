@@ -30,14 +30,14 @@ class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, wi
   	def selectTower(id: Int) {
   		val price = Tower(id).value
 
-  		if (parent.placeSelection != id) {
+  		if (GameUI.placeSelection != id) {
   			if (game.money > price) {
-  				parent.placeSelection = id
-  				parent.displaySelection = id
+  				GameUI.placeSelection = id
+  				GameUI.displaySelection = IDSelection(id)
   			}
   		} else {
-  			parent.placeSelection = 0
-  			parent.displaySelection = 0
+  			GameUI.placeSelection = 0
+  			GameUI.displaySelection = NoSelection
   		}
   	}
 

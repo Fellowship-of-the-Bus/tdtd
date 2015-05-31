@@ -5,6 +5,8 @@ import lib.ui.{Image, Animation, Drawable}
 
 object IDMap {
 
+  val NoTowerID = 0
+
   val FotBLogoID = 1000
   val GameOverID = 1001
 

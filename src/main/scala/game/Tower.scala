@@ -27,11 +27,27 @@ trait TowerType {
 	def value_=(i: Int): Unit
 	def name: String
 	def name_=(s: String): Unit
+	def describe() : List[String] = {
+		val fireSpeed = fireRate / GameConfig.FrameRate.toFloat
+		var ret = List(
+			s"Value: ${value}",
+			f"Damage: ${damage}%.1f",
+			f"Fire Rate: $fireSpeed%.1f seconds",
+			f"Range: ${range}%.1f"
+		)
+		if (aoe != 0.0f) {
+			ret = ret ++ List(f"Area of Effect: ${aoe}%.1f")
+		}
+		ret = ret ++ List(
+			s"Default AI: ${currAI}"
+		)
+		ret
+	}
 }
 
 abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObject(xc, yc) {
 	protected var nextShot = 0
-	var kind = towerType
+	val kind = towerType
 	val id = kind.id
 
 	val height = 1.0f
@@ -95,9 +111,8 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	}
 }
 
-abstract class SlowingTower(xc: Float, yc: Float, towerType: TowerType) extends Tower(xc, yc, towerType) {
-	var slowMult = 0.75f
-	var slowTime = 30
+abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) extends Tower(xc, yc, towerType) {
+	override val kind = towerType
 
 	override def tick() : List[Projectile] = {
 		if (nextShot == 0) {
@@ -105,7 +120,7 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: TowerType) extends 
 			if (!enemies.isEmpty) {
 				nextShot = kind.fireRate
 				enemies.foreach(enemy => {
-						val slow = new SlowEffect(slowMult, slowTime)
+						val slow = new SlowEffect(kind.slowMult, kind.slowTime)
 						enemy.slow(slow)
 					}
 				)
@@ -118,8 +133,8 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: TowerType) extends 
 	}
 
 	override def describe() : List[String] = {
-		val time = slowTime / GameConfig.FrameRate.toFloat
-		val mult = (slowMult * 100).toInt
+		val time = kind.slowTime / GameConfig.FrameRate.toFloat
+		val mult = (kind.slowMult * 100).toInt
 		var ret = List(
 			s"Value: ${kind.value}",
 			s"Slow Multiplier: $mult%",
@@ -132,6 +147,25 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: TowerType) extends 
 
 abstract class MazingTower(xc: Float, yc: Float, towerType: TowerType) extends Tower(xc, yc, towerType) {
 	override def tick() : List[Projectile] = List()
+}
+
+trait SlowingTowerType extends TowerType {
+	def slowMult: Float
+	def slowMult_=(m: Float): Unit
+	def slowTime : Int
+	def slowTime_=(t: Int): Unit
+
+	override def describe() : List[String] = {
+		val time = slowTime / GameConfig.FrameRate.toFloat
+		val mult = (slowMult * 100).toInt
+		var ret = List(
+			s"Value: ${value}",
+			s"Slow Multiplier: $mult%",
+			f"Slow Time: $time%.1f seconds",
+			f"Range: ${range}%.1f"
+		)
+		ret
+	}
 }
 
 class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
@@ -268,6 +302,15 @@ object OilDrillTower extends TowerType {
 	var speed = 0.0f
 	var value = 50
 	var name = "Oil Drill"
+
+	override def describe() : List[String] = {
+		var cash = value / 10
+		var ret = List(
+			s"Value: ${value}",
+			s"Cash Earned per Round: $cash"
+		)
+		ret
+	}
 }
 
 class IceTowerBottom(xc: Float, yc: Float) extends SlowingTower(xc, yc, IceTowerBottom) {
@@ -276,12 +319,12 @@ class IceTowerBottom(xc: Float, yc: Float) extends SlowingTower(xc, yc, IceTower
 	}
 
 	def upgrade(): Unit = {
-		slowMult -= 0.1f
+		kind.slowMult -= 0.1f
 	}
 
 }
 
-object IceTowerBottom extends TowerType {
+object IceTowerBottom extends SlowingTowerType {
 	var range = 4.0f
 	var damage = 0.0f
 	var fireRate = 10
@@ -292,6 +335,8 @@ object IceTowerBottom extends TowerType {
 	var speed = 2.0f
 	var value = 15
 	var name = "Ice Tower"
+	var slowMult = 0.75f
+	var slowTime = 20
 }
 
 class IceTowerTop(xc: Float, yc: Float) extends MazingTower(xc, yc, IceTowerTop) {
@@ -364,11 +409,11 @@ class WhirlpoolTop(xc: Float, yc: Float) extends SlowingTower(xc, yc, WhirlpoolT
 	}
 
 	def upgrade(): Unit = {
-		slowMult -= 0.1f
+		kind.slowMult -= 0.1f
 	}
 }
 
-object WhirlpoolTop extends TowerType {
+object WhirlpoolTop extends SlowingTowerType {
 	var range = 0.0f
 	var damage = 0.0f
 	var fireRate = 120
@@ -379,6 +424,8 @@ object WhirlpoolTop extends TowerType {
 	var speed = 0.0f
 	var value = 0
 	var name = "Whirlpool"
+	var slowMult = 0.75f
+	var slowTime = 20
 }
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {

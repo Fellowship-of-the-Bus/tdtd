@@ -70,15 +70,18 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
     mapInput.render(g)
   } 
   def place(r:Float, c:Float) {
-    var t = gameArea.placeSelection
-    if (t == 0) {
+    var t = GameUI.placeSelection
+    if (t == NoTowerID) {
       if (map(r,c).isEmpty) {
-        gameArea.displaySelection = 0
+        GameUI.displaySelection = NoSelection
       } else {
         if (map(r,c).get.getTower.isEmpty) {
-          gameArea.displaySelection = 0 
+          GameUI.displaySelection = NoSelection
         }else {
-          gameArea.displaySelection = map(r,c).get.getTower.get.id
+          GameUI.displaySelection = map(r,c).get.getTower match {
+            case Some(t) => TowerSelection(t)
+            case None => NoSelection
+          }
         }
       }
     } else {
@@ -90,12 +93,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
                MissileTowerID |
                NetTowerID => {
             if (game.placeTower ( Tower(t,r,c) ,r,c, layer) == okay){
-              gameArea.placeSelection = 0
+              GameUI.placeSelection = 0
             }
           }
           case OilDrillTowerID => {
             if (game.placeTower ( Tower(t,r,c) ,r,c,BothLayers) == okay) {
-              gameArea.placeSelection = 0
+              GameUI.placeSelection = 0
             }
           }
           case _ => ()
@@ -107,12 +110,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
                TorpedoTowerID |
                HarpoonTowerID => {
             if (game.placeTower(Tower(t,r,c),r,c,layer) == okay) {
-              gameArea.placeSelection = 0
+              GameUI.placeSelection = 0
             }
           }
           case OilDrillTowerID => {
             if(game.placeTower(Tower(t,r,c),r,c,BothLayers) == okay) {
-              gameArea.placeSelection = 0
+              GameUI.placeSelection = 0
             }
           }
           case WhirlpoolBottomID => {
