@@ -1,0 +1,28 @@
+functional market menus
+-click button in market, attaches mouse listener that draws an image of the selected tower under the mouse
+-should not be able to click button in market if player does not have enough money
+-click tile in map with tower selected places tower
+
+fix drawing problem
+
+call startRound on towers whenever a round begins
+
+display messages and other UI indicators whenever a user does something that they shouldn't
+
+hotkeys
+
+info view should be able to display enemies
+
+empty menu for encyclopedia (return/back button)
+
+continue/resume game button returns to active game, unselectable if there is none
+
+buttons which are conditionally selectable
+-can't click buy AI without enough money
+-can't click to place a tower in a location that they shouldn't (can we store whether a location is placable in the map after running Djikstra's? Then we can display green/red depending on whether a tile is placeable)
+-can't click upgrade in info view without enough money (button shouldn't even be click)
+
+menu button returns to main menu
+
+wave bar in the status bar
+
