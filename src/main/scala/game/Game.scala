@@ -53,7 +53,7 @@ class Game {
   private var numTicks = 1
 
   private var lives = 10
-  private var money = 0
+  var money = 0
   private var waveNumber = 1
   var map = Array(new GameMap(), new GameMap())
 

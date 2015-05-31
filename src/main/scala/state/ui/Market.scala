@@ -16,7 +16,7 @@ import Tower._
 class Market(val parent: GameArea, x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
   def this(parent: GameArea, x: Float)(implicit bg: Color, game: Game) = this(parent, x, mapHeight, towerMarketWidth, towerMarketHeight)
 
-  val buttonSize = 10f
+  val buttonSize = 20f
 
   // Set the buttons in a market
   def setButtons(towers: List[Int]) {
@@ -28,21 +28,21 @@ class Market(val parent: GameArea, x: Float, y: Float, width: Float, height: Flo
   	var nButton: Button = null
 
   	def selectTower(id: Int) {
-  		// val price = Tower(id).value
+  		val price = Tower(id).value
 
-  		// if (parent.placeSelection != id) {
-  		// 	if (game.money > price) {
-  		// 		parent.placeSelection = id
-  		// 		parent.displaySelection = id
-  		// 	}
-  		// } else {
-  		// 	parent.placeSelection = 0
-  		// 	parent.displaySelection = 0
-  		// }
+  		if (parent.placeSelection != id) {
+  			if (game.money > price) {
+  				parent.placeSelection = id
+  				parent.displaySelection = id
+  			}
+  		} else {
+  			parent.placeSelection = 0
+  			parent.displaySelection = 0
+  		}
   	}
 
   	for (id <- towers) {
-  		nButton = new Button("X", spotX, spotY, // "X" is a placeholder
+  		nButton = new Button("X", spotX, spotY, 20, 20, // "X" is a placeholder
 	      () => selectTower(id))
   		addChildren( nButton)
 			spotX += buttonSize + spacing
