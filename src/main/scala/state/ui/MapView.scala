@@ -38,11 +38,15 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
     g.translate(exPos, eyPos)
     g.rotate(0 , 0 , e.rotation)
     g.translate(-exPos, -eyPos)
-    g.scale(e.width*heightRatio/image.getWidth,e.height*widthRatio/image.getHeight)
+
+    val scaleX = e.width*widthRatio/image.getWidth
+    val scaleY = e.height*heightRatio/image.getHeight
+    g.scale(scaleX,scaleY)
     
     IDMap.images(e.id).draw(ex * image.getWidth/e.width/widthRatio, ey*image.getHeight/e.height/heightRatio)
     
-    g.scale(image.getWidth/e.width/widthRatio,image.getHeight/e.height/heightRatio)
+    // g.scale(image.getWidth/e.width/widthRatio,image.getHeight/e.height/heightRatio)
+    g.scale(1/scaleX, 1/scaleY)
     g.translate(exPos, eyPos)
     g.rotate(0 , 0 , -e.rotation)
     g.translate(-exPos, -eyPos)
@@ -62,6 +66,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
         val enemies = tile.enemies
         for (e <- enemies; if (e.active)) {
           val (ex, ey) = convert(e)
+          e.draw(g, ex, ey)
           drawObject(e, g)
         }
 

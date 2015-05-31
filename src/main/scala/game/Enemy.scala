@@ -49,7 +49,7 @@ class SlowEffect(val mult: Float, var time: Int) {}
 class GotHit(val dmg: Float, val money: Int) {}
 // Might need to update for jellyfish duplication
 
-abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} with Lifebar { 
+abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) with Lifebar { 
 	val base = b
 	val id = base.id
   var hp = (base.maxHp * mult)
@@ -66,6 +66,8 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
 
  	def special() {}
 
+  def maxHp = base.maxHp
+  
 
   def tick() : Boolean = {
   	var maxSlow = 1.0f

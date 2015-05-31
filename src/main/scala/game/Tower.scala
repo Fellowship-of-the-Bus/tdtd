@@ -190,13 +190,13 @@ class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
 
 object HarpoonTower extends TowerType {
 	var range = 30.0f
-	var damage = 3.0f
+	var damage = 5.0f
 	var fireRate = 30
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = HarpoonTowerID
 	var projectileID = HarpoonID
-	var speed = 0.1f
+	var speed = 0.225f
 	var value = 5
 	var name = "Harpoon Tower"
 }

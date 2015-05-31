@@ -14,6 +14,7 @@ class TDTD(gamename: String) extends StateBasedGame(gamename) {
     gc.setShowFPS(true)
     addState(Menu)
     addState(GameUI)
+    addState(Encyclopedia)
   }
 }
 
