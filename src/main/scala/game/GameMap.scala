@@ -79,9 +79,10 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         if (tmp.entrance || tmp.exit || tmp.occupied || !tmp.enemies.isEmpty) {
             occupied
         }
-        tmp.occupied = true
+        var store = tmp.pathable
+        tmp.pathable = false
         var flag = dijkstras()
-        tmp.occupied = false
+        tmp.pathable = store
         dijkstras()
         if (flag) {
             blocking

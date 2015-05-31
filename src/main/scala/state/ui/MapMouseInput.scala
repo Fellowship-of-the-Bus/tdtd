@@ -81,8 +81,8 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
       my = actY
       mode = MOUSE_CLICK
       if (sbg.getCurrentStateID == Mode.GameUIID) {
-        var c = mx.toFloat/view.widthRatio
-        var r = my.toFloat / view.heightRatio
+        var c = (mx.toFloat/view.widthRatio).toInt
+        var r = (my.toFloat / view.heightRatio).toInt
         action(r, c)
       }
       if (other.isEmpty) {
