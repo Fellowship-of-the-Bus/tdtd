@@ -231,7 +231,7 @@ object TorpedoTower extends TowerType {
 	var name = "Torpedo Tower"
 }
 
-class OilDrillTower(xc: Float, yc: Float) extends Tower(xc, yc, OilDrillTower) {
+class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTower) {
 	private var maps = List[GameMap]()
 	override def setMap(m: GameMap): Unit = {
 		maps = m :: maps
@@ -294,7 +294,7 @@ object IceTowerBottom extends TowerType {
 	var name = "Ice Tower"
 }
 
-class IceTowerTop(xc: Float, yc: Float) extends Tower(xc, yc, IceTowerTop) {
+class IceTowerTop(xc: Float, yc: Float) extends MazingTower(xc, yc, IceTowerTop) {
 	def upgradeCost(): Int = 0
 
 	def upgrade(): Unit = {}
@@ -335,7 +335,7 @@ object DepthChargeTower extends TowerType {
 	var name = "Depth Charge"
 }
 
-class WhirlpoolBottom(xc: Float, yc: Float) extends Tower(xc, yc, WhirlpoolBottom) {
+class WhirlpoolBottom(xc: Float, yc: Float) extends MazingTower(xc, yc, WhirlpoolBottom) {
 	var slowMult = 0.75f
 	var slowTime = 30
 	def upgradeCost(): Int = {
