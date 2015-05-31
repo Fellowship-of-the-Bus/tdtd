@@ -216,7 +216,7 @@ object CannonTower extends TowerType {
 	var aoe = 4.0f
 	var currAI: AI = new ClosestToGoalAI
 	var id = CannonTowerID
-	var projectileID = HarpoonID
+	var projectileID = CannonballID
 	var speed = 0.1f
 	var value = 20
 	var name = "Cannon Tower"
@@ -528,7 +528,7 @@ object NetTower extends TowerType {
 	var aoe = 2.0f
 	var currAI: AI = new RandomAI
 	var id = NetTowerID
-	var projectileID = HarpoonID
+	var projectileID = NetID
 	var speed = 1.0f
 	var value = 20
 	var name = "Net Tower"
@@ -590,7 +590,7 @@ object SteamTower extends TowerType {
 	var aoe = 2.0f
 	var currAI: AI = new SteamRandomAI
 	var id = SteamTowerID
-	var projectileID = HarpoonID
+	var projectileID = SteamID
 	var speed = 1.0f
 	var value = 20
 	var name = "Steam Tower"

@@ -62,7 +62,7 @@ object IDMap {
   // Projectiles
   val HarpoonID = 4000
 
-  val CannonBallID = 4100
+  val CannonballID = 4100
   val DepthChargeID = 4102
   val MissileID = 4104
   val NetID = 4105
@@ -102,8 +102,10 @@ object IDMap {
     HydraID -> "img/Hydra.png",
 
     HarpoonID -> "img/Harpoon.png",
-    CannonBallID -> "img/Harpoon.png",
+    CannonballID -> "img/CannonBall.png",
     MissileID -> "img/Missile.png",
+    NetID -> "img/Net.png",
+    SteamID -> "img/Steam.png",
 
     FastForwardOnID -> "img/FastForward.png",
     FastForwardOffID -> "img/FastForwardOff.png",
