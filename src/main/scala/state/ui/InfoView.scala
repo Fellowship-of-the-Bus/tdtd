@@ -160,10 +160,10 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		var h = font.getHeight("Sell fot 50%")
 
 		val sellButton = new Button("Sell for 50%", width - w - 10, 40, w + 5, h + 5, sell)  
-		/*w = font.getWidth("Upgrade")
+		w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
 		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 225, w + 5, h + 5, upgrade)
-*/
+
 		w = font.getWidth("Random")
 		h = font.getHeight("Random")
 		val randomButton = new Button("Random", 5, 375, w + 5, h + 5, setRandom).setSelectable(() => {
@@ -220,7 +220,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
       })
 
 		addChildren(sellButton)
-		//addChildren(upgradeButton)
+		addChildren(upgradeButton)
 		addChildren(randomButton)
 		addChildren(closestButton)
 		addChildren(closestGoalButton)

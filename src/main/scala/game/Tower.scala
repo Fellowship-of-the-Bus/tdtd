@@ -27,6 +27,7 @@ trait TowerType {
 	def value: Int
 	def value_=(i: Int): Unit
 	def name: String
+  def basename: String
 	def name_=(s: String): Unit
 	def description: String
 	def description_=(s: String): Unit
@@ -63,14 +64,36 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 	var level = 1
 	var boughtAI = false
 
+  towerType.name = towerType.basename + " Level 1"
 	def sell(): Int = {
 		inactivate
 		kind.value / 2
 	}
 
-	def upgrade(): Unit
+  def upgradable = level < 3
 
-	def upgradeCost(): Int
+
+	def upgrade() = {
+    var att = TowerMap.towerMap((id,level+1))
+    level += 1
+    towerType.damage = att.dmg.toFloat
+    towerType.fireRate = att.rate
+    towerType.range = att.range
+    towerType.aoe = att.aoe
+    towerType.speed = att.projspd
+    towerType.value += att.cost
+    towerType.name = towerType.basename + s" Level $level"
+  }
+
+    
+
+	def upgradeCost() : Int = {
+    if (level >=3 ) {
+      return 0
+    }
+    var att = TowerMap.towerMap((id,level+1))
+    att.cost
+  }
 
 	def startRound(): Int = 0
 
@@ -128,6 +151,14 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) extends Tower(xc, yc, towerType) {
 	override val kind = towerType
 
+  override def upgrade = {
+    var att = TowerMap.towerMap((id,level+1))
+    super.upgrade()
+    towerType.slowMult = 1f - att.slow/100
+  }
+    
+
+          
 	override def tick() : List[Projectile] = {
 		if (nextShot == 0) {
 			val enemies = map.aoe(r,c, kind.range)
@@ -187,46 +218,38 @@ trait SlowingTowerType extends TowerType {
 }
 
 class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
-	def upgradeCost(): Int = {
-		1
-	}
 
-	def upgrade(): Unit = { kind.damage += 1
-		kind.fireRate -= 1}
 }
 
 object HarpoonTower extends TowerType {
 	var range = 2.0f
-	var damage = 1.0f
-	var fireRate = 30
+	var damage = 2.0f
+	var fireRate = 60
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = HarpoonTowerID
 	var projectileID = HarpoonID
-	var speed = 0.225f
-	var value = 5
+	var speed = 0.25f
+	var value = 10
+	var basename = "Harpoon Tower"
 	var name = "Harpoon Tower"
 	var description = "Basic single\n  target tower, can be placed\n  above water and below water"
 }
 
 class CannonTower(xc: Float, yc: Float) extends Tower(xc, yc, CannonTower) {
-	def upgradeCost(): Int = {
-		1
-	}
-
-	def upgrade(): Unit = {}
 }
 
 object CannonTower extends TowerType {
-	var range = 2.0f
+	var range = 2.5f
 	var damage = 5.0f
 	var fireRate = 120
 	var aoe = 1.0f
 	var currAI: AI = new ClosestToGoalAI
 	var id = CannonTowerID
 	var projectileID = CannonballID
-	var speed = 0.15f
+	var speed = 0.2f
 	var value = 20
+	var basename = "Cannon Tower"
 	var name = "Cannon Tower"
 	var description = "Basic AoE tower\n  can only be placed above water"
 }
@@ -237,11 +260,7 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 		maps = m :: maps
 	}
 
-	def upgradeCost(): Int = {
-		1
-	}
 
-	def upgrade(): Unit = {}
 
 	override def tick() : List[Projectile] = {
 		if(nextShot == 0) {
@@ -276,15 +295,16 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 }
 
 object TorpedoTower extends TowerType {
-	var range = 3.5f
-	var damage = 5.0f
+	var range = 3.25f
+	var damage = 6.0f
 	var fireRate = 90
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = TorpedoTowerID
 	var projectileID = HarpoonID
-	var speed = 0.2f
-	var value = 25
+	var speed = 0.3f
+	var value = 30
+	var basename = "Torpedo Tower"
 	var name = "Torpedo Tower"
 	var description = "Single target tower\n  Placed below water, but\n  can fire at both levels"
 }
@@ -295,18 +315,19 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 		maps = m :: maps
 	}
 
-	def upgradeCost(): Int = {
-		1
-	}
 
-	def upgrade(): Unit = {}
+  var cash = 30
+	override def upgrade() = {
+    var att = TowerMap.towerMap((id,level+1))
+    super.upgrade()
+    cash = att.money
+  }
 
 	override def startRound() : Int = {
-		20
+		cash
 	}
 
 	override def describe() : List[String] = {
-		var cash = kind.value / 10
 		var ret = List(
 			s"Value: ${kind.value}",
 			s"Cash Earned per Round: $cash",
@@ -325,12 +346,14 @@ object OilDrillTower extends TowerType {
 	var id = OilDrillTowerID
 	var projectileID = HarpoonID
 	var speed = 0.0f
-	var value = 50
+	var value = 200
+	var basename = "Oil Drill"
 	var name = "Oil Drill"
 	var description = "Money generator\n  Earns money at the start\n  of each round\n  Takes up spot above and\n  below water"
 
+
 	override def describe() : List[String] = {
-		var cash = value / 10
+    val cash = 30
 		var ret = List(
 			s"Value: ${value}",
 			s"Cash Earned per Round: $cash",
@@ -341,18 +364,11 @@ object OilDrillTower extends TowerType {
 }
 
 class IceTowerBottom(xc: Float, yc: Float) extends SlowingTower(xc, yc, IceTowerBottom) {
-	def upgradeCost(): Int = {
-		1
-	}
-
-	def upgrade(): Unit = {
-		kind.slowMult -= 0.1f
-	}
 
 }
 
 object IceTowerBottom extends SlowingTowerType {
-	var range = 2.0f
+	var range = 1.0f
 	var damage = 0.0f
 	var fireRate = 10
 	var aoe = 0.0f
@@ -360,7 +376,8 @@ object IceTowerBottom extends SlowingTowerType {
 	var id = IceTowerBottomID
 	var projectileID = HarpoonID
 	var speed = 2.0f
-	var value = 15
+	var value = 20
+	var basename = "Ice Tower"
 	var name = "Ice Tower"
 	var slowMult = 0.75f
 	var slowTime = 20
@@ -368,9 +385,9 @@ object IceTowerBottom extends SlowingTowerType {
 }
 
 class IceTowerTop(xc: Float, yc: Float) extends MazingTower(xc, yc, IceTowerTop) {
-	def upgradeCost(): Int = 0
+	override def upgradeCost(): Int = 0
 
-	def upgrade(): Unit = {}
+	override def upgrade(): Unit = {}
 
 }
 
@@ -384,28 +401,25 @@ object IceTowerTop extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 0
+	var basename = "Ice Tower"
 	var name = "Ice Tower"
 	var description = ""
 }
 
 class DepthChargeTower(xc: Float, yc: Float) extends Tower(xc, yc, DepthChargeTower) {
-	def upgradeCost(): Int = {
-		1
-	}
-
-	def upgrade(): Unit = {}
 }
 
 object DepthChargeTower extends TowerType {
-	var range = 4.0f
-	var damage = 10.0f
-	var fireRate = 150
+	var range = 1.5f
+	var damage = 5.0f
+	var fireRate = 120
 	var aoe = 1.0f
 	var currAI: AI = new RandomAI
 	var id = DepthChargeTowerID
 	var projectileID = HarpoonID
 	var speed = 0.2f
 	var value = 20
+	var basename = "Depth Charge"
 	var name = "Depth Charge"
 	var description = "AoE tower\n  Placed above water, but fires\n  at enemies below water"
 }
@@ -413,11 +427,6 @@ object DepthChargeTower extends TowerType {
 class WhirlpoolBottom(xc: Float, yc: Float) extends MazingTower(xc, yc, WhirlpoolBottom) {
 	var slowMult = 0.75f
 	var slowTime = 30
-	def upgradeCost(): Int = {
-		1
-	}
-
-	def upgrade(): Unit = {}
 }
 
 object WhirlpoolBottom extends TowerType {
@@ -429,31 +438,27 @@ object WhirlpoolBottom extends TowerType {
 	var id = WhirlpoolBottomID
 	var projectileID = HarpoonID
 	var speed = 2.0f
-	var value = 5
+	var value = 20
+	var basename = "Whirlpool"
 	var name = "Whirlpool"
 	var description = "Slowing tower\n  Placed below water, slows\n  enemies in area above water"
 }
 
 class WhirlpoolTop(xc: Float, yc: Float) extends SlowingTower(xc, yc, WhirlpoolTop) {
-	def upgradeCost(): Int = {
-		1
-	}
 
-	def upgrade(): Unit = {
-		kind.slowMult -= 0.1f
-	}
 }
 
 object WhirlpoolTop extends SlowingTowerType {
 	var range = 4.0f
 	var damage = 0.0f
-	var fireRate = 120
+	var fireRate = 1
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = WhirlpoolTopID
 	var projectileID = HarpoonID
 	var speed = 0.0f
-	var value = 15
+	var value = 0
+	var basename = "Whirlpool"
 	var name = "Whirlpool"
 	var slowMult = 0.75f
 	var slowTime = 20
@@ -462,14 +467,6 @@ object WhirlpoolTop extends SlowingTowerType {
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
 	var numTargets = 3
-	def upgradeCost(): Int = {
-		1
-	}
-
-	def upgrade(): Unit = {
-		numTargets += 1
-
-	}
 
 	override def tick() : List[Projectile] = {
 		if(nextShot == 0) {
@@ -502,24 +499,21 @@ class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
 
 object MissileTower extends TowerType {
 	var range = 2.0f
-	var damage = 8.0f
-	var fireRate = 90
+	var damage = 3.0f
+	var fireRate = 40
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = MissileTowerID
 	var projectileID = MissileID
-	var speed = 0.2f
-	var value = 40
+	var speed = 0.3f
+	var value = 50
+	var basename = "Missile Tower"
 	var name = "Missile Tower"
 	var description = "Multitarget tower\n  Placed above water\n  Fires at mutliple enemies\n  within range"
 }
 
 class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
-	def upgradeCost(): Int = {
-		1
-	}
 
-	def upgrade(): Unit = {}
 
 	override def tick(): List[Projectile] = {
 		if(nextShot == 0) {
@@ -544,23 +538,19 @@ class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
 object NetTower extends TowerType {
 	var range = 2.0f
 	var damage = 0.0f
-	var fireRate = 60
+	var fireRate = 90
 	var aoe = 0.0f
 	var currAI: AI = new RandomAI
 	var id = NetTowerID
 	var projectileID = NetID
 	var speed = 0.5f
-	var value = 20
+	var value = 100
+	var basename = "Net Tower"
 	var name = "Net Tower"
 	var description = "Single target tower\n  Placed above water\n  Temporarily stops targeted\n  enemy from moving"
 }
 
 class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
-	def upgradeCost(): Int = {
-		1
-	}
-
-	def upgrade(): Unit = {}
 
 	override def tick(): List[Projectile] = {
 		if(nextShot == 0) {
@@ -605,15 +595,16 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 }
 
 object SteamTower extends TowerType {
-	var range = 4.0f
+	var range = 2.5f
 	var damage = 5.0f
-	var fireRate = 120
+	var fireRate = 90
 	var aoe = 1.0f
 	var currAI: AI = new SteamRandomAI
 	var id = SteamTowerID
 	var projectileID = SteamID
 	var speed = 1.0f
-	var value = 20
+	var value = 30
+	var basename = "Steam Tower"
 	var name = "Steam Tower"
 	var description = "Line damage tower\n  Placed below water\n  Damages all enemies in one\n  in one of four directions"
 }
