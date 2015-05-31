@@ -62,7 +62,7 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
 }
 
 class Steam(x: Float, y: Float, val dir: Int, tower:Tower) extends Projectile(x, y, null, tower) {
-  var place = 0
+  var place: Tile = null
   var nTiles = 0
 
   override def tick() = {
@@ -97,6 +97,7 @@ class Steam(x: Float, y: Float, val dir: Int, tower:Tower) extends Projectile(x,
                 kills += 1
               }
             }
+            place = tile
           } else {
             inactivate
           }
