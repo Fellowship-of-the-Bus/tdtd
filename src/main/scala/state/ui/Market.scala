@@ -13,13 +13,13 @@ import game._
 import IDMap._
 import Tower._
 
-class Market(val parent: GameArea, x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
-  def this(parent: GameArea, x: Float)(implicit bg: Color, game: Game) = this(parent, x, mapHeight, towerMarketWidth, towerMarketHeight)
+class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, width: Float, height: Float)(implicit bg: Color, game: Game) extends Pane(x, y, width, height) {
+  def this(parent: GameArea, towers: List[Int], x: Float)(implicit bg: Color, game: Game) = this(parent, towers, x, mapHeight, towerMarketWidth, towerMarketHeight)
 
   val buttonSize = 20f
 
   // Set the buttons in a market
-  def setButtons(towers: List[Int]) {
+  override def init(gc: GameContainer, sbg: StateBasedGame) {
   	val spacing = (width - (buttonSize * towers.length)) / (towers.length + 1) 
   	var spotX = spacing
   	val spotY = (height - buttonSize) / 2
@@ -42,10 +42,12 @@ class Market(val parent: GameArea, x: Float, y: Float, width: Float, height: Flo
   	}
 
   	for (id <- towers) {
-  		nButton = new Button("X", spotX, spotY, 20, 20, // "X" is a placeholder
+  		nButton = new Button("X", spotX, spotY, 20, 20,
 	      () => selectTower(id))
   		addChildren( nButton)
 			spotX += buttonSize + spacing
   	}
+
+    super.init(gc, sbg)
   }  
 }

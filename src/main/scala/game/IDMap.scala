@@ -9,20 +9,32 @@ object IDMap {
   val GameOverID = 1001
 
   // Towers
+  val EitherTStart = 2000
   val HarpoonTowerID = 2000
-  val OilDrillTowerID = 2001
-  
-  val CannonTowerID = 2100
-  val IceTowerTopID = 2101
-  val DepthChargeTowerID = 2102
-  val WhirlpoolTopID = 2103
-  val MissileTowerID = 2104
-  val NetTowerID = 2105
+  val EitherTEnd = 2000
 
+  val BothTStart = 2001
+  val OilDrillTowerID = 2001
+  val BothTEnd = 2001
+
+  val TopTStart = 2100
+  val CannonTowerID = 2100
+  val DepthChargeTowerID = 2101
+  val MissileTowerID = 2102
+  val NetTowerID = 2103
+  val TopTEnd = 2103
+
+  val WhirlpoolTopID = 2110
+  val IceTowerTopID = 2111
+
+  val UnderTStart = 2200
   val TorpedoTowerID = 2200
   val IceTowerBottomID = 2201
   val WhirlpoolBottomID = 2202
   val SteamTowerID = 2203
+  val UnderTEnd = 2203
+
+  val TIDRanges = Array(TopTStart, TopTEnd, EitherTStart, EitherTEnd, BothTStart, BothTEnd, UnderTStart, UnderTEnd)
   
   //Enemies
   val UnderStart = 3001

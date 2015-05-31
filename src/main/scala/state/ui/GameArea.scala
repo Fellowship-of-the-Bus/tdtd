@@ -18,8 +18,14 @@ class GameArea(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   override def init(gc: GameContainer, sbg: StateBasedGame) = {
     val map1 = new MapView(0, 0, TopLayer,this)
     val map2 = new MapView(mapWidth, 0, BottomLayer,this)
+
     for (i <- 0 until 4) {
-      val market = new Market(this, i*towerMarketWidth)
+      var ids = List[Int]()
+      for (k <- TIDRanges(2*i) to TIDRanges((2*i)+1)) {
+        ids = k :: ids
+      }
+
+      val market = new Market(this, ids, i*towerMarketWidth)
       addChildren(market)
     }
 
