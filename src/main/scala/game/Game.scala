@@ -171,7 +171,12 @@ class Game {
   def newRoundReady() = enemies.isEmpty && !isGameOver
 
   def difficulty(i: Int)= {
-    math.exp(i.toFloat*0.05f).toFloat
+//    math.exp(i.toFloat*0.05f).toFloat
+    if (i <= 20) {
+      1f
+    } else {
+      ((i-20)*(i-20)).toFloat/400f + 1f
+    }
   }
   def sendNextWave() = {
     var (w, tmp) = waves.dequeue

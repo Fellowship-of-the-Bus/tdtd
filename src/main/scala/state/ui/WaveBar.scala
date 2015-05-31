@@ -41,6 +41,13 @@ class WaveBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Colo
           g.drawString( s"x $num", i*blockWidth + height , height/2 )
           i += 1
         } 
+        if (j == 6) {
+          var lw = g.getLineWidth
+          g.setLineWidth(lw*2)
+          g.drawLine(width/2-85,0,width/2-85,height)
+          g.setLineWidth(lw)
+          i = 5
+        }
       }
     }
   }
