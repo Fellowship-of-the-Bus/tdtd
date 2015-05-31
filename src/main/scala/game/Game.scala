@@ -45,6 +45,8 @@ class Wave (
   val enemyNumbers = 
     Array(hippoN, alligatorN, turtleN, dolphinN, penguinN, krakenN, hydraN,
       crabN, squidN, fishN, jellyfishN, sharkN, whaleN, megalodonN)
+  val enemyIDs = Array (HippoID, AlligatorID, TurtleID, DolphinID,PenguinID,KrakenID,HydraID,
+                  CrabID,SquidID,FishID,JellyfishID,SharkID,WhaleID,MegalodonID)
 }
 
 
@@ -63,8 +65,9 @@ class Game {
   var waves = new Queue[Wave]()
   var spawnQueue = LinkedList[Enemy]()
   waves.enqueue(new Wave(1,   0,0,0,0,0,0,0,     0,0,5,0,0,0,0))
+  waves.enqueue(new Wave(2,   0,2,3,0,0,0,6,     20,0,5,0,5,1,0))
   
-  private var spawnRate = 10
+  private var spawnRate = 20
   private var timeToSpawn = 0
 
 
@@ -73,8 +76,21 @@ class Game {
   def getMoney = money
   def getScore = score
 
+  var cleanUpPeriod = 120
   var timer = 0
+  def cleanup() = {
+    towers = towers.filter(_.active)
+    enemies = enemies.filter(_.active)
+    projectiles = projectiles.filter(_.active)
+  }
+                                      
   def tick(): Unit = {
+    if (timer == 0) {
+      cleanup
+      timer = cleanUpPeriod
+    } else {
+       timer -= 1
+    }
     for (i <- 0 until numTicks) {
       if (isGameOver) return
 

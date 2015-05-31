@@ -45,13 +45,13 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
 
     val toggler = toggleImage(images(FastForwardOffID), images(FastForwardOnID))
     val speed = new ImageButton(images(FastForwardOffID), width-100, 10+buttonHeight, buttonWidth, buttonHeight, null)
-
+    val waveBar = new WaveBar(100, 10, width - 400, height - 20)
     speed.setAction(() => {
       speed.setImage(toggler())
       game.toggleSpeed
     })
 
-    addChildren(money, sendWave, menu, speed)
+    addChildren(money, sendWave, menu, speed,waveBar)
     super.init(gc, sbg)
   }
 }

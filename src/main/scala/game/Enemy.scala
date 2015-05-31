@@ -61,7 +61,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
   var slows: List[SlowEffect] = List()
   var dir = 0
 
-  val dirCheckTime = 20
+  val dirCheckTime = 10
   var timeToCheck = 0
 
  	def special() {}
@@ -110,6 +110,7 @@ abstract class Enemy (mult: Float, b: EnemyType) extends GameObject(0,0) {//} wi
           place.deregister(this)
           place = tile
           place.register(this)
+          timeToCheck = dirCheckTime -3 + rand(3)
         }
         false
 
@@ -160,7 +161,7 @@ object Hippo extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -172,7 +173,7 @@ object Alligator extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -184,7 +185,7 @@ object Turtle extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -196,7 +197,7 @@ object Dolphin extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -212,7 +213,7 @@ object Penguin extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -224,7 +225,7 @@ object Kraken extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -236,7 +237,7 @@ object Hydra extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -252,7 +253,7 @@ object Crab extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -264,7 +265,7 @@ object Squid extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -276,7 +277,7 @@ object Jellyfish extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -288,7 +289,7 @@ object Whale extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -300,7 +301,7 @@ object Shark extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
@@ -312,7 +313,7 @@ object Megalodon extends EnemyType {
   val difficulty = 1
   val maxHp = 10.0f
   val armor = 0.0f
-  val speed = 0.8f
+  val speed = 0.05f
   val width = 0.5f
   val height = 0.5f
 }
