@@ -96,6 +96,14 @@ class Game {
     }      
   }
 
+  def spend(cost:Int) = {
+    money -= cost
+  }
+
+  def addTowerToList( t: Tower) = {
+    towers = t :: towers
+  }
+
   def placeTower(tower: Tower, r: Float, c: Float, layer: Layer) = layer match {
     case BothLayers =>
       val res1 = map(TopLayer).placeable(r, c)

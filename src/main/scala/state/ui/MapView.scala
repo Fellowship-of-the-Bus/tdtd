@@ -120,6 +120,23 @@ class MapView(x: Float, y: Float, width: Float, height: Float, layer: Layer, gam
                 game.map(Layer.layer2Int(BottomLayer)).placeable(r,c) == okay ){
               var whirltop = Tower(WhirlpoolTopID, r, c)
               var whirlbottom = Tower(t,r,c)
+              game.map(Layer.layer2Int(TopLayer)).placeTower(r,c, whirltop)
+              game.map(Layer.layer2Int(BottomLayer)).placeTower(r,c,whirlbottom)
+              game.spend(whirlbottom.kind.value)
+              game.addTowerToList(whirltop)
+              game.addTowerToList(whirlbottom)
+            }
+          }
+          case IceTowerBottomID => {
+            if (game.map(Layer.layer2Int(TopLayer)).placeable(r,c) == okay &&
+                game.map(Layer.layer2Int(BottomLayer)).placeable(r,c) == okay) {
+              var icetop = Tower(IceTowerTopID,r,c)
+              var icebottom = Tower(t,r,c)
+              game.map(Layer.layer2Int(TopLayer)).placeTower(r,c,icetop)
+              game.map(Layer.layer2Int(BottomLayer)).placeTower(r,c,icebottom)
+              game.spend(icebottom.kind.value)
+              game.addTowerToList(icetop)
+              game.addTowerToList(icebottom)
             }
           }
                 
