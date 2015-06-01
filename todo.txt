@@ -12,3 +12,23 @@ tower that can be put only on one side should only be drawn on that side when be
 display messages and other UI indicators whenever a user does something that they shouldn't
 buttons which are conditionally selectable
 -can't click to place a tower in a location that they shouldn't (can we store whether a location is placable in the map after running Djikstra's? Then we can display green/red depending on whether a tile is placeable)
+
+enemies should come on both layers at the same time
+
+wave bar should decrement as enemies spawn or die/escape
+
+move upgrade button so that it does not overlap text on oil drill
+
+send wave should be an arrow icon
+
+lives and money should be more prominent (change color?)
+
+range circle should not cross map border
+
+drag to place towers?
+
+djikstra bugs
+
+disable AI for things that don't shoot (e.g. oil drill)
+
+fix whirlpool bottom
