@@ -270,6 +270,12 @@ trait SlowingTowerType extends TowerType {
 		)
 		ret
 	}
+
+	override def init() : Unit = {
+		super.init()
+		var att = TowerMap.towerMap((id,1))
+		slowMult = att.slow    	
+	}
 }
 
 class HarpoonTower(xc: Float, yc: Float) extends Tower(xc, yc, HarpoonTower) {
