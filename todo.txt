@@ -1,8 +1,3 @@
-functional market menus
--click button in market, attaches mouse listener that draws an image of the selected tower under the mouse
-
-hotkeys
-
 info view should be able to display enemies
 
 dolphin velocity should reset when it turns
@@ -16,8 +11,6 @@ buttons which are conditionally selectable
 wave bar should decrement as enemies spawn or die/escape
 
 send wave should be an arrow icon
-
-lives and money should be more prominent (change color?)
 
 drag to place towers?
 
