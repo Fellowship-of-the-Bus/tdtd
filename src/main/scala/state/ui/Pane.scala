@@ -44,7 +44,9 @@ class Pane(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) 
     g.translate(x, y)
     draw(gc, sbg, g)
     for (child <- children) {
-      child.render(gc, sbg, g)
+      if (child.isVisible()) {
+        child.render(gc, sbg, g)
+      }
     }
     g.translate(-x, -y)
   }
