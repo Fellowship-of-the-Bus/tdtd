@@ -69,7 +69,8 @@ class Game {
   private var enemies = List[Enemy]()
   var projectiles = List[Projectile]()
   var waves = Queue[Wave]()
-  var spawnQueue = LinkedList[Enemy]()
+  var spawnQueueTop = LinkedList[Enemy]()
+  var spawnQueueBottom = LinkedList[Enemy]()
   waves = waves.enqueue(new Wave(1,   0,10,0,0,0,0,0,     0,0,0,0,0,0,0))   //normal/none
   waves = waves.enqueue(new Wave(2,   0,0,0,0,0,0,0,     0,0,0,0,10,0,0))   //none/normal
   waves = waves.enqueue(new Wave(3,   0,15,0,0,0,0,0,     0,0,0,0,15,0,0))  //normal/normal
@@ -92,7 +93,8 @@ class Game {
   waves =  waves.enqueue(new Wave(20,   4,6,6,6,0,0,2,     8,8,35,4,4,0,2))   //boss+everything/boss+everything
   
   private var spawnRate = 20
-  private var timeToSpawn = 0
+  private var timeToSpawnTop = 0
+  private var timeToSpawnBottom = 0
 
 
   private var score = 0
@@ -118,7 +120,7 @@ class Game {
     for (i <- 0 until numTicks) {
       if (isGameOver) return
 
-      if (!spawnQueue.isEmpty) spawn
+      if (!spawnQueueTop.isEmpty || !spawnQueueBottom.isEmpty) spawn
 
       for (t <- towers; if (t.active)) {
         val p = t.tick()
@@ -184,44 +186,61 @@ class Game {
     for ( i <- 0 to 13) {
       for (j <- 0 to w.enemyNumbers(i)-1) {
         i match {
-          case 0 => spawnQueue = spawnQueue :+ Enemy(HippoID, difficulty(waveNumber))
-          case 1 => spawnQueue = spawnQueue :+ Enemy(AlligatorID, difficulty(waveNumber)) 
-          case 2 => spawnQueue = spawnQueue :+ Enemy(TurtleID, difficulty(waveNumber)) 
-          case 3 => spawnQueue = spawnQueue :+ Enemy(DolphinID, difficulty(waveNumber)) 
-          case 4 => spawnQueue = spawnQueue :+ Enemy(PenguinID, difficulty(waveNumber)) 
-          case 5 => spawnQueue = spawnQueue :+ Enemy(KrakenID, difficulty(waveNumber)) 
-          case 6 => spawnQueue = spawnQueue :+ Enemy(HydraID, difficulty(waveNumber)) 
-          case 7 => spawnQueue = spawnQueue :+ Enemy(CrabID, difficulty(waveNumber)) 
-          case 8 => spawnQueue = spawnQueue :+ Enemy(SquidID, difficulty(waveNumber)) 
-          case 9 => spawnQueue = spawnQueue :+ Enemy(FishID, difficulty(waveNumber)) 
-          case 10 => spawnQueue = spawnQueue :+ Enemy(JellyfishID, difficulty(waveNumber)) 
-          case 11 => spawnQueue = spawnQueue :+ Enemy(SharkID, difficulty(waveNumber)) 
-          case 12 => spawnQueue = spawnQueue :+ Enemy(WhaleID, difficulty(waveNumber)) 
-          case 13 => spawnQueue = spawnQueue :+ Enemy(MegalodonID, difficulty(waveNumber)) 
+          case 0 => spawnQueueTop = spawnQueueTop :+ Enemy(HippoID, difficulty(waveNumber))
+          case 1 => spawnQueueTop = spawnQueueTop :+ Enemy(AlligatorID, difficulty(waveNumber)) 
+          case 2 => spawnQueueTop = spawnQueueTop :+ Enemy(TurtleID, difficulty(waveNumber)) 
+          case 3 => spawnQueueTop = spawnQueueTop :+ Enemy(DolphinID, difficulty(waveNumber)) 
+          case 4 => spawnQueueTop = spawnQueueTop :+ Enemy(PenguinID, difficulty(waveNumber)) 
+          case 5 => spawnQueueTop = spawnQueueTop :+ Enemy(KrakenID, difficulty(waveNumber)) 
+          case 6 => spawnQueueTop = spawnQueueTop :+ Enemy(HydraID, difficulty(waveNumber)) 
+          case 7 => spawnQueueBottom = spawnQueueBottom :+ Enemy(CrabID, difficulty(waveNumber)) 
+          case 8 => spawnQueueBottom = spawnQueueBottom :+ Enemy(SquidID, difficulty(waveNumber)) 
+          case 9 => spawnQueueBottom = spawnQueueBottom :+ Enemy(FishID, difficulty(waveNumber)) 
+          case 10 => spawnQueueBottom = spawnQueueBottom :+ Enemy(JellyfishID, difficulty(waveNumber)) 
+          case 11 => spawnQueueBottom = spawnQueueBottom :+ Enemy(SharkID, difficulty(waveNumber)) 
+          case 12 => spawnQueueBottom = spawnQueueBottom :+ Enemy(WhaleID, difficulty(waveNumber)) 
+          case 13 => spawnQueueBottom = spawnQueueBottom :+ Enemy(MegalodonID, difficulty(waveNumber)) 
         }
       }
     }
     waveNumber += 1
     w.enemyNumbers = w.enemyNumbers.map(x => (x*difficulty(waveNumber/2)).toInt)
     waves = waves.enqueue(w)
+    timeToSpawnTop = 0
+    timeToSpawnBottom = 0
     for (t <- towers) {
       money += t.startRound()
     }
   }
   def spawn() = {
-    if (timeToSpawn == 0) {
-      val e = spawnQueue.head
-      enemies = e :: enemies
-      spawnQueue = spawnQueue.tail
-      val l = Enemy.getLayer(e.id)
-      map(l).spawn(e)
-      if (e.id == FishID) {
-        timeToSpawn = spawnRate/4
-      } else {
-        timeToSpawn = spawnRate
+    if (timeToSpawnTop == 0) {
+      //SpawnTop
+      if (!spawnQueueTop.isEmpty) {
+        val e1 = spawnQueueTop.head
+        spawnQueueTop = spawnQueueTop.tail
+        enemies = e1:: enemies
+        val l = Enemy.getLayer(e1.id)
+        map(l).spawn(e1)
+        timeToSpawnTop = spawnRate
       }
     } else {
-      timeToSpawn -= 1
+      timeToSpawnTop -= 1
+    }
+    if (timeToSpawnBottom == 0) {
+      if (!spawnQueueBottom.isEmpty) {
+        val e2 = spawnQueueBottom.head
+        spawnQueueBottom = spawnQueueBottom.tail
+        enemies = e2 :: enemies
+        val l = Enemy.getLayer(e2.id)
+        map(l).spawn(e2)
+        if (e2.id == FishID) {
+          timeToSpawnBottom = spawnRate/4
+        } else {
+          timeToSpawnBottom = spawnRate
+        }
+      } 
+    }else {
+        timeToSpawnBottom -= 1
     }
   }
 
