@@ -196,9 +196,10 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
   var slowMult = towerType.slowMult
 
   override def upgrade = {
-    var att = TowerMap.towerMap((id,level+1))
     super.upgrade()
-    slowMult = 1f - att.slow/100
+    var att = TowerMap.towerMap((id,level))
+    println(s"${att.slow}")
+    slowMult = 1f - att.slow
   }
     
 
@@ -225,7 +226,7 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 
 	override def describe() : List[String] = {
 		val time = towerType.slowTime / GameConfig.FrameRate.toFloat
-		val mult = (slowMult * 100).toInt
+		val mult = ((1f - slowMult) * 100).toInt
 		var ret = List(
 			s"Value: ${value}",
       if (cost == 0) {
@@ -234,7 +235,7 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
         s"Upgrade Cost: $cost"
       },
 			s"Slow Multiplier: $mult%",
-			f"Slow Time: $time%.1f seconds",
+			f"Slow Time: ${time}%.1f seconds",
 			f"Range: ${range}%.1f",
 			s"Description: ${towerType.description}"
 		)
@@ -254,7 +255,7 @@ trait SlowingTowerType extends TowerType {
 
 	override def describe() : List[String] = {
 		val time = slowTime / GameConfig.FrameRate.toFloat
-		val mult = (slowMult * 100).toInt
+		val mult = ((1f - slowMult) * 100).toInt
 		var ret = List(
 			s"Value: ${value}",
       if (cost ==0) {
@@ -274,7 +275,7 @@ trait SlowingTowerType extends TowerType {
 	override def init() : Unit = {
 		super.init()
 		var att = TowerMap.towerMap((id,1))
-		slowMult = att.slow    	
+		slowMult = 1f - att.slow 
 	}
 }
 
