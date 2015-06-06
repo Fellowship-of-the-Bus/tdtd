@@ -30,13 +30,15 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
     val buttonHeight = 20
 
     val lives = new TextBox(5, 15+buttonHeight, buttonWidth, buttonHeight,
-      () => s"Lives: ${game.getLives}")
+      () => s"Lives: ${game.getLives}")(Color.white)
+
+    val waveBar = new WaveBar(100, 10, width - 400, height - 20)(new Color(0x87CEEB))
 
     val waveNum = new TextBox(width-295, 10, buttonWidth-5, buttonHeight,
-      () => s"Wave: ${game.getWaveNumber}")
+      () => s"Wave: ${game.getWaveNumber}")(Color.white)
 
     val money = new TextBox(width-100, 10, buttonWidth, buttonHeight,
-      () => s"$$${game.getMoney}")
+      () => s"$$${game.getMoney}")(Color.white)
 
     val menu = new Button("menu", width-200, 10, buttonWidth, buttonHeight,
       () => {
@@ -49,8 +51,6 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
     sendWave.setSelectable(() => game.newRoundReady)
 
     speed = new ImageButton(images(FastForwardOffID), width-100, 15+buttonHeight, buttonWidth, buttonHeight, null)
-    val waveBar = new WaveBar(100, 10, width - 400, height - 20)
-
     val speedImages = Array(images(FastForwardOffID), images(FastForwardOnID))
     speedAction = () => {
       val spd = game.toggleSpeed
