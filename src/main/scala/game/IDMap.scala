@@ -9,6 +9,7 @@ object IDMap {
 
   val FotBLogoID = 1000
   val GameOverID = 1001
+  val DirectionArrowID = 1002
 
   // Towers
   val EitherTStart = 2000
@@ -76,6 +77,7 @@ object IDMap {
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
+    DirectionArrowID -> "img/DirectionArrow.png",
     
     HarpoonTowerID -> "img/HarpoonTower.png",
     OilDrillTowerID -> "img/OilTop.png",

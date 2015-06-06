@@ -13,6 +13,8 @@ import game.Layer._
 import game.IDMap._
 import game.GameMap._
 
+import lib.ui.Drawable
+
 class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer, gameArea : GameArea)(implicit bg: Color) extends Pane(x, y, width, height) {
   def this(x: Float, y: Float, layer: Layer, gameArea: GameArea)(implicit bg: Color) = this(x, y, mapWidth, mapHeight, layer, gameArea)
 
@@ -30,7 +32,17 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     convert(r - (0.5f * go.width), c - (0.5f * go.height))
   }
 
-  def drawObject( e:GameObject, g:Graphics) {
+  def drawScaledImage(im: Drawable, x: Float, y: Float, width: Float, height: Float, g: Graphics) = {
+    val scaleX = width*widthRatio/im.getWidth
+    val scaleY = height*heightRatio/im.getHeight
+    g.scale(scaleX,scaleY)
+
+    im.draw(x * im.getWidth/width/widthRatio, y*im.getHeight/height/heightRatio)
+  
+    g.scale(1/scaleX, 1/scaleY)
+  }
+
+  def drawObject(e: GameObject, g: Graphics) {
     var image = IDMap.images(e.id)
     var (ex, ey) = convert(e)
 
@@ -41,14 +53,8 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     g.rotate(0 , 0 , e.rotation)
     g.translate(-exPos, -eyPos)
 
-    val scaleX = e.width*widthRatio/image.getWidth
-    val scaleY = e.height*heightRatio/image.getHeight
-    g.scale(scaleX,scaleY)
+    drawScaledImage(IDMap.images(e.id), ex, ey, e.width, e.height, g)
     
-    IDMap.images(e.id).draw(ex * image.getWidth/e.width/widthRatio, ey*image.getHeight/e.height/heightRatio)
-    
-    // g.scale(image.getWidth/e.width/widthRatio,image.getHeight/e.height/heightRatio)
-    g.scale(1/scaleX, 1/scaleY)
     g.translate(exPos, eyPos)
     g.rotate(0 , 0 , -e.rotation)
     g.translate(-exPos, -eyPos)
@@ -61,8 +67,23 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
   }
 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
+    g.setClip(new Rectangle(absoluteX, absoluteY, width, height))
     super.draw(gc, sbg, g)
     
+    val (entranceX, entranceY) = convert(map.entranceR, map.entranceC)
+    val (exitX, exitY) = convert(map.exitR, map.exitC)
+
+    g.setColor(new Color(0,0,120, (0.3*255).asInstanceOf[Int]))
+    g.fillRect(entranceX, entranceY, widthRatio, heightRatio)
+    g.setColor(new Color(0,0,200, (0.3*255).asInstanceOf[Int]))
+    g.fillRect(exitX, exitY, widthRatio, heightRatio)
+
+    drawScaledImage(images(DirectionArrowID), entranceX, entranceY, 1.0f, 1.0f, g)
+    drawScaledImage(images(DirectionArrowID), exitX, exitY, 1.0f, 1.0f, g)
+
+    // images(DirectionArrowID).draw(entranceX, entranceY)
+    // images(DirectionArrowID).draw(exitX, exitY)
+
             
     g.setColor(Color.black)
     for (r <- 0 until map.mapHeight) {
@@ -109,11 +130,6 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         g.fillRect(0,0,mapWidth,mapHeight)
     }
 
-    g.setColor(new Color(0,0,120, (0.3*255).asInstanceOf[Int]))
-    g.fillRect(map.entranceC*widthRatio, map.entranceR*heightRatio, widthRatio, heightRatio)
-    g.setColor(new Color(0,0,200, (0.3*255).asInstanceOf[Int]))
-    g.fillRect(map.exitC*widthRatio, map.exitR*heightRatio, widthRatio, heightRatio)
-
     GameUI.displaySelection match {
       case TowerSelection(t) => 
         if (t.getMap == map || t.id == TorpedoTowerID) {
@@ -122,18 +138,17 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
           var (tx, ty) = convert(t)
           tx += 0.5f * widthRatio
           ty += 0.5f * heightRatio
-          g.setClip(new Rectangle(absoluteX, absoluteY, width, height))
           g.setColor(new Color(0, 99, 0, 50))
           g.fillOval(tx-rx,ty-ry,rx*2,ry*2)
           g.setColor(new Color(0, 99, 0, 255))
           g.drawOval(tx-rx,ty-ry,rx*2,ry*2)
-          g.clearClip()
         }
 
       case _ => 0
     }
 
     mapInput.render(g)
+    g.clearClip()
   } 
 
   def place(r:Float, c:Float) {
