@@ -44,6 +44,48 @@ class WaveBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Colo
                   case _ => ()
                 }
               })
+      var queue = game.spawnQueueTop
+      queue.map((e) =>
+              if (e.active) {
+                e.id match {
+                  case HippoID => wave.get.enemyNumbers(0) += 1
+                  case AlligatorID => wave.get.enemyNumbers(1) += 1
+                  case TurtleID => wave.get.enemyNumbers(2) += 1
+                  case DolphinID => wave.get.enemyNumbers(3) += 1
+                  case PenguinID => wave.get.enemyNumbers(4) += 1
+                  case KrakenID => wave.get.enemyNumbers(5) += 1
+                  case HydraID => wave.get.enemyNumbers(6) += 1
+                  case CrabID => wave.get.enemyNumbers(7) += 1
+                  case SquidID => wave.get.enemyNumbers(8) += 1
+                  case FishID => wave.get.enemyNumbers(9) += 1
+                  case JellyfishID => wave.get.enemyNumbers(10) += 1
+                  case SharkID => wave.get.enemyNumbers(11) += 1
+                  case WhaleID => wave.get.enemyNumbers(12) += 1
+                  case MegalodonID => wave.get.enemyNumbers(13) += 1
+                  case _ => ()
+                }
+              })
+      queue = game.spawnQueueBottom
+      queue.map((e) =>
+              if (e.active) {
+                e.id match {
+                  case HippoID => wave.get.enemyNumbers(0) += 1
+                  case AlligatorID => wave.get.enemyNumbers(1) += 1
+                  case TurtleID => wave.get.enemyNumbers(2) += 1
+                  case DolphinID => wave.get.enemyNumbers(3) += 1
+                  case PenguinID => wave.get.enemyNumbers(4) += 1
+                  case KrakenID => wave.get.enemyNumbers(5) += 1
+                  case HydraID => wave.get.enemyNumbers(6) += 1
+                  case CrabID => wave.get.enemyNumbers(7) += 1
+                  case SquidID => wave.get.enemyNumbers(8) += 1
+                  case FishID => wave.get.enemyNumbers(9) += 1
+                  case JellyfishID => wave.get.enemyNumbers(10) += 1
+                  case SharkID => wave.get.enemyNumbers(11) += 1
+                  case WhaleID => wave.get.enemyNumbers(12) += 1
+                  case MegalodonID => wave.get.enemyNumbers(13) += 1
+                  case _ => ()
+                }
+              })
     }
     if (wave.isEmpty) {
 //      g.drawString("Final Wave!", width/2 - 50, height/2)
