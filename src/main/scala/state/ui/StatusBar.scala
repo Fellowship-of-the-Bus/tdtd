@@ -38,15 +38,15 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
     val money = new TextBox(width-100, 10, buttonWidth, buttonHeight,
       () => s"$$${game.getMoney}")
 
-    val sendWave = new Button("send wave", width-200, 10, buttonWidth, buttonHeight,
-      () => game.sendNextWave)
-    sendWave.setSelectable(() => game.newRoundReady)
-
-    val menu = new Button("menu", width-200, 15+buttonHeight, buttonWidth, buttonHeight,
+    val menu = new Button("menu", width-200, 10, buttonWidth, buttonHeight,
       () => {
         gc.setPaused(true)
         (sbg.enterState(Mode.MenuID))
       })
+
+    val sendWave = new Button("send wave", width-200, 15+buttonHeight, buttonWidth, buttonHeight,
+      () => game.sendNextWave)
+    sendWave.setSelectable(() => game.newRoundReady)
 
     speed = new ImageButton(images(FastForwardOffID), width-100, 15+buttonHeight, buttonWidth, buttonHeight, null)
     val waveBar = new WaveBar(100, 10, width - 400, height - 20)
