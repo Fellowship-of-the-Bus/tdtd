@@ -113,6 +113,12 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         map(entranceR)(entranceC).register(e)
         e.setMap(this)
     }
+    def spawn(e: Enemy, r:Float, c:Float) {
+        e.r = r
+        e.c = c
+        getTile(r,c).register(e)
+        e.setMap(this)
+    }
     def dijkstras () : Boolean = {
         var sourceR = exitR
         var sourceC = exitC

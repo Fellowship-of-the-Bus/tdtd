@@ -5,6 +5,7 @@ import org.newdawn.slick.{AppGameContainer, GameContainer, Graphics, SlickExcept
 import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 
 import IDMap._
+import Game._
 import lib.game.GameConfig.{Height,Width}
 import scala.collection.mutable.{LinkedList}
 import scala.collection.immutable.Queue
@@ -54,6 +55,16 @@ class Wave (
   }
 }
 
+object Game {
+  def difficulty(i: Int)= {
+//    math.exp(i.toFloat*0.05f).toFloat
+    if (i <= 20) {
+      1f
+    } else {
+      ((i-20)*(i-20)).toFloat/400f + 1f
+    }
+  }
+}
 
 
 class Game {
@@ -72,7 +83,7 @@ class Game {
   var waves = Queue[Wave]()
   var spawnQueueTop = LinkedList[Enemy]()
   var spawnQueueBottom = LinkedList[Enemy]()
-  waves = waves.enqueue(new Wave(1,   0,10,0,0,0,0,0,     0,0,0,0,0,0,0))   //normal/none
+  waves = waves.enqueue(new Wave(1,   0,10,0,0,0,0,0,     0,0,0,1,0,0,0))   //normal/none
   waves = waves.enqueue(new Wave(2,   0,0,0,0,0,0,0,     0,0,0,0,10,0,0))   //none/normal
   waves = waves.enqueue(new Wave(3,   0,15,0,0,0,0,0,     0,0,0,0,15,0,0))  //normal/normal
   waves = waves.enqueue(new Wave(4,   6,0,0,0,0,0,0,     0,0,0,0,0,6,0))    //hp/hp
@@ -130,7 +141,7 @@ class Game {
       }
 
       for (e <- enemies; if (e.active)) {
-        if (e.tick()) {
+        if (e.tick(this)) {
           lives -= 1
           if (lives == 0) gameOver
         }
@@ -182,14 +193,7 @@ class Game {
 
   def newRoundReady() = enemies.isEmpty && !isGameOver
 
-  def difficulty(i: Int)= {
-//    math.exp(i.toFloat*0.05f).toFloat
-    if (i <= 20) {
-      1f
-    } else {
-      ((i-20)*(i-20)).toFloat/400f + 1f
-    }
-  }
+
   def sendNextWave() = {
     var (w, tmp) = waves.dequeue
     waves = tmp
@@ -214,7 +218,7 @@ class Game {
       }
     }
     waveNumber += 1
-    w.enemyNumbers = w.enemyNumbers.map(x => (x*difficulty(waveNumber/2)).toInt)
+    w.enemyNumbers = w.enemyNumbers.map(x => (x*difficulty(waveNumber)).toInt)
     waves = waves.enqueue(w)
     timeToSpawnTop = 0
     timeToSpawnBottom = 0
