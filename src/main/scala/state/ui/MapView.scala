@@ -67,7 +67,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
   }
 
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
-    g.setClip(new Rectangle(absoluteX, absoluteY, width, height))
+
     super.draw(gc, sbg, g)
     
     val (entranceX, entranceY) = convert(map.entranceR, map.entranceC)
@@ -125,7 +125,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         g.setColor(new Color(0, 99, 0xcc, 50))
         g.fillRect(0,0,mapWidth,mapHeight)
     }
-
+    g.setClip(new Rectangle(absoluteX, absoluteY, width, height))
     GameUI.displaySelection match {
       case TowerSelection(t) => 
         if (t.getMap == map || t.id == TorpedoTowerID) {

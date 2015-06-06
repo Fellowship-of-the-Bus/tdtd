@@ -64,10 +64,10 @@ abstract class Enemy (val mult: Float, b: EnemyType) extends GameObject(0,0) wit
   var place : Tile = null //(map(0,0).getOrElse(null)) // update when Spawn is known
   var speed = base.speed
   var slows: List[SlowEffect] = List()
-  var dir = 0
+  var dir = Down
 
   val dirCheckTime = 10
-  var tileDist = 0f
+  var tileDist = 0.5f
 
  	def special() {}
 
@@ -186,7 +186,7 @@ object Alligator extends EnemyType {
   val armor = 0.0f
   val speed = 0.04f
   val width = 0.5f
-  val height = 0.5f
+  val height = 0.8f
 }
 
 class Alligator(mult: Float) extends Enemy(mult, Alligator) {} 
@@ -197,8 +197,8 @@ object Turtle extends EnemyType {
   val maxHp = 25.0f
   val armor = 4f
   val speed = 0.035f
-  val width = 0.5f
-  val height = 0.5f
+  val width = 0.6f
+  val height = 0.6f
 }
 
 class Turtle(mult: Float) extends Enemy(mult, Turtle) {} 
@@ -209,8 +209,8 @@ object Dolphin extends EnemyType {
   val maxHp = 30.0f
   val armor = 0.0f
   val speed = 0.05f
-  val width = 0.5f
-  val height = 0.5f
+  val width = 0.4f
+  val height = 0.7f
 }
 
 class Dolphin(mult: Float) extends Enemy(mult, Dolphin) {
@@ -218,7 +218,7 @@ class Dolphin(mult: Float) extends Enemy(mult, Dolphin) {
 
   override def special() {
     if (dir == oldDir) {
-        speed += 0.0005f
+        speed += 0.01f
       } else {
         speed = base.speed
       }
@@ -319,8 +319,8 @@ object Shark extends EnemyType {
   val maxHp = 20.0f
   val armor = 0.0f
   val speed = 0.04f
-  val width = 0.5f
-  val height = 0.5f
+  val width = 0.6f
+  val height = 0.8f
 }
 
 class Shark(mult: Float) extends Enemy(mult, Shark) {} 
@@ -328,7 +328,7 @@ class Shark(mult: Float) extends Enemy(mult, Shark) {}
 object Megalodon extends EnemyType {
   val id = MegalodonID
   val difficulty = 100
-  val maxHp = 400.0f
+  val maxHp = 700.0f
   val armor = 0.0f
   val speed = 0.035f
   val width = 1.0f
