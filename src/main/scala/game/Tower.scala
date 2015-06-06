@@ -682,11 +682,11 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 				nextShot = fireRate
 				val target = currAI.pick(r, c, enemiesU, enemiesD, enemiesL, enemiesR)
 				var dir = Up
-				if (target.r > r) {
+				if (target.r.toInt > r.toInt) {
 					dir = Down
-				} else if (target.r < r) {
+				} else if (target.r.toInt < r.toInt) {
 					dir = Up
-				} else if (target.c > c) {
+				} else if (target.c.toInt > c.toInt) {
 					dir = Right
 				} else {
 					dir = Left
