@@ -179,7 +179,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		val sellButton = new Button("Sell for 50%", width - w - 10, 40, w + 5, h + 5, sell)  
 		w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
-		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 110, w + 5, h + 5, upgrade)
+		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 65, w + 5, h + 5, upgrade)
     upgradeButton.setSelectable(() => GameUI.displaySelection match {
                                         case TowerSelection(tower) => tower.upgradable && game.getMoney >= tower.upgradeCost()
                                         case _ => false
