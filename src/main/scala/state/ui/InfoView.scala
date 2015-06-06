@@ -97,7 +97,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         for(id <- sorted) {
           val t = Tower(id)
           val h = font.getHeight(s"${t.basename} hotkey: ${t.hotkey}")
-          g.drawString(s"${t.name} hotkey: ${t.hotkey}",15,ey)
+          g.drawString(s"${t.basename} hotkey: ${t.hotkey}",15,ey)
           ey += h + 15
         }
         g.drawLine(0,ey,width,ey)
