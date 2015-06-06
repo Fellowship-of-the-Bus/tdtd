@@ -113,10 +113,24 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
 
     for (p <- game.projectiles; if (p.active)) {
       if (p.getMap == map) {
-        val (px, py) = convert(p)
         drawObject(p, g)
         if (Layer.layer2Int(layer) == 1) {
             drawOffset(p, g)
+        }
+      }
+    }
+
+    // Draw explosions. May want to encapsulate better
+    for (e <- game.explosions; if (e.active)) {
+      if (e.getMap == map) {
+        val (ex, ey) = convert(e.r, e.c)
+        val ew = e.size * widthRatio
+        val eh = e.size * heightRatio
+        drawScaledImage(images(ExplosionID), ex - ew, ey - eh, 2*e.size, 2*e.size, g)
+        if (Layer.layer2Int(layer) == 1) {
+            g.translate(-mapWidth, 0)
+            drawScaledImage(images(ExplosionID), ex - ew, ey - eh, 2*e.size, 2*e.size, g)
+            g.translate(mapWidth, 0)
         }
       }
     }

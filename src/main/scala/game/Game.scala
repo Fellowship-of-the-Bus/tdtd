@@ -68,6 +68,7 @@ class Game {
   private var towers = List[Tower]()
   var enemies = List[Enemy]()
   var projectiles = List[Projectile]()
+  var explosions = List[Explosion]()
   var waves = Queue[Wave]()
   var spawnQueueTop = LinkedList[Enemy]()
   var spawnQueueBottom = LinkedList[Enemy]()
@@ -108,6 +109,7 @@ class Game {
     towers = towers.filter(_.active)
     enemies = enemies.filter(_.active)
     projectiles = projectiles.filter(_.active)
+    explosions = explosions.filter(_.active)
   }
                                       
   def tick(): Unit = {
@@ -135,9 +137,17 @@ class Game {
       }
 
       for (p <- projectiles; if (p.active)) {
-        money += p.tick()
+        val (bounty, exp) = p.tick()
+        money += bounty
+        if (exp != null) {
+          explosions = exp :: explosions
+        }
       }
-    }      
+
+      for (e <- explosions; if (e.active)) {
+        e.tick()
+      }
+    }
   }
 
   def spend(cost:Int) = {

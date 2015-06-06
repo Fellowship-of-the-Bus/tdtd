@@ -28,6 +28,14 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
   val speed = tower.kind.speed
   val aoe = tower.kind.aoe
   val id = tower.kind.projectileID
+
+  def explode() : Explosion = {
+    if (aoe != 0) {
+      new Explosion(tar.r, tar.c, aoe, map)
+    } else {
+      null
+    }
+  }
   
   def tick() = {
     val rVec = tar.r - r
@@ -50,13 +58,13 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
       tower.kills += kills
       tower.dmgDone += totalDmg
       inactivate
-      money
+      (money, explode())
     } else {
       val theta = atan2(rVec, cVec)
       rotation = toDegrees(theta).asInstanceOf[Float] + 90f
       r += (rVec / dist) * speed
       c += (cVec / dist) * speed
-      0
+      (0, null)
     }
   }
 }
@@ -79,7 +87,7 @@ class Steam(x: Float, y: Float, val dir: Int, tower:Tower) extends Projectile(x,
     val nextPlace = map(r,c)
     nextPlace match {
       case Some(tile) =>
-      var money = 0
+        var money = 0
         if (place != tile) {
           nTiles += 1
 
@@ -104,11 +112,11 @@ class Steam(x: Float, y: Float, val dir: Int, tower:Tower) extends Projectile(x,
             inactivate
           }
         }
-        money
+        (money, null)
 
-        case _ => 
-          inactivate
-          0 
+      case _ => 
+        inactivate
+        (0, null) 
     }
   }
 }
@@ -132,6 +140,6 @@ class Net(x: Float, y: Float, tar: Enemy, tower: Tower) extends Projectile(x, y,
       r += (rVec / dist) * speed
       c += (cVec / dist) * speed
     }
-    0
+    (0, null)
   }
 }

@@ -70,6 +70,8 @@ object IDMap {
   val TorpedoID = 4200
   val SteamID = 4203
 
+  val ExplosionID = 5000
+
   val FastForwardOnID = 9000
   val FastForwardOffID = 9001
   val SendWaveID = 9002
@@ -125,6 +127,7 @@ object IDMap {
     SendWaveID -> "img/SendWave.png",
     DirectionArrowID -> "img/DirectionArrow.png",
 
+    ExplosionID -> "img/Explosion.png",
     12345 -> Array("img/GameOver.png", "img/FotB-Logo.png")
   )
 
