@@ -67,7 +67,7 @@ abstract class Enemy (val mult: Float, b: EnemyType) extends GameObject(0,0) wit
   var dir = 0
 
   val dirCheckTime = 10
-  var timeToCheck = 0
+  var tileDist = 0f
 
  	def special() {}
 
@@ -94,11 +94,10 @@ abstract class Enemy (val mult: Float, b: EnemyType) extends GameObject(0,0) wit
   	special();
   	slows = slows.foldLeft(List[SlowEffect]())((lst, eff) => updateSlow(lst, eff))
     dist = speed * maxSlow
-    if (timeToCheck == 0) {
+    if (tileDist <= 0) {
       dir = place.direction
-      timeToCheck = dirCheckTime - 3 + rand(3)
     } else {
-      timeToCheck -= 1
+      tileDist -= dist
     }
 
     if (dir == Right) {
@@ -122,7 +121,7 @@ abstract class Enemy (val mult: Float, b: EnemyType) extends GameObject(0,0) wit
           place.deregister(this)
           place = tile
           place.register(this)
-          timeToCheck = dirCheckTime -3 + rand(3)
+          tileDist = 0.25f  + (0.25f * rand(3))
         }
         false
 
@@ -215,8 +214,14 @@ object Dolphin extends EnemyType {
 }
 
 class Dolphin(mult: Float) extends Enemy(mult, Dolphin) {
+  var oldDir = -1
+
   override def special() {
-    speed += 0.0005f
+    if (dir == oldDir) {
+        speed += 0.0005f
+      } else {
+        speed = base.speed
+      }
   }
 } 
 

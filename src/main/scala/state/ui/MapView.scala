@@ -5,6 +5,7 @@ package ui
 
 import org.newdawn.slick.{GameContainer, Graphics, Color}
 import org.newdawn.slick.state.{StateBasedGame}
+import org.newdawn.slick.geom.Rectangle
 
 import GameUI.Dimensions._
 import game._
@@ -120,10 +121,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
           var (tx, ty) = convert(t)
           tx += 0.5f * widthRatio
           ty += 0.5f * heightRatio
+          g.setClip(new Rectangle(absoluteX, absoluteY, width, height))
           g.setColor(new Color(0, 99, 0, 50))
           g.fillOval(tx-rx,ty-ry,rx*2,ry*2)
           g.setColor(new Color(0, 99, 0, 255))
           g.drawOval(tx-rx,ty-ry,rx*2,ry*2)
+          g.clearClip()
         }
 
       case _ => 0
