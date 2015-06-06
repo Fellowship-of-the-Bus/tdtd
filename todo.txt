@@ -7,3 +7,9 @@ buttons which are conditionally selectable
 -can't click to place a tower in a location that they shouldn't (can we store whether a location is placable in the map after running Djikstra's? Then we can display green/red depending on whether a tile is placeable)
 
 drag to place towers?
+
+Fix explosions wrapping around edge of map
+
+Dolphin speed cap
+
+Hydra health
