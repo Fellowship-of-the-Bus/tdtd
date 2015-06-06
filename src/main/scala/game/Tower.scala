@@ -288,7 +288,7 @@ object HarpoonTower extends TowerType {
 	var speed = 0.25f
 	var value = 10
 	var basename = "Harpoon Tower"
-	var name = "Harpoon Tower"
+	var name = "Harpoon Tower Level 1"
 	var description = "Basic single\n  target tower, can be placed\n  above water and below water"
 	var hotkey = 'H'
   init
@@ -309,7 +309,7 @@ object CannonTower extends TowerType {
 	var speed = 0.2f
 	var value = 20
 	var basename = "Cannon Tower"
-	var name = "Cannon Tower"
+	var name = "Cannon Tower Level 1"
 	var description = "Basic AoE tower\n  can only be placed above water"
 	var hotkey = 'C'
   init
@@ -367,7 +367,7 @@ object TorpedoTower extends TowerType {
 	var speed = 0.3f
 	var value = 30
 	var basename = "Torpedo Tower"
-	var name = "Torpedo Tower"
+	var name = "Torpedo Tower Level 1"
 	var description = "Single target tower\n  Placed below water, but\n  can fire at both levels"
 	var hotkey = 'T'
   init
@@ -418,7 +418,7 @@ object OilDrillTower extends TowerType {
 	var speed = 0.0f
 	var value = 200
 	var basename = "Oil Drill"
-	var name = "Oil Drill"
+	var name = "Oil Drill Level 1"
 	var description = "Money generator\n  Earns money at the start\n  of each round\n  Takes up spot above and\n  below water"
 	var hotkey = 'O'
 
@@ -452,7 +452,7 @@ object IceTowerBottom extends SlowingTowerType {
 	var speed = 2.0f
 	var value = 20
 	var basename = "Ice Tower"
-	var name = "Ice Tower"
+	var name = "Ice Tower Level 1"
 	var slowMult = 0.75f
 	var slowTime = 20
 	var description = "Slowing tower\n  Placed below and slows in area\n  Adds ice block to same spot\n  above water which blocks\n  enemies"
@@ -479,7 +479,7 @@ object IceTowerTop extends TowerType {
 	var speed = 0.0f
 	var value = 0
 	var basename = "Ice Tower"
-	var name = "Ice Tower"
+	var name = "Ice Tower Level 1"
 	var description = ""
 	var hotkey = 'I'
 }
@@ -499,7 +499,7 @@ object DepthChargeTower extends TowerType {
 	var speed = 0.2f
 	var value = 20
 	var basename = "Depth Charge"
-	var name = "Depth Charge"
+	var name = "Depth Charge Level 1"
 	var description = "AoE tower\n  Placed above water, but fires\n  at enemies below water"
 	var hotkey = 'D'
   init
@@ -522,7 +522,7 @@ object WhirlpoolBottom extends TowerType {
 	var speed = 2.0f
 	var value = 20
 	var basename = "Whirlpool Tower"
-	var name = "Whirlpool Tower"
+	var name = "Whirlpool Tower Level 1"
 	var description = "Slowing tower\n  Placed below water, slows\n  enemies in area above water"
 	var hotkey = 'W'
   init
@@ -544,7 +544,7 @@ object WhirlpoolTop extends SlowingTowerType {
 	var speed = 0.0f
 	var value = 0
 	var basename = "Whirlpool Tower"
-	var name = "Whirlpool Tower"
+	var name = "Whirlpool Tower Level 1"
 	var slowMult = 0.75f
 	var slowTime = 20
 	var description = "Slowing tower\n  Placed below water, slows\n  enemies in area above water"
@@ -596,7 +596,7 @@ object MissileTower extends TowerType {
 	var speed = 0.3f
 	var value = 50
 	var basename = "Missile Tower"
-	var name = "Missile Tower"
+	var name = "Missile Tower Level 1"
 	var description = "Multitarget tower\n  Placed above water\n  Fires at mutliple enemies\n  within range"
 	var hotkey = 'M'
   init
@@ -637,7 +637,7 @@ object NetTower extends TowerType {
 	var speed = 0.5f
 	var value = 100
 	var basename = "Net Tower"
-	var name = "Net Tower"
+	var name = "Net Tower Level 1"
 	var description = "Single target tower\n  Placed above water\n  Temporarily stops targeted\n  enemy from moving"
 	var hotkey = 'N'
   init
@@ -709,7 +709,7 @@ object SteamTower extends TowerType {
 	var speed = 1.0f
 	var value = 30
 	var basename = "Steam Tower"
-	var name = "Steam Tower"
+	var name = "Steam Tower Level 1"
 	var description = "Line damage tower\n  Placed below water\n  Damages all enemies in one\n  in one of four directions"
 	var hotkey = 'S'
   init
