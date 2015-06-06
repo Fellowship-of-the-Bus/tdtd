@@ -80,10 +80,6 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
 
     drawScaledImage(images(DirectionArrowID), entranceX, entranceY, 1.0f, 1.0f, g)
     drawScaledImage(images(DirectionArrowID), exitX, exitY, 1.0f, 1.0f, g)
-
-    // images(DirectionArrowID).draw(entranceX, entranceY)
-    // images(DirectionArrowID).draw(exitX, exitY)
-
             
     g.setColor(Color.black)
     for (r <- 0 until map.mapHeight) {

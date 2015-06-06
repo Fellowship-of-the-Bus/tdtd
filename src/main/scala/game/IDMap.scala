@@ -9,7 +9,6 @@ object IDMap {
 
   val FotBLogoID = 1000
   val GameOverID = 1001
-  val DirectionArrowID = 1002
 
   // Towers
   val EitherTStart = 2000
@@ -73,11 +72,13 @@ object IDMap {
 
   val FastForwardOnID = 9000
   val FastForwardOffID = 9001
+  val SendWaveID = 9002
+  val DirectionArrowID = 9003
+
 
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
-    DirectionArrowID -> "img/DirectionArrow.png",
     
     HarpoonTowerID -> "img/HarpoonTower.png",
     OilDrillTowerID -> "img/OilTop.png",
@@ -121,6 +122,8 @@ object IDMap {
 
     FastForwardOnID -> "img/FastForward.png",
     FastForwardOffID -> "img/FastForwardOff.png",
+    SendWaveID -> "img/SendWave.png",
+    DirectionArrowID -> "img/DirectionArrow.png",
 
     12345 -> Array("img/GameOver.png", "img/FotB-Logo.png")
   )

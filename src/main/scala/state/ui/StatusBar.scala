@@ -46,7 +46,7 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
         (sbg.enterState(Mode.MenuID))
       })
 
-    val sendWave = new Button("send wave", width-200, 15+buttonHeight, buttonWidth, buttonHeight,
+    val sendWave = new ImageButton(images(SendWaveID), width-200, 15+buttonHeight, buttonWidth, buttonHeight,
       () => game.sendNextWave)
     sendWave.setSelectable(() => game.newRoundReady)
 
