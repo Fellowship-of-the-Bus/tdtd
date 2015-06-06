@@ -218,9 +218,10 @@ class Dolphin(mult: Float) extends Enemy(mult, Dolphin) {
 
   override def special() {
     if (dir == oldDir) {
-        speed += 0.01f
+        speed += 0.005f
       } else {
         speed = base.speed
+        oldDir = dir
       }
   }
 } 
