@@ -521,8 +521,8 @@ object WhirlpoolBottom extends TowerType {
 	var projectileID = HarpoonID
 	var speed = 2.0f
 	var value = 20
-	var basename = "Whirlpool"
-	var name = "Whirlpool"
+	var basename = "Whirlpool Tower"
+	var name = "Whirlpool Tower"
 	var description = "Slowing tower\n  Placed below water, slows\n  enemies in area above water"
 	var hotkey = 'W'
   init
@@ -543,12 +543,13 @@ object WhirlpoolTop extends SlowingTowerType {
 	var projectileID = HarpoonID
 	var speed = 0.0f
 	var value = 0
-	var basename = "Whirlpool"
-	var name = "Whirlpool"
+	var basename = "Whirlpool Tower"
+	var name = "Whirlpool Tower"
 	var slowMult = 0.75f
 	var slowTime = 20
-	var description = ""
+	var description = "Slowing tower\n  Placed below water, slows\n  enemies in area above water"
 	var hotkey = 'W'
+  init
 }
 
 class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {

@@ -30,7 +30,8 @@ object TowerMap {
     "oildrill" -> OilDrillTowerID,
     "icebottom" -> IceTowerBottomID,
     "depthC" -> DepthChargeTowerID,
-    "whirl" -> WhirlpoolBottomID,
+    "whirlt" -> WhirlpoolTopID,
+    "whirlb" -> WhirlpoolBottomID,
     "missile" -> MissileTowerID,
     "net" -> NetTowerID,
     "steam"-> SteamTowerID

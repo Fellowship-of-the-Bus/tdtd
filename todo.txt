@@ -30,5 +30,3 @@ drag to place towers?
 djikstra bugs
 
 disable AI for things that don't shoot (e.g. oil drill)
-
-fix whirlpool bottom
