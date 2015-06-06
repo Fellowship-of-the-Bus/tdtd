@@ -124,7 +124,7 @@ abstract class Enemy (val mult: Float, b: EnemyType) extends GameObject(0,0) wit
           place.deregister(this)
           place = tile
           place.register(this)
-          tileDist = -1f  //+ (0.25f * rand(3))
+          tileDist = 0.25f + (0.2f * rand(3))
         }
         false
 

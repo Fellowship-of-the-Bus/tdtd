@@ -37,9 +37,9 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     val exPos = ex + 0.5f * (e.width * widthRatio)
     val eyPos = ey + 0.5f * (e.height * heightRatio)
 
-    // g.translate(exPos, eyPos)
-    // g.rotate(0 , 0 , e.rotation)
-    // g.translate(-exPos, -eyPos)
+    g.translate(exPos, eyPos)
+    g.rotate(0 , 0 , e.rotation)
+    g.translate(-exPos, -eyPos)
 
     val scaleX = e.width*widthRatio/image.getWidth
     val scaleY = e.height*heightRatio/image.getHeight
@@ -49,9 +49,9 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     
     // g.scale(image.getWidth/e.width/widthRatio,image.getHeight/e.height/heightRatio)
     g.scale(1/scaleX, 1/scaleY)
-    // g.translate(exPos, eyPos)
-    // g.rotate(0 , 0 , -e.rotation)
-    // g.translate(-exPos, -eyPos)
+    g.translate(exPos, eyPos)
+    g.rotate(0 , 0 , -e.rotation)
+    g.translate(-exPos, -eyPos)
   }
   
   def drawOffset( e:GameObject, g:Graphics) {
