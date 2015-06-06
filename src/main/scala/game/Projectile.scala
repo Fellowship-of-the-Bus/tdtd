@@ -39,6 +39,7 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
 
     if (dist < speed) {
       val enemies = map.aoe(tar.r, tar.c, aoe)
+      println(enemies)
       for (e <- enemies) {
         var data = e.hit(dmg)
         totalDmg += data.dmg

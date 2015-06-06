@@ -60,10 +60,10 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         }
     }
     def aoe(r:Float, c:Float, range:Float) = {
-        var left = (math.max(r-range,0)+0.5f).toInt
-        var right = (math.min(r+range, mapWidth-1)+0.5f).toInt
-        var top = (math.max(c-range,0)+0.5f).toInt
-        var bottom = (math.min(c+range,mapHeight-1)+0.5f).toInt
+        var left = (math.max(r-range,0)).toInt
+        var right = (math.min(r+range, mapWidth-1)).toInt
+        var top = (math.max(c-range,0)).toInt
+        var bottom = (math.min(c+range,mapHeight-1)).toInt
         var enemies = Set[Enemy]()
         for (m <- left to right) {
             for (n <- top to bottom) {

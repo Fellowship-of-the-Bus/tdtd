@@ -114,9 +114,6 @@ abstract class Enemy (val mult: Float, b: EnemyType) extends GameObject(0,0) wit
       r = r - dist
     }
 
-    println(c)
-    println(r)
-
     val nextPlace = map(r,c)
     nextPlace match {
       case Some(tile) =>
