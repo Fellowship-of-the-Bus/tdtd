@@ -24,9 +24,9 @@ object Projectile {
 class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends GameObject(x,y) {
   val width = Projectile.width
   val height = Projectile.height
-  val dmg = tower.kind.damage
-  val speed = tower.kind.speed
-  val aoe = tower.kind.aoe
+  val dmg = tower.damage
+  val speed = tower.speed
+  val aoe = tower.aoe
   val id = tower.kind.projectileID
 
   def explode() : Explosion = {
