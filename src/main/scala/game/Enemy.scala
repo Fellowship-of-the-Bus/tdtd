@@ -114,6 +114,9 @@ abstract class Enemy (val mult: Float, b: EnemyType) extends GameObject(0,0) wit
       r = r - dist
     }
 
+    println(c)
+    println(r)
+
     val nextPlace = map(r,c)
     nextPlace match {
       case Some(tile) =>
@@ -121,7 +124,7 @@ abstract class Enemy (val mult: Float, b: EnemyType) extends GameObject(0,0) wit
           place.deregister(this)
           place = tile
           place.register(this)
-          tileDist = 0.25f  + (0.25f * rand(3))
+          tileDist = -1f  //+ (0.25f * rand(3))
         }
         false
 

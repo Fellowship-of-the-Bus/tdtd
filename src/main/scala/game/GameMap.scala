@@ -48,15 +48,15 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     map(exitR)(exitC).direction = Down //down
     dijkstras
     def getTile (r: Float, c:Float) = {
-        map((r+0.5f).toInt)((c+0.5f).toInt)
+        map(r.toInt)(c.toInt)
     }
     def apply(r: Float, c:Float) = {
-        if ((r+0.5f).toInt < 0 || (r+0.5f).toInt > mapWidth-1
-                        || (c+0.5f).toInt < 0
-                        || (c+0.5f).toInt > mapHeight-1) {
+        if (r.toInt < 0 || r.toInt > mapWidth-1
+                        || c.toInt < 0
+                        || c.toInt > mapHeight-1) {
             None
         } else {
-            Some(map((r+0.5f).toInt)((c+0.5f).toInt))
+            Some(map(r.toInt)(c.toInt))
         }
     }
     def aoe(r:Float, c:Float, range:Float) = {
@@ -109,7 +109,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     }
     def spawn (e: Enemy) = {
         e.r = entranceR// - 0.4f
-        e.c = entranceC
+        e.c = entranceC + 0.5f
         map(entranceR)(entranceC).register(e)
         e.setMap(this)
     }
