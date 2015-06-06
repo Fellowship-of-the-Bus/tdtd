@@ -6,12 +6,14 @@ package ui
 import org.newdawn.slick.{GameContainer, Graphics, Color, Input}
 import org.newdawn.slick.state.{StateBasedGame}
 import org.newdawn.slick.util.InputAdapter
+import org.newdawn.slick.geom.Rectangle
 
 
 import GameUI.Dimensions._
 import game._
 import IDMap._
 import game.Layer._
+
 
 
 class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, Float) => Unit, view: MapView, absX: Float, absY: Float)
@@ -126,10 +128,13 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
           val ry = t.range * view.heightRatio
           val tx = nmx + 0.5f * view.widthRatio
           val ty = nmy + 0.5f * view.heightRatio
+
+          g.setClip(new Rectangle(absX, absY, width, height))
           g.setColor(new Color(0, 99, 0, 50))
           g.fillOval(tx-rx,ty-ry,rx*2,ry*2)
           g.setColor(new Color(0, 99, 0, 255))
           g.drawOval(tx-rx,ty-ry,rx*2,ry*2)
+          g.clearClip()
         }
 
         val l = Layer.layer2Int(view.layer)

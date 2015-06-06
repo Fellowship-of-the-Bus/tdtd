@@ -23,8 +23,6 @@ send wave should be an arrow icon
 
 lives and money should be more prominent (change color?)
 
-range circle should not cross map border
-
 drag to place towers?
 
 djikstra bugs
