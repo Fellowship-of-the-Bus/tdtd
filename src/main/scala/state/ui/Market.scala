@@ -25,6 +25,7 @@ class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, wi
       val spotY = (height - buttonSize) / 2 - 20
       for (id <- towers) {
         val tower = Tower(id)
+        val c = g.getColor()
         g.drawString(s"$$${tower.value}", spotX, spotY + 75)
         spotX += buttonSize + spacing
       }
@@ -41,10 +42,11 @@ class Market(val parent: GameArea, val towers: List[Int], x: Float, y: Float, wi
 
   	def selectTower(id: Int) {
   		val price = Tower(id).value
-
+      var id2 = id
   		if (GameUI.placeSelection != id) {
-  				GameUI.placeSelection = id
-  				GameUI.displaySelection = IDSelection(id)
+          GameUI.placeSelection = id
+          if (id == WhirlpoolBottomID) id2 = WhirlpoolTopID
+  				GameUI.displaySelection = IDSelection(id2)
   		} else {
   			GameUI.placeSelection = 0
   			GameUI.displaySelection = NoSelection

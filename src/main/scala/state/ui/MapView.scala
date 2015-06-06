@@ -241,7 +241,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
               game.addTowerToList(whirltop)
               game.addTowerToList(whirlbottom)
               GameUI.placeSelection = 0
-              GameUI.displaySelection = TowerSelection(tower)
+              GameUI.displaySelection = TowerSelection(whirltop)
             }
           }
           case IceTowerBottomID => {

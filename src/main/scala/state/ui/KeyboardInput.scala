@@ -43,10 +43,11 @@ class KeyboardInput(var game: Game, gc: GameContainer, sbg: StateBasedGame) exte
 			      case _ => ()
 			    }
 			} else if (KeyMap.contains(key)) {
-				val id = KeyMap(key)
+				var id = KeyMap(key)
 				val t = Tower(id)
 				if (game.getMoney >= t.value) {
 					GameUI.placeSelection = id
+					if (id == WhirlpoolBottomID) id = WhirlpoolTopID
 					GameUI.displaySelection = IDSelection(id)
 				}
 			} else if (key == Input.KEY_SPACE) {
