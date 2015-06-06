@@ -29,6 +29,8 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   var my = 0
   val LEFT = 0
   var onOther = false
+  var cx = 0
+  var cy = 0
 
   var other: Option[MapInput] = None
   def setOther (mI: MapInput) {
@@ -54,7 +56,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   override def mouseMoved(oldx:Int, oldy:Int, newx:Int, newy: Int): Unit = {
     var x = newx - absX.toInt
     var y = newy - absY.toInt
-   if (inMap(x, y)) {
+    if (inMap(x, y)) {
      mx = x
      my = y
      mode = MOUSE_OVER
@@ -70,6 +72,11 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     }
   }
 
+  override def mouseDragged(oldx:Int, oldy:Int, newx:Int, newy: Int): Unit = {
+    mouseMoved(oldx, oldy, newx, newy)
+    mode = MOUSE_DOWN
+  }
+
 //  override def mousePressed(button:Int, x:Int, y:Int):Unit = {
 //    if (mode == MOUSE_OVER && button == LEFT) {
 //      mode = MOUSE_DOWN
@@ -77,20 +84,39 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
 //  }
 
 //  override def mouseReleased(button:Int
-  override def mouseClicked(button: Int, x:Int, y:Int, clickCount:Int): Unit = {
+  override def mouseReleased(button: Int, x:Int, y:Int): Unit = {
     var actX = x - absX.toInt
     var actY = y - absY.toInt
-    if (inMap(actX,actY) && button == LEFT && clickCount == 1) {
+    var oldc = (cx.toFloat/view.widthRatio).toInt
+    var oldr = (cy.toFloat / view.heightRatio).toInt
+    var c = (actX.toFloat/view.widthRatio).toInt
+    var r = (actY.toFloat / view.heightRatio).toInt
+    if (mode == MOUSE_DOWN && inMap(actX,actY) && button == LEFT && ((oldc == c) && (oldr == r))) {
       mx = actX
       my = actY
       mode = MOUSE_CLICK
       if (sbg.getCurrentStateID == Mode.GameUIID) {
-        var c = (mx.toFloat/view.widthRatio).toInt
-        var r = (my.toFloat / view.heightRatio).toInt
         action(r, c)
       }
       if (other.isEmpty) {
       } else {
+        other.get.mx = mx
+        other.get.my = my
+        other.get.onOther = true
+      }
+    }
+  }
+
+  override def mousePressed(button: Int, x:Int, y:Int): Unit = {
+    var actX = x - absX.toInt
+    var actY = y - absY.toInt
+    if (inMap(actX, actY) && button == LEFT) {
+      mode = MOUSE_DOWN
+      cx = actX
+      cy = actY
+      mx = actX
+      my = actY
+      if(!other.isEmpty) {
         other.get.mx = mx
         other.get.my = my
         other.get.onOther = true
@@ -108,7 +134,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     val nmx = (mx/view.widthRatio).toInt*view.widthRatio
     val nmy = ((my)/view.heightRatio).toInt*view.heightRatio
 
-    if (isMouseOver || isMouseClick || onOther) {
+    if (isMouseOver || isMouseClick || onOther || isMouseDown) {
       
       if (GameUI.placeSelection != NoTowerID) {
         val t = Tower(GameUI.placeSelection)
@@ -165,6 +191,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
         }
         
       }
+      //println(s"$nmx, $nmy")
       g.setColor(new Color(0,255,0,(0.2*255).asInstanceOf[Int]))
       g.fillRect(nmx, nmy, view.widthRatio.toInt, view.heightRatio.toInt)
     }
