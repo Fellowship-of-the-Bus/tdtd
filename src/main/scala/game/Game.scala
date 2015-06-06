@@ -66,7 +66,7 @@ class Game {
   var map = Array(new GameMap(), new GameMap())
 
   private var towers = List[Tower]()
-  private var enemies = List[Enemy]()
+  var enemies = List[Enemy]()
   var projectiles = List[Projectile]()
   var waves = Queue[Wave]()
   var spawnQueueTop = LinkedList[Enemy]()
