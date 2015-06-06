@@ -19,34 +19,13 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 
   def sell() : Unit = {
   	GameUI.displaySelection match {
-  		case TowerSelection(t) => {
-        var layer: Layer = BottomLayer
-  			t.kind.id match {
-          case IceTowerBottomID |
-          IceTowerTopID |
-          WhirlpoolBottomID |
-          WhirlpoolTopID |
-          OilDrillTowerID => {
-            layer = BothLayers
-          }
-          case DepthChargeTowerID => {
-            layer = TopLayer
-          }
-          case _ => {
-            val map = t.getMap
-            if (game.map(TopLayer) == map) {
-              layer = TopLayer
-            } else {
-              layer = BottomLayer
-            }
-          }
-        }
-          game.sell(t.r, t.c, layer)
+      case TowerSelection(t) => {
+          game.sell(t)
           GameUI.displaySelection = NoSelection
         }
-  		
-  		case _ => ()
-  	}
+      
+      case _ => ()
+    }
   }
 
   def upgrade() : Unit = {
@@ -117,17 +96,26 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         val sorted = ids.sortBy(x => Tower(x).name)
         for(id <- sorted) {
           val t = Tower(id)
-          val h = font.getHeight(s"${t.name} hotkey: ${t.hotkey}")
+          val h = font.getHeight(s"${t.basename} hotkey: ${t.hotkey}")
           g.drawString(s"${t.name} hotkey: ${t.hotkey}",15,ey)
           ey += h + 15
         }
         g.drawLine(0,ey,width,ey)
-        var h = font.getHeight("Menu hotkey: Escape")
         ey += 5
+        var h = font.getHeight("Menu hotkey: Escape")
         g.drawString("Menu hotkey: Escape", 15, ey)
+        ey += h + 15
+        h = font.getHeight("Deselect hotkey: Escape")
+        g.drawString("Deselect hotkey: Escape", 15, ey)
         ey += h + 15
         h = font.getHeight("Fast forward hotkey: F")
         g.drawString("Fast forward hotkey: F", 15, ey)
+        ey += h + 15
+        h = font.getHeight("Next wave hotkey: Spacebar")
+        g.drawString("Next wave hotkey: Spacebar", 15, ey)
+        ey += h + 15
+        h = font.getHeight("Sell hotkey: Shift+S")
+        g.drawString("Sell hotkey: Shift+S", 15, ey)
         ey += h + 15
         g.translate(-x,-y)
       }

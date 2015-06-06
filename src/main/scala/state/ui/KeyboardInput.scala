@@ -12,7 +12,7 @@ import game._
 
 
 class KeyboardInput(var game: Game, gc: GameContainer, sbg: StateBasedGame) extends InputAdapter {
-	
+	var input: Input = null
 	val KeyMap = Map(
 	  Input.KEY_H -> HarpoonTowerID,
 		Input.KEY_C -> CannonTowerID,
@@ -26,13 +26,23 @@ class KeyboardInput(var game: Game, gc: GameContainer, sbg: StateBasedGame) exte
 		Input.KEY_S -> SteamTowerID
 	)
 
-	override def setInput(input: Input) = {
-		input.addKeyListener(this)
+	override def setInput(in: Input) = {
+		in.addKeyListener(this)
+		input = in
 	}
 
 	override def keyPressed(key: Int, c: Char): Unit = {
 			if (sbg.getCurrentStateID == Mode.GameUIID) {
-			if (KeyMap.contains(key)) {
+			if (key == Input.KEY_S && (input.isKeyDown(Input.KEY_LSHIFT)||input.isKeyDown(Input.KEY_RSHIFT))) {
+				GameUI.displaySelection match {
+			      case TowerSelection(t) => {
+			          game.sell(t)
+			          GameUI.displaySelection = NoSelection
+			        }
+			      
+			      case _ => ()
+			    }
+			} else if (KeyMap.contains(key)) {
 				val id = KeyMap(key)
 				val t = Tower(id)
 				if (game.getMoney >= t.value) {
@@ -46,8 +56,16 @@ class KeyboardInput(var game: Game, gc: GameContainer, sbg: StateBasedGame) exte
 			} else if (key == Input.KEY_F) {
 				GameUI.statusBar.speedAction()
 			} else if (key == Input.KEY_ESCAPE) {
-				gc.setPaused(true)
-        		(sbg.enterState(Mode.MenuID))
+				GameUI.displaySelection match {
+					case NoSelection => {
+						gc.setPaused(true)
+        				(sbg.enterState(Mode.MenuID))
+        			}
+        			case _ => {
+        				GameUI.displaySelection = NoSelection
+        				GameUI.placeSelection = NoTowerID
+        			}
+        	}
 			}
 		}
 	}

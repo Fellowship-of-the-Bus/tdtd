@@ -247,10 +247,32 @@ class Game {
 
   def canSell(r: Float, c: Float, layer: Layer) = map(layer).removable(r, c)
 
-  def sell(r: Float, c: Float, layer: Layer) = {
+  def sell(t: Tower) = {
+    val r = t.r
+    val c = t.c
+    val layer = t.kind.id match {
+      case IceTowerBottomID |
+      IceTowerTopID |
+      WhirlpoolBottomID |
+      WhirlpoolTopID |
+      OilDrillTowerID => {
+        BothLayers
+      }
+      case DepthChargeTowerID => {
+        TopLayer
+      }
+      case _ => {
+        val m = t.getMap
+        if (map(TopLayer) == m) {
+          TopLayer
+        } else {
+          BottomLayer
+        }
+      }
+    }
     val sellValue = layer match {
       case BothLayers => 
-        val moneyVal: Int = map.foldLeft(0)((sum, m) => sum + m(r, c).flatMap(_.getTower.map(_.sell)).getOrElse(0))
+        val moneyVal: Int = map.foldLeft(0)((sum, m) => math.max(sum, m(r, c).flatMap(_.getTower.map(_.sell)).getOrElse(0)))
         map.foreach(_.removeTower(r, c))
         moneyVal
       case _ =>
