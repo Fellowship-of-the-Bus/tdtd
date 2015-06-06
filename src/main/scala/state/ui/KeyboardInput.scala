@@ -65,7 +65,16 @@ class KeyboardInput(var game: Game, gc: GameContainer, sbg: StateBasedGame) exte
         				GameUI.displaySelection = NoSelection
         				GameUI.placeSelection = NoTowerID
         			}
-        	}
+        		}
+			} else if (key == Input.KEY_U) {
+				  	GameUI.displaySelection match {
+			  		case TowerSelection(t) => {
+			  			if (t.upgradable && game.getMoney >= t.upgradeCost()) {
+			  				game.upgrade(t)
+			  			}
+			  		}
+			  		case _ => ()
+			  	}
 			}
 		}
 	}

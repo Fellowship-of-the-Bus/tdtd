@@ -117,6 +117,9 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         h = font.getHeight("Sell hotkey: Shift+S")
         g.drawString("Sell hotkey: Shift+S", 15, ey)
         ey += h + 15
+        h = font.getHeight("Upgrade hotkey: U")
+        g.drawString("Upgrade hotkey: U", 15, ey)
+        ey += h + 15
         g.translate(-x,-y)
       }
     }
