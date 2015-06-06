@@ -105,6 +105,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     def removeTower (r:Float, c:Float) = {
         var tmp = getTile(r,c)
         tmp.removeTower()
+        dijkstras()
     }
     def spawn (e: Enemy) = {
         e.r = entranceR// - 0.4f
@@ -131,7 +132,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         while (!Q.isEmpty) {
             var curTileCoord = Q.minBy(x=>map(x.r)(x.c).dist)
             var curTile = map(curTileCoord.r)(curTileCoord.c)
-            if (curTile.dist == Int.MaxValue/2) {
+            if (curTile.dist >= Int.MaxValue/2 && (!curTile.enemies.isEmpty || curTile.entrance)) {
                 return true
             }
             Q -= curTileCoord
