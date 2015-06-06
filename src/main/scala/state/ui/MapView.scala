@@ -120,6 +120,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
       }
     }
 
+    if (Layer.layer2Int(layer) == 1) {
+        g.setColor(new Color(0, 99, 0xcc, 50))
+        g.fillRect(0,0,mapWidth,mapHeight)
+    }
+    g.setClip(new Rectangle(absoluteX, absoluteY, width, height))
+
     // Draw explosions. May want to encapsulate better
     for (e <- game.explosions; if (e.active)) {
       if (e.getMap == map) {
@@ -135,11 +141,6 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
       }
     }
 
-    if (Layer.layer2Int(layer) == 1) {
-        g.setColor(new Color(0, 99, 0xcc, 50))
-        g.fillRect(0,0,mapWidth,mapHeight)
-    }
-    g.setClip(new Rectangle(absoluteX, absoluteY, width, height))
     GameUI.displaySelection match {
       case TowerSelection(t) => 
         if (t.getMap == map || t.id == TorpedoTowerID) {
