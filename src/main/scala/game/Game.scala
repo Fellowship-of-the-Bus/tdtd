@@ -83,7 +83,7 @@ class Game {
   var waves = Queue[Wave]()
   var spawnQueueTop = LinkedList[Enemy]()
   var spawnQueueBottom = LinkedList[Enemy]()
-  waves = waves.enqueue(new Wave(1,   0,10,0,0,0,0,0,     0,0,0,1,0,0,0))   //normal/none
+  waves = waves.enqueue(new Wave(1,   0,10,0,0,0,0,0,     0,0,0,0,0,0,0))   //normal/none
   waves = waves.enqueue(new Wave(2,   0,0,0,0,0,0,0,     0,0,0,0,10,0,0))   //none/normal
   waves = waves.enqueue(new Wave(3,   0,15,0,0,0,0,0,     0,0,0,0,15,0,0))  //normal/normal
   waves = waves.enqueue(new Wave(4,   6,0,0,0,0,0,0,     0,0,0,0,0,6,0))    //hp/hp
