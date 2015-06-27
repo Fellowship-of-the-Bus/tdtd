@@ -7,11 +7,6 @@ display messages and other UI indicators whenever a user does something that the
 
 drag to place towers?
 
-<<<<<<< HEAD
-=======
-nets draw strangely and maybe don't work?
-
->>>>>>> origin/master
 encyclopedia
 
 see descriptions of things you can't buy without going into encyclopedia?
