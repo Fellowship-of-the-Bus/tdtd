@@ -17,7 +17,7 @@ class Attribute(
   val aoe: Float,
   val projspd: Float,
   val cost: Int,
-  val slow: Int,
+  val slow: Float,
   val money: Int
   ) {}
 
@@ -59,7 +59,7 @@ object TowerMap {
                       strings(5).toFloat,
                       strings(6).toFloat,
                       strings(7).toInt,
-                      strings(8).toInt,
+                      strings(8).toFloat,
                       strings(9).toInt)
       towerMap = towerMap + ((att.id, att.level) -> att)
     }

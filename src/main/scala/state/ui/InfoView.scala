@@ -217,7 +217,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     .setSelectable(() => {
       val bought = aiSelectable()
       val enoughMoney = game.money >= aiCost
-      bought && enoughMoney
+      !bought && enoughMoney
     }).setIsVisible(aiVisible)
 
 		addChildren(sellButton)

@@ -3,7 +3,22 @@ info view should be able to display enemies
 tower that can be put only on one side should only be drawn on that side when being placed
 
 display messages and other UI indicators whenever a user does something that they shouldn't
-buttons which are conditionally selectable
 -can't click to place a tower in a location that they shouldn't (can we store whether a location is placable in the map after running Djikstra's? Then we can display green/red depending on whether a tile is placeable)
 
 drag to place towers?
+
+Fix explosions wrapping around edge of map
+
+Dolphin speed cap
+
+Hydra health
+
+nets draw strangely and maybe don't work?
+
+encyclopedia
+
+see descriptions of things you can't buy without going into encyclopedia?
+
+triple (and maybe quadruple?) speed options
+
+crazy oil upgrade cost spike (maybe have more than 3 levels so that there is a more gradual progression)

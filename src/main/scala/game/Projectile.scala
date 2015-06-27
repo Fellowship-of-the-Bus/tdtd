@@ -5,6 +5,8 @@ package game
 import scala.math._
 import IDMap._
 
+import GameMap._
+
 object Projectile {
   val width = 1.0f
   val height = 1.0f
@@ -24,9 +26,9 @@ object Projectile {
 class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends GameObject(x,y) {
   val width = Projectile.width
   val height = Projectile.height
-  val dmg = tower.kind.damage
-  val speed = tower.kind.speed
-  val aoe = tower.kind.aoe
+  val dmg = tower.damage
+  val speed = tower.speed
+  val aoe = tower.aoe
   val id = tower.kind.projectileID
 
   def explode() : Explosion = {
@@ -74,13 +76,13 @@ class Steam(x: Float, y: Float, val dir: Int, tower:Tower) extends Projectile(x,
   var nTiles = 0
 
   override def tick() = {
-    if (dir == 0) {
+    if (dir == Right) {
       c = c + speed
-    } else if (dir == 1) {
+    } else if (dir == Left) {
       c = c - speed
-    } else if (dir == 2) {
+    } else if (dir == Up) {
       r = r - speed
-    } else {
+    } else {// down
       r = r + speed
     }
 

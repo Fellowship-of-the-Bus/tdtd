@@ -144,9 +144,9 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 
 	def tick() : List[Projectile] = {
 		if(nextShot <= 0) {
-			val enemies = map.aoe(r, c, kind.range)
+			val enemies = map.aoe(r, c, range)
 			if (!enemies.isEmpty) {
-				nextShot = kind.fireRate
+				nextShot = fireRate
 				val target = currAI.pick(r, c, enemies)
 				setRotation(target)
 				val proj = Projectile(r, c, target, this)
@@ -196,18 +196,19 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
   var slowMult = towerType.slowMult
 
   override def upgrade = {
-    var att = TowerMap.towerMap((id,level+1))
     super.upgrade()
-    slowMult = 1f - att.slow/100
+    var att = TowerMap.towerMap((id,level))
+    println(s"${att.slow}")
+    slowMult = 1f - att.slow
   }
     
 
           
 	override def tick() : List[Projectile] = {
 		if (nextShot == 0) {
-			val enemies = map.aoe(r,c, kind.range)
+			val enemies = map.aoe(r,c, range)
 			if (!enemies.isEmpty) {
-				nextShot = kind.fireRate
+				nextShot = fireRate
 				enemies.foreach(enemy => {
 						val slow = new SlowEffect(towerType.slowMult, towerType.slowTime)
 						enemy.slow(slow)
@@ -225,7 +226,7 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 
 	override def describe() : List[String] = {
 		val time = towerType.slowTime / GameConfig.FrameRate.toFloat
-		val mult = (slowMult * 100).toInt
+		val mult = ((1f - slowMult) * 100).toInt
 		var ret = List(
 			s"Value: ${value}",
       if (cost == 0) {
@@ -234,7 +235,7 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
         s"Upgrade Cost: $cost"
       },
 			s"Slow Multiplier: $mult%",
-			f"Slow Time: $time%.1f seconds",
+			f"Slow Time: ${time}%.1f seconds",
 			f"Range: ${range}%.1f",
 			s"Description: ${towerType.description}"
 		)
@@ -254,7 +255,7 @@ trait SlowingTowerType extends TowerType {
 
 	override def describe() : List[String] = {
 		val time = slowTime / GameConfig.FrameRate.toFloat
-		val mult = (slowMult * 100).toInt
+		val mult = ((1f - slowMult) * 100).toInt
 		var ret = List(
 			s"Value: ${value}",
       if (cost ==0) {
@@ -274,7 +275,7 @@ trait SlowingTowerType extends TowerType {
 	override def init() : Unit = {
 		super.init()
 		var att = TowerMap.towerMap((id,1))
-		slowMult = att.slow    	
+		slowMult = 1f - att.slow 
 	}
 }
 
@@ -333,7 +334,7 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 		if(nextShot == 0) {
 			val enemies = maps.foldRight(Set[Enemy]())((map, set) => {
 					if (set.isEmpty) {
-						val enemies = map.aoe(r, c, kind.range)
+						val enemies = map.aoe(r, c, range)
 						if (!enemies.isEmpty) {
 							enemies
 						} else {
@@ -345,8 +346,8 @@ class TorpedoTower(xc: Float, yc: Float) extends Tower(xc, yc, TorpedoTower) {
 				}
 			)
 			if (!enemies.isEmpty) {
-				nextShot = kind.fireRate
-				val target = kind.currAI.pick(r, c, enemies)
+				nextShot = fireRate
+				val target = currAI.pick(r, c, enemies)
 				setRotation(target)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(target.getMap)
@@ -563,13 +564,13 @@ class MissileTower(xc: Float, yc: Float) extends Tower(xc, yc, MissileTower) {
 
 	override def tick() : List[Projectile] = {
 		if(nextShot == 0) {
-			val enemies = map.aoe(r, c, kind.range)
+			val enemies = map.aoe(r, c, range)
 			if (!enemies.isEmpty) {
-				nextShot = kind.fireRate
+				nextShot = fireRate
 				var projectiles = List[Projectile]()
 				for(i <- 1 to numTargets) {
 					if (!enemies.isEmpty) {
-						val target = kind.currAI.pick(r, c, enemies)
+						val target = currAI.pick(r, c, enemies)
 						if (i == 1) {
 							setRotation(target)
 						}
@@ -603,7 +604,7 @@ object MissileTower extends TowerType {
 	var value = 50
 	var basename = "Missile Tower"
 	var name = "Missile Tower Level 1"
-	var description = "Multitarget tower\n  Placed above water\n  Fires at mutliple enemies\n  within range"
+	var description = "Multitarget tower\n  Placed above water\n  Fires at multiple enemies\n  within range"
 	var hotkey = 'M'
   init
 }
@@ -613,10 +614,10 @@ class NetTower(xc: Float, yc: Float) extends Tower(xc, yc, NetTower) {
 
 	override def tick(): List[Projectile] = {
 		if(nextShot == 0) {
-			val enemies = map.aoe(r, c, kind.range)
+			val enemies = map.aoe(r, c, range)
 			if (!enemies.isEmpty) {
-				nextShot = kind.fireRate
-				val target = kind.currAI.pick(r, c, enemies)
+				nextShot = fireRate
+				val target = currAI.pick(r, c, enemies)
 				setRotation(target)
 				val proj = Projectile(r, c, target, this)
 				proj.setMap(map)
@@ -658,7 +659,7 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 			var enemiesD = Set[Enemy]()
 			var enemiesR = Set[Enemy]()
 
-			for(i <- 1 to kind.range.toInt) {
+			for(i <- 1 to range.toInt) {
 				map(r+1,c) match {
 					case Some(tile) => enemiesU ++= tile.enemies
 					case None => ()
@@ -678,14 +679,14 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 			}
 			val enemies = enemiesU ++ enemiesL ++ enemiesR ++ enemiesD
 			if (!enemies.isEmpty) {
-				nextShot = kind.fireRate
-				val target = kind.currAI.pick(r, c, enemiesU, enemiesD, enemiesL, enemiesR)
+				nextShot = fireRate
+				val target = currAI.pick(r, c, enemiesU, enemiesD, enemiesL, enemiesR)
 				var dir = Up
-				if (target.r > r) {
+				if (target.r.toInt > r.toInt) {
 					dir = Down
-				} else if (target.r < r) {
+				} else if (target.r.toInt < r.toInt) {
 					dir = Up
-				} else if (target.c > c) {
+				} else if (target.c.toInt > c.toInt) {
 					dir = Right
 				} else {
 					dir = Left
