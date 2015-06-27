@@ -660,19 +660,19 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 			var enemiesR = Set[Enemy]()
 
 			for(i <- 1 to range.toInt) {
-				map(r+1,c) match {
+				map(r+i,c) match {
 					case Some(tile) => enemiesU ++= tile.enemies
 					case None => ()
 				}
-				map(r-1,c) match {
+				map(r-i,c) match {
 					case Some(tile) => enemiesD ++= tile.enemies
 					case None => ()
 				}
-				map(r,c+1) match {
+				map(r,c+i) match {
 					case Some(tile) => enemiesR ++= tile.enemies
 					case None => ()
 				}
-				map(r,c-1) match {
+				map(r,c-i) match {
 					case Some(tile) => enemiesL ++= tile.enemies
 					case None => ()
 				}

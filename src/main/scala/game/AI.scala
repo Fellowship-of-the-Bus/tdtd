@@ -77,5 +77,21 @@ class SteamClosestAI extends AI {
 		)
 	}
 
-	override def toString() : String = "Steam Closest To Tower"
+	override def toString() : String = "Closest To Tower"
+}
+
+
+class SteamClosestToGoalAI extends AI {
+
+	override def pick(r: Float, c: Float, enemies: Set[Enemy]): Enemy = {
+		throw new IllegalArgumentException
+	}
+
+	override def pick(r: Float, c: Float, enemiesU: Set[Enemy],
+		enemiesD: Set[Enemy], enemiesL: Set[Enemy], enemiesR: Set[Enemy]) : Enemy = {
+		val enemies = enemiesU ++ enemiesL ++ enemiesD ++ enemiesR;
+		enemies.minBy(enemy => enemy.place.dist)
+	}
+
+	override def toString() : String = "Closest To Goal"
 }

@@ -66,7 +66,11 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   def setClosestGoal() : Unit = {
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
-  			t.setAI(new ClosestToGoalAI)
+        if (t.id == SteamTowerID) {
+          t.setAi(new SteamClosestToGoalAI)
+        } else {
+    			t.setAI(new ClosestToGoalAI)
+        }
   		}
   		case _ => ()
   	}
