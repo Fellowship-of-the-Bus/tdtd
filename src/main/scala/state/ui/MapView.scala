@@ -220,7 +220,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
           case SteamTowerID |
                HarpoonTowerID => {
             val tower = Tower(t,r,c)
-            if (game.placeTower(Tower(t,r,c),r,c,layer) == okay) {
+            if (game.placeTower(tower,r,c,layer) == okay) {
               GameUI.placeSelection = 0
               GameUI.displaySelection = TowerSelection(tower)
             }

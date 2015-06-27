@@ -59,3 +59,23 @@ class SteamRandomAI extends AI {
 
 	override def toString() : String = "Random Direction"
 }
+
+class SteamClosestAI extends AI {
+
+	override def pick(r: Float, c: Float, enemies: Set[Enemy]): Enemy = {
+		throw new IllegalArgumentException
+	}
+
+	override def pick(r: Float, c: Float, enemiesU: Set[Enemy],
+		enemiesD: Set[Enemy], enemiesL: Set[Enemy], enemiesR: Set[Enemy]) : Enemy = {
+		val enemies = enemiesU ++ enemiesL ++ enemiesD ++ enemiesR;
+		enemies.minBy(enemy => 	{
+				val ydiff = r - enemy.r
+				val xdiff = c - enemy.c
+				sqrt((xdiff * xdiff) + (ydiff * ydiff))
+			}
+		)
+	}
+
+	override def toString() : String = "Steam Closest To Tower"
+}

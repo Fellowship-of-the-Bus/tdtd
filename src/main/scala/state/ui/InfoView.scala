@@ -40,7 +40,11 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   def setRandom() : Unit = {
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
-  			t.setAI(new RandomAI)
+        if (t.id == SteamTowerID) {
+          t.setAI(new SteamRandomAI)
+        } else {
+    			t.setAI(new RandomAI)
+        }
   		}
   		case _ => ()
   	}
@@ -49,7 +53,11 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
    def setClosest() : Unit = {
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
-  			t.setAI(new ClosestAI)
+        if (t.id == SteamTowerID) {
+          t.setAI(new SteamClosestAI)
+        } else {
+          t.setAI(new ClosestAI)
+        }
   		}
   		case _ => ()
   	}
