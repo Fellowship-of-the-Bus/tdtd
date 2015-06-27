@@ -124,20 +124,16 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         g.setColor(new Color(0, 99, 0xcc, 50))
         g.fillRect(0,0,mapWidth,mapHeight)
     }
+
     g.setClip(new Rectangle(absoluteX, absoluteY, width, height))
 
     // Draw explosions. May want to encapsulate better
     for (e <- game.explosions; if (e.active)) {
-      if (e.getMap == map) {
+      if (Layer.layer2Int(layer) == 0 || e.getMap == map) {
         val (ex, ey) = convert(e.r, e.c)
         val ew = e.size * widthRatio
         val eh = e.size * heightRatio
         drawScaledImage(images(ExplosionID), ex - ew, ey - eh, 2*e.size, 2*e.size, g)
-        if (Layer.layer2Int(layer) == 1) {
-            g.translate(-mapWidth, 0)
-            drawScaledImage(images(ExplosionID), ex - ew, ey - eh, 2*e.size, 2*e.size, g)
-            g.translate(mapWidth, 0)
-        }
       }
     }
 

@@ -251,7 +251,7 @@ class Dolphin(mult: Float) extends Enemy(mult, Dolphin) {
 
   override def special(game:Game) {
     if (dir == oldDir) {
-        speed += 0.005f
+        speed = min(speed + 0.005f, 0.5f)
       } else {
         speed = base.speed
         oldDir = dir
@@ -298,7 +298,7 @@ object Hydra extends EnemyType {
 
 class Hydra(mult: Float) extends Enemy(mult, Hydra) {
   override def special(game:Game) {
-    hp = min(base.maxHp, hp + (base.maxHp * 0.001f))
+    hp = min(maxHp, hp + (maxHp * 0.001f))
   }
 } 
 
