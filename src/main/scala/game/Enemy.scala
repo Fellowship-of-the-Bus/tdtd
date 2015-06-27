@@ -262,7 +262,7 @@ object Hydra extends EnemyType {
 
 class Hydra(mult: Float) extends Enemy(mult, Hydra) {
   override def special() {
-    hp = min(base.maxHp, hp + (base.maxHp * 0.001f))
+    hp = min(maxHp, hp + (maxHp * 0.001f))
   }
 } 
 
