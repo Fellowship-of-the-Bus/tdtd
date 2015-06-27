@@ -134,20 +134,10 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     val nmx = (mx/view.widthRatio).toInt*view.widthRatio
     val nmy = ((my)/view.heightRatio).toInt*view.heightRatio
 
-    if (isMouseOver || isMouseClick || onOther || isMouseDown) {
-      
+    if (isMouseOver || isMouseClick || onOther || isMouseDown) {    
       if (GameUI.placeSelection != NoTowerID) {
         val t = Tower(GameUI.placeSelection)
-        if (!onOther) {
-          var image = IDMap.images(GameUI.placeSelection)
-          val scaleX = view.widthRatio/image.getWidth
-          val scaleY = view.heightRatio/image.getHeight
-          g.scale(scaleX,scaleY)
-      
-          image.draw(nmx * 1/scaleX, nmy * 1/scaleY)
-      
-          g.scale(1/scaleX, 1/scaleY)
-        }
+        var l = Layer.layer2Int(view.layer)
 
         def drawRange() {
           val rx = t.range * view.widthRatio
@@ -162,34 +152,67 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
           g.drawOval(tx-rx,ty-ry,rx*2,ry*2)
           g.clearClip()
         }
+        
+        def drawRanges() {
+          GameUI.placeSelection match {
+            case TorpedoTowerID => drawRange()
 
-        val l = Layer.layer2Int(view.layer)
-        GameUI.placeSelection match {
-          case TorpedoTowerID => drawRange()
+            case CannonTowerID  |
+                 MissileTowerID |
+                 NetTowerID     |
+                 WhirlpoolBottomID =>
+                  if (l == 0) {
+                    drawRange()
+                  }
 
-          case CannonTowerID  |
-               MissileTowerID |
-               NetTowerID     |
-               WhirlpoolBottomID =>
-                if (l == 0) {
-                  drawRange()
-                }
+            case SteamTowerID     |
+                 IceTowerBottomID |
+                 DepthChargeTowerID =>
+                  if (l == 1) {
+                    drawRange()
+                  }
 
-          case SteamTowerID     |
-               IceTowerBottomID |
-               DepthChargeTowerID =>
-                if (l == 1) {
-                  drawRange()
-                }
+            case HarpoonTowerID =>
+                  if (!onOther) {
+                    drawRange()
+                  }
 
-          case HarpoonTowerID =>
-                if (!onOther) {
-                  drawRange()
-                }
+            case _ =>
+          }
+        }
 
-          case _ =>
+        var image = IDMap.images(GameUI.placeSelection)
+        val scaleX = view.widthRatio/image.getWidth
+        val scaleY = view.heightRatio/image.getHeight
+
+        def drawSprite() {
+          g.scale(scaleX,scaleY)
+          image.draw(nmx * 1/scaleX, nmy * 1/scaleY)
+          g.scale(1/scaleX, 1/scaleY)
+        }
+
+        if ((t.id >= IDMap.EitherTStart && t.id <= IDMap.BothTEnd) ||
+            (l == 0 && t.id >= IDMap.TopTStart && t.id <= IDMap.TopTEnd) ||
+            (l == 1 && t.id >= IDMap.UnderTStart && t.id <= IDMap.UnderTEnd)) {
+          if (!onOther || t.id == OilDrillTowerID) {
+            drawSprite()
+            drawRanges() 
+          }
+        } else {
+          if (onOther) {
+            drawRanges() 
+            if (t.id == IceTowerBottomID) {
+              var image = IDMap.images(IceTowerTopID)
+              drawSprite()
+            }
+          }
         }
         
+
+
+
+        
+            
       }
       //println(s"$nmx, $nmy")
       g.setColor(new Color(0,255,0,(0.2*255).asInstanceOf[Int]))
