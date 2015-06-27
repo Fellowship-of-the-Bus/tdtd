@@ -604,7 +604,7 @@ object MissileTower extends TowerType {
 	var value = 50
 	var basename = "Missile Tower"
 	var name = "Missile Tower Level 1"
-	var description = "Multitarget tower\n  Placed above water\n  Fires at mutliple enemies\n  within range"
+	var description = "Multitarget tower\n  Placed above water\n  Fires at multiple enemies\n  within range"
 	var hotkey = 'M'
   init
 }

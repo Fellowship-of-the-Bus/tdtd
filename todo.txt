@@ -12,3 +12,13 @@ Fix explosions wrapping around edge of map
 Dolphin speed cap
 
 Hydra health
+
+nets draw strangely and maybe don't work?
+
+encyclopedia
+
+see descriptions of things you can't buy without going into encyclopedia?
+
+triple (and maybe quadruple?) speed options
+
+crazy oil upgrade cost spike (maybe have more than 3 levels so that there is a more gradual progression)
