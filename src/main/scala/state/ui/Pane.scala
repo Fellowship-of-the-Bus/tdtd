@@ -40,7 +40,7 @@ class Pane(x: Float, y: Float, width: Float, height: Float)(implicit bg: Color) 
     g.setLineWidth(linewidth)
   }
 
-  def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {
+  override def render(gc: GameContainer, sbg: StateBasedGame, g: Graphics) = {
     g.translate(x, y)
     draw(gc, sbg, g)
     for (child <- children) {

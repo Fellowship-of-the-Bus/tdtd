@@ -6,6 +6,7 @@ package ui
 import org.newdawn.slick.{GameContainer, Graphics, Color}
 import org.newdawn.slick.state.{StateBasedGame}
 import lib.ui.Button
+import lib.ui.Pane
 
 import GameUI.Dimensions._
 import game._
@@ -67,7 +68,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
   	GameUI.displaySelection match {
   		case TowerSelection(t) => {
         if (t.id == SteamTowerID) {
-          t.setAi(new SteamClosestToGoalAI)
+          t.setAI(new SteamClosestToGoalAI)
         } else {
     			t.setAI(new ClosestToGoalAI)
         }
