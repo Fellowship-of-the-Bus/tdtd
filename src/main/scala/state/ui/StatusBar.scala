@@ -50,13 +50,12 @@ class StatusBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Co
       () => game.sendNextWave)
     sendWave.setSelectable(() => game.newRoundReady)
 
-    speed = new ImageButton(images(FastForwardOffID), width-100, 15+buttonHeight, buttonWidth, buttonHeight, null)
     val speedImages = Array(images(FastForwardOffID), images(FastForwardOnID))
     speedAction = () => {
       val spd = game.toggleSpeed
       speed.setImage(speedImages(spd-1))
     }
-    speed.setAction(speedAction)
+    speed = new ImageButton(images(FastForwardOffID), width-100, 15+buttonHeight, buttonWidth, buttonHeight, speedAction)
     speed.setSelectable(() => !game.isGameOver)
 
     addChildren(lives, money, waveNum, sendWave, menu, speed, waveBar)
