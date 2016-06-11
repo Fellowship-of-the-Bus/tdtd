@@ -2,7 +2,7 @@ package com.github.fellowship_of_the_bus
 package tdtd
 package state
 
-import lib.ui.{Button, ToggleButton}
+import lib.slick2d.ui.{Button, ToggleButton}
 import game.IDMap._
 import lib.game.GameConfig
 import lib.game.GameConfig.{Width,Height}
@@ -40,7 +40,7 @@ object GameUI extends BasicGameState {
   var game: Game = null
 
   val ui = new Pane(0, 0, Width, Height)
-  
+
   implicit val id = getID
 
   implicit var input: Input = null
@@ -52,7 +52,7 @@ object GameUI extends BasicGameState {
 
   def update(gc: GameContainer, sbg: StateBasedGame, delta: Int) = {
     if (! gc.isPaused()) {
-      this.game.tick()  
+      this.game.update(gc, sbg, delta)
     }
   }
 
@@ -89,7 +89,7 @@ object GameUI extends BasicGameState {
 
   def newGame() = {
     gc.setPaused(false)
-    game = new Game    
+    game = new Game
     ui.resetGame(game)
     placeSelection = NoTowerID
     displaySelection = NoSelection

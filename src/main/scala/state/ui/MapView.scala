@@ -13,7 +13,7 @@ import game.Layer._
 import game.IDMap._
 import game.GameMap._
 
-import lib.ui.Drawable
+import lib.slick2d.ui.{Drawable}
 
 class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer, gameArea : GameArea)(implicit bg: Color) extends Pane(x, y, width, height) {
   def this(x: Float, y: Float, layer: Layer, gameArea: GameArea)(implicit bg: Color) = this(x, y, mapWidth, mapHeight, layer, gameArea)
@@ -38,13 +38,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     g.scale(scaleX,scaleY)
 
     im.draw(x * im.getWidth/width/widthRatio, y*im.getHeight/height/heightRatio)
-  
+
     g.scale(1/scaleX, 1/scaleY)
   }
 
   def drawObject(e: GameObject, g: Graphics) {
-    var image = IDMap.images(e.id)
-    var (ex, ey) = convert(e)
+    val (ex, ey) = convert(e)
 
     val exPos = ex + 0.5f * (e.width * widthRatio)
     val eyPos = ey + 0.5f * (e.height * heightRatio)
@@ -54,12 +53,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     g.translate(-exPos, -eyPos)
 
     drawScaledImage(IDMap.images(e.id), ex, ey, e.width, e.height, g)
-    
+
     g.translate(exPos, eyPos)
     g.rotate(0 , 0 , -e.rotation)
     g.translate(-exPos, -eyPos)
   }
-  
+
   def drawOffset( e:GameObject, g:Graphics) {
     g.translate(-mapWidth, 0)
     drawObject(e, g)
@@ -69,7 +68,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
   override def draw(gc: GameContainer, sbg: StateBasedGame, g: Graphics): Unit = {
 
     super.draw(gc, sbg, g)
-    
+
     val (entranceX, entranceY) = convert(map.entranceR, map.entranceC)
     val (exitX, exitY) = convert(map.exitR, map.exitC)
 
@@ -80,11 +79,11 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
 
     drawScaledImage(images(DirectionArrowID), entranceX, entranceY, 1.0f, 1.0f, g)
     drawScaledImage(images(DirectionArrowID), exitX, exitY, 1.0f, 1.0f, g)
-            
+
     g.setColor(Color.black)
     for (r <- 0 until map.mapHeight) {
       for (c <- 0 until map.mapWidth) {
-        val (x, y) = convert(r, c) 
+        val (x, y) = convert(r, c)
         g.drawLine(x, 0, x, height)
         g.drawLine(0, y, width, y)
 
@@ -102,7 +101,6 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         val tower = tile.tower
         if (! tower.isEmpty) {
           val t = tower.get
-          val (tx, ty) = convert(t)
           drawObject(t, g)
           if (Layer.layer2Int(layer) == 1) {
             drawOffset(t, g)
@@ -138,7 +136,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     }
 
     GameUI.displaySelection match {
-      case TowerSelection(t) => 
+      case TowerSelection(t) =>
         if (t.getMap == map || t.id == TorpedoTowerID) {
           val rx = t.kind.range * widthRatio
           val ry = t.kind.range * heightRatio
@@ -156,10 +154,10 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
 
     mapInput.render(g)
     g.clearClip()
-  } 
+  }
 
   def place(r:Float, c:Float) {
-    var t = GameUI.placeSelection
+    val t = GameUI.placeSelection
     if (t == NoTowerID) {
       if (map(r,c).isEmpty) {
         GameUI.displaySelection = NoSelection
@@ -213,7 +211,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
             }
           }
           case _ => ()
-            
+
         }
       } else if (Layer.layer2Int(layer) == 1) { //bottomlayer
         t match {
@@ -241,11 +239,10 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
             }
           }
           case WhirlpoolBottomID => {
-            val tower = Tower(t,r,c)
             if (game.map(Layer.layer2Int(TopLayer))(r,c).get.getTower.isEmpty &&
                 game.map(Layer.layer2Int(BottomLayer)).placeable(r,c) == okay ){
-              var whirltop = Tower(WhirlpoolTopID, r, c)
-              var whirlbottom = Tower(t,r,c)
+              val whirltop = Tower(WhirlpoolTopID, r, c)
+              val whirlbottom = Tower(t,r,c)
               game.map(Layer.layer2Int(TopLayer)).placeTower(r,c, whirltop)
               game.map(Layer.layer2Int(BottomLayer)).placeTower(r,c,whirlbottom)
               game.spend(whirlbottom.kind.value)
@@ -259,8 +256,8 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
             val tower = Tower(t,r,c)
             if (game.map(Layer.layer2Int(TopLayer)).placeable(r,c) == okay &&
                 game.map(Layer.layer2Int(BottomLayer)).placeable(r,c) == okay) {
-              var icetop = Tower(IceTowerTopID,r,c)
-              var icebottom = Tower(t,r,c)
+              val icetop = Tower(IceTowerTopID,r,c)
+              val icebottom = Tower(t,r,c)
               game.map(Layer.layer2Int(TopLayer)).placeTower(r,c,icetop)
               game.map(Layer.layer2Int(BottomLayer)).placeTower(r,c,icebottom)
               game.spend(icebottom.kind.value)
@@ -270,7 +267,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
               GameUI.displaySelection = TowerSelection(tower)
             }
           }
-          case _ => ()   
+          case _ => ()
         }
       }
     }

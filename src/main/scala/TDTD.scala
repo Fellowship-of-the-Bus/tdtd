@@ -8,8 +8,9 @@ import state._
 import game._
 import lib.util.Native
 import lib.game.GameConfig
+import lib.slick2d.game.SlickGameConfig
 
-class TDTD(gamename: String) extends StateBasedGame(gamename) {    
+class TDTD(gamename: String) extends StateBasedGame(gamename) {
   def initStatesList(gc: GameContainer) = {
     gc.setShowFPS(true)
     addState(Menu)
@@ -29,14 +30,14 @@ object TDTD extends App {
     import GameConfig._
     Native.loadLibraryFromJar()
     val appgc = new AppGameContainer(new TDTD("Two-Dimensional Tower Defense"))
-    GameConfig.graphics = appgc.getGraphics
+    SlickGameConfig.graphics = appgc.getGraphics
     appgc.setDisplayMode(Width, Height, false)
     appgc.setTargetFrameRate(FrameRate)
     appgc.setVSync(true)
     appgc.start()
   } catch {
     case ex: SlickException => Logger.getLogger(TDTD.getClass.getName()).log(Level.SEVERE, null, ex)
-    case t: Throwable => 
+    case t: Throwable =>
       println("Library path is: " + System.getProperty("java.library.path"))
       t.printStackTrace
   }

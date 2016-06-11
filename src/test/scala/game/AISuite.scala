@@ -15,7 +15,7 @@ import scala.collection.mutable.Set
 class AISuite extends FunSuite {
 
 	def createEnemy(r: Float, c: Float, m: GameMap): Enemy = {
-		var e = Enemy(FishID, 1)
+		val e = Enemy(FishID, 1)
 		e.r = r
 		e.c = c
 		e.place = m(r,c).get

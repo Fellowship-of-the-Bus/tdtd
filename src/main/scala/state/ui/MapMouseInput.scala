@@ -54,8 +54,8 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   }
 
   override def mouseMoved(oldx:Int, oldy:Int, newx:Int, newy: Int): Unit = {
-    var x = newx - absX.toInt
-    var y = newy - absY.toInt
+    val x = newx - absX.toInt
+    val y = newy - absY.toInt
     if (inMap(x, y)) {
      mx = x
      my = y
@@ -85,12 +85,12 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
 
 //  override def mouseReleased(button:Int
   override def mouseReleased(button: Int, x:Int, y:Int): Unit = {
-    var actX = x - absX.toInt
-    var actY = y - absY.toInt
-    var oldc = (cx.toFloat/view.widthRatio).toInt
-    var oldr = (cy.toFloat / view.heightRatio).toInt
-    var c = (actX.toFloat/view.widthRatio).toInt
-    var r = (actY.toFloat / view.heightRatio).toInt
+    val actX = x - absX.toInt
+    val actY = y - absY.toInt
+    val oldc = (cx.toFloat/view.widthRatio).toInt
+    val oldr = (cy.toFloat / view.heightRatio).toInt
+    val c = (actX.toFloat/view.widthRatio).toInt
+    val r = (actY.toFloat / view.heightRatio).toInt
     if (mode == MOUSE_DOWN && inMap(actX,actY) && button == LEFT && ((oldc == c) && (oldr == r))) {
       mx = actX
       my = actY
@@ -108,8 +108,8 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   }
 
   override def mousePressed(button: Int, x:Int, y:Int): Unit = {
-    var actX = x - absX.toInt
-    var actY = y - absY.toInt
+    val actX = x - absX.toInt
+    val actY = y - absY.toInt
     if (inMap(actX, actY) && button == LEFT) {
       mode = MOUSE_DOWN
       cx = actX
@@ -130,14 +130,13 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
   }
 
   def render(g:Graphics) = {
-    val highlightColour = Color.red
     val nmx = (mx/view.widthRatio).toInt*view.widthRatio
     val nmy = ((my)/view.heightRatio).toInt*view.heightRatio
 
-    if (isMouseOver || isMouseClick || onOther || isMouseDown) {    
+    if (isMouseOver || isMouseClick || onOther || isMouseDown) {
       if (GameUI.placeSelection != NoTowerID) {
         val t = Tower(GameUI.placeSelection)
-        var l = Layer.layer2Int(view.layer)
+        val l = Layer.layer2Int(view.layer)
 
         def drawRange() {
           val rx = t.range * view.widthRatio
@@ -152,7 +151,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
           g.drawOval(tx-rx,ty-ry,rx*2,ry*2)
           g.clearClip()
         }
-        
+
         def drawRanges() {
           GameUI.placeSelection match {
             case TorpedoTowerID => drawRange()
@@ -181,7 +180,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
           }
         }
 
-        var image = IDMap.images(GameUI.placeSelection)
+        val image = IDMap.images(GameUI.placeSelection)
         val scaleX = view.widthRatio/image.getWidth
         val scaleY = view.heightRatio/image.getHeight
 
@@ -196,23 +195,22 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
             (l == 1 && t.id >= IDMap.UnderTStart && t.id <= IDMap.UnderTEnd)) {
           if (!onOther || t.id == OilDrillTowerID) {
             drawSprite()
-            drawRanges() 
+            drawRanges()
           }
         } else {
           if (onOther) {
-            drawRanges() 
+            drawRanges()
             if (t.id == IceTowerBottomID) {
-              var image = IDMap.images(IceTowerTopID)
               drawSprite()
             }
           }
         }
-        
 
 
 
-        
-            
+
+
+
       }
       //println(s"$nmx, $nmy")
       g.setColor(new Color(0,255,0,(0.2*255).asInstanceOf[Int]))

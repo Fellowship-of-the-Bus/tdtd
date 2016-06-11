@@ -2,7 +2,7 @@ package com.github.fellowship_of_the_bus
 package tdtd
 package game
 
-import lib.ui.{Image, Animation, Drawable}
+import lib.slick2d.ui.{Image, Animation, Drawable}
 import IDMap._
 import scala.io._
 import java.io._
@@ -41,17 +41,15 @@ object TowerMap {
   val classFile = "TowerMap.class"
   val f = new File(".")
 
-  println (f.getAbsolutePath())
   val tmp = TDTD.getClass.getClassLoader().getResourceAsStream(towerFile)
-  println(tmp)
   val file = new File(towerFile)
   val s = new Scanner(tmp)
   while (s.hasNextLine) {
 //  for (line <- Source.fromFile(towerFile).getLines()) {
     val line = s.nextLine()
-    var strings = line.split(',')
+    val strings = line.split(',')
     if(strings(0) != "tower") {
-      var att = new Attribute(stringMap(strings(0)),
+      val att = new Attribute(stringMap(strings(0)),
                       strings(1).toInt,
                       strings(2).toFloat,
                       strings(3).toInt,

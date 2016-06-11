@@ -26,21 +26,6 @@ class Tile {
         if (t.id != WhirlpoolTopID) {
           pathable = false
         }
-
-/*        tower.id match {
-          case HarpoonTowerId => pathable = false
-          case OilDrillTowerID => pathable = false
-          case CannonTowerID => pathable = false
-          case IceTowerTowerID => pathable = false
-          case DepthChargeTowerID => pathable = false
-          case WhilrpoolTopID => pathable = true
-          case MissileTowerID => pathable = false
-          case NetTowerTowerID => pathable = false
-          case TorpedoTowerID => pathable = false
-          case IceTowerBottomID => pathable = false
-          case WhirlpoolBottomID => pathable = false
-          case SteamTowerID => pathable = false
-        }*/
         tower = Some(t)
         occupied = true
     }
@@ -52,7 +37,5 @@ class Tile {
     def getTower() = {
         tower
     }
-    def ==(that: Tile) {
-        direction == that.direction
-    }
+    def ==(that: Tile) = direction == that.direction
 }

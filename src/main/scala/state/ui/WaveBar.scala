@@ -4,7 +4,7 @@ package state
 package ui
 
 import lib.game.GameConfig.{Width,Height}
-import lib.ui.{Button, Drawable, ImageButton}
+import lib.slick2d.ui.{Button, Drawable, ImageButton}
 
 import org.newdawn.slick.{GameContainer, Graphics, Color,Input}
 import org.newdawn.slick.state.{StateBasedGame}
@@ -23,7 +23,7 @@ class WaveBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Colo
       wave = game.waves.headOption
     } else {
       wave = Some(new Wave(1, 0,0,0,0,0,0,0,   0,0,0,0,0,0,0))
-      var enemies = game.enemies
+      val enemies = game.enemies
       enemies.map((e) =>
               if (e.active) {
                 e.id match {
@@ -91,13 +91,13 @@ class WaveBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Colo
 //      g.drawString("Final Wave!", width/2 - 50, height/2)
     } else {
       val enemy = wave.get.enemyNumbers
-      var n = (enemy.foldLeft(0)((a,b) => if (b != 0) a + 1 else a))
+      val n = (enemy.foldLeft(0)((a,b) => if (b != 0) a + 1 else a))
       val blockWidth = (height * 1.5).toInt
-      
+
       var i = 0
       for (j <- 0 to enemy.length-1) {
         if (enemy(j) != 0) {
-          var image = IDMap.images(wave.get.enemyIDs(j))
+          val image = IDMap.images(wave.get.enemyIDs(j))
           var scale = (height-10).toFloat/image.getHeight.toFloat
           if (width/blockWidth < n) {
             scale *= n.toFloat * blockWidth.toFloat / width.toFloat
@@ -105,12 +105,12 @@ class WaveBar(x: Float, y: Float, width: Float, height: Float)(implicit bg: Colo
           g.scale(scale, scale)
           image.draw(i*blockWidth / scale, 5/scale)
           g.scale(1/scale,1/scale)
-          var num = enemy(j)
+          val num = enemy(j)
           g.drawString( s"x $num", i*blockWidth + height , height/2 )
           i += 1
-        } 
+        }
         if (j == 6) {
-          var lw = g.getLineWidth
+          val lw = g.getLineWidth
           g.setLineWidth(lw*2)
           g.drawLine(width/2-85,0,width/2-85,height)
           g.setLineWidth(lw)

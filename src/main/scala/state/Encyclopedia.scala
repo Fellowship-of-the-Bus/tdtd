@@ -2,7 +2,7 @@ package com.github.fellowship_of_the_bus
 package tdtd
 package state
 
-import lib.ui.{Button, ToggleButton}
+import lib.slick2d.ui.{Button, ToggleButton}
 import game.IDMap._
 import lib.game.GameConfig
 import lib.game.GameConfig.{Width,Height}
@@ -26,9 +26,7 @@ object Encyclopedia extends BasicGameState {
     lst
   }
 
-  def update(gc: GameContainer, game: StateBasedGame, delta: Int) = {
-    implicit val input = gc.getInput
-  }
+  def update(gc: GameContainer, game: StateBasedGame, delta: Int) = ()
 
   def render(gc: GameContainer, game: StateBasedGame, g: Graphics) = {
     val fotb = images(FotBLogoID)

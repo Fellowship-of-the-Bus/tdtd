@@ -60,10 +60,10 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         }
     }
     def aoe(r:Float, c:Float, range:Float) = {
-        var left = (math.max(r-range,0)).toInt
-        var right = (math.min(r+range, mapWidth-1)).toInt
-        var top = (math.max(c-range,0)).toInt
-        var bottom = (math.min(c+range,mapHeight-1)).toInt
+        val left = (math.max(r-range,0)).toInt
+        val right = (math.min(r+range, mapWidth-1)).toInt
+        val top = (math.max(c-range,0)).toInt
+        val bottom = (math.min(c+range,mapHeight-1)).toInt
         var enemies = Set[Enemy]()
         for (m <- left to right) {
             for (n <- top to bottom) {
@@ -75,13 +75,13 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
     }
     def placeable (r: Float, c:Float) : Int = {
         import GameMap._
-        var tmp = getTile(r,c)
+        val tmp = getTile(r,c)
         if (tmp.entrance || tmp.exit || tmp.occupied || !tmp.enemies.isEmpty) {
             return occupied
         }
-        var store = tmp.pathable
+        val store = tmp.pathable
         tmp.pathable = false
-        var flag = dijkstras()
+        val flag = dijkstras()
         tmp.pathable = store
         dijkstras()
         if (flag) {
@@ -91,7 +91,7 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         }
     }
     def placeTower (r: Float, c:Float, tower: Tower) = {
-        var tmp = getTile(r,c)
+        val tmp = getTile(r,c)
         tmp.placeTower(tower)
         tower.r = r.toInt + 0.5f
         tower.c = c.toInt + 0.5f
@@ -99,11 +99,11 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         tower.setMap(this)
     }
     def removable (r: Float, c:Float): Boolean = {
-        var tmp = getTile(r,c)
+        val tmp = getTile(r,c)
         tmp.occupied
     }
     def removeTower (r:Float, c:Float) = {
-        var tmp = getTile(r,c)
+        val tmp = getTile(r,c)
         tmp.removeTower()
         dijkstras()
     }
@@ -120,10 +120,8 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
         e.setMap(this)
     }
     def dijkstras () : Boolean = {
-        var sourceR = exitR
-        var sourceC = exitC
-        var sourceTile = map(exitR)(exitC)
-        var Q = Set[Coord]()
+        val sourceTile = map(exitR)(exitC)
+        val Q = Set[Coord]()
         for (r <- 0 to mapHeight-1) {
             for (c <- 0 to mapWidth-1) {
                 map(r)(c).dist = Int.MaxValue/2
@@ -136,8 +134,8 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
 
         sourceTile.dist = 0
         while (!Q.isEmpty) {
-            var curTileCoord = Q.minBy(x=>map(x.r)(x.c).dist)
-            var curTile = map(curTileCoord.r)(curTileCoord.c)
+            val curTileCoord = Q.minBy(x=>map(x.r)(x.c).dist)
+            val curTile = map(curTileCoord.r)(curTileCoord.c)
             if (curTile.dist >= Int.MaxValue/2 && (!curTile.enemies.isEmpty || curTile.entrance)) {
                 return true
             }
@@ -146,32 +144,28 @@ class GameMap (val mapWidth: Int, val mapHeight: Int, val entranceC: Int, val ex
             if (curTile.pathable) {
                 //for each neighbour
                 if (curTileCoord.r-1 >=0) {
-                    var neighbourCoord = new Coord(curTileCoord.r-1,curTileCoord.c)
-                    var neighbour = map(curTileCoord.r-1)(curTileCoord.c)
+                    val neighbour = map(curTileCoord.r-1)(curTileCoord.c)
                     if (curTile.dist + 1 < neighbour.dist) {
                         neighbour.dist = curTile.dist +1
                         neighbour.direction = Down // down
                     }
                 }
                 if (curTileCoord.r+1 <= mapHeight-1) {
-                    var neighbourCoord = new Coord(curTileCoord.r+1,curTileCoord.c)
-                    var neighbour = map(curTileCoord.r+1)(curTileCoord.c)
+                    val neighbour = map(curTileCoord.r+1)(curTileCoord.c)
                     if (curTile.dist + 1 < neighbour.dist) {
                         neighbour.dist = curTile.dist +1
                         neighbour.direction = Up // up
                     }
                 }
                 if (curTileCoord.c-1 >=0) {
-                    var neighbourCoord = new Coord(curTileCoord.r,curTileCoord.c-1)
-                    var neighbour = map(curTileCoord.r)(curTileCoord.c-1)
+                    val neighbour = map(curTileCoord.r)(curTileCoord.c-1)
                     if (curTile.dist + 1 < neighbour.dist) {
                         neighbour.dist = curTile.dist +1
                         neighbour.direction = Right // right
                     }
                 }
                 if (curTileCoord.c+1 <= mapWidth-1) {
-                    var neighbourCoord = new Coord(curTileCoord.r,curTileCoord.c+1)
-                    var neighbour = map(curTileCoord.r)(curTileCoord.c+1)
+                    val neighbour = map(curTileCoord.r)(curTileCoord.c+1)
                     if (curTile.dist + 1 < neighbour.dist) {
                         neighbour.dist = curTile.dist +1
                         neighbour.direction = Left // left

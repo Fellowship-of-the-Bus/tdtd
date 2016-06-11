@@ -22,13 +22,13 @@ object Layer {
     case TopLayer => 0
     case BottomLayer => 1
     case _ => -1
-  }  
+  }
 }
 import Layer._
 
 class Wave (
   val id : Int,
-          
+
   val hippoN : Int,
   val alligatorN : Int,
   val turtleN : Int,
@@ -45,7 +45,7 @@ class Wave (
   val whaleN : Int,
   val megalodonN : Int) {
 
-  var enemyNumbers = 
+  var enemyNumbers =
     Array(hippoN, alligatorN, turtleN, dolphinN, penguinN, krakenN, hydraN,
       crabN, squidN, fishN, jellyfishN, sharkN, whaleN, megalodonN)
   val enemyIDs = Array (HippoID, AlligatorID, TurtleID, DolphinID,PenguinID,KrakenID,HydraID,
@@ -67,7 +67,7 @@ object Game {
 }
 
 
-class Game {
+class Game extends lib.slick2d.game.Game {
   val numSpeeds = 2
   private var numTicks = 1
 
@@ -103,13 +103,13 @@ class Game {
   waves =  waves.enqueue(new Wave(18,   6,10,8,8,0,0,0,     10,10,30,5,6,0,0))   //everything/everything
   waves =  waves.enqueue(new Wave(19,   0,0,0,0,0,0,2,     0,0,0,0,0,0,2))   //boss/boss
   waves =  waves.enqueue(new Wave(20,   4,6,6,6,0,0,2,     8,8,35,4,4,0,2))   //boss+everything/boss+everything
-  
-  private var spawnRate = 20
+
+  private val spawnRate = 20
   private var timeToSpawnTop = 0
   private var timeToSpawnBottom = 0
 
 
-  private var score = 0
+  private val score = 0
 
   def getMoney = money
   def getScore = score
@@ -122,8 +122,8 @@ class Game {
     projectiles = projectiles.filter(_.active)
     explosions = explosions.filter(_.active)
   }
-                                      
-  def tick(): Unit = {
+
+  def update(gc: GameContainer, sbg: StateBasedGame, delta: Int): Unit = {
     if (timer == 0) {
       cleanup
       timer = cleanUpPeriod
@@ -175,7 +175,7 @@ class Game {
       val res2 = map(BottomLayer).placeable(r, c)
 
       if (res1 == GameMap.okay && res2 == GameMap.okay) {
-        map.foreach(_.placeTower(r, c, tower))        
+        map.foreach(_.placeTower(r, c, tower))
         money = money - tower.kind.value
         towers = tower :: towers
         GameMap.okay
@@ -195,25 +195,25 @@ class Game {
 
 
   def sendNextWave() = {
-    var (w, tmp) = waves.dequeue
+    val (w, tmp) = waves.dequeue
     waves = tmp
     for ( i <- 0 to 13) {
       for (j <- 0 to w.enemyNumbers(i)-1) {
         i match {
           case 0 => spawnQueueTop = spawnQueueTop :+ Enemy(HippoID, difficulty(waveNumber))
-          case 1 => spawnQueueTop = spawnQueueTop :+ Enemy(AlligatorID, difficulty(waveNumber)) 
-          case 2 => spawnQueueTop = spawnQueueTop :+ Enemy(TurtleID, difficulty(waveNumber)) 
-          case 3 => spawnQueueTop = spawnQueueTop :+ Enemy(DolphinID, difficulty(waveNumber)) 
-          case 4 => spawnQueueTop = spawnQueueTop :+ Enemy(PenguinID, difficulty(waveNumber)) 
-          case 5 => spawnQueueTop = spawnQueueTop :+ Enemy(KrakenID, difficulty(waveNumber)) 
-          case 6 => spawnQueueTop = spawnQueueTop :+ Enemy(HydraID, difficulty(waveNumber)) 
-          case 7 => spawnQueueBottom = spawnQueueBottom :+ Enemy(CrabID, difficulty(waveNumber)) 
-          case 8 => spawnQueueBottom = spawnQueueBottom :+ Enemy(SquidID, difficulty(waveNumber)) 
-          case 9 => spawnQueueBottom = spawnQueueBottom :+ Enemy(FishID, difficulty(waveNumber)) 
-          case 10 => spawnQueueBottom = spawnQueueBottom :+ Enemy(JellyfishID, difficulty(waveNumber)) 
-          case 11 => spawnQueueBottom = spawnQueueBottom :+ Enemy(SharkID, difficulty(waveNumber)) 
-          case 12 => spawnQueueBottom = spawnQueueBottom :+ Enemy(WhaleID, difficulty(waveNumber)) 
-          case 13 => spawnQueueBottom = spawnQueueBottom :+ Enemy(MegalodonID, difficulty(waveNumber)) 
+          case 1 => spawnQueueTop = spawnQueueTop :+ Enemy(AlligatorID, difficulty(waveNumber))
+          case 2 => spawnQueueTop = spawnQueueTop :+ Enemy(TurtleID, difficulty(waveNumber))
+          case 3 => spawnQueueTop = spawnQueueTop :+ Enemy(DolphinID, difficulty(waveNumber))
+          case 4 => spawnQueueTop = spawnQueueTop :+ Enemy(PenguinID, difficulty(waveNumber))
+          case 5 => spawnQueueTop = spawnQueueTop :+ Enemy(KrakenID, difficulty(waveNumber))
+          case 6 => spawnQueueTop = spawnQueueTop :+ Enemy(HydraID, difficulty(waveNumber))
+          case 7 => spawnQueueBottom = spawnQueueBottom :+ Enemy(CrabID, difficulty(waveNumber))
+          case 8 => spawnQueueBottom = spawnQueueBottom :+ Enemy(SquidID, difficulty(waveNumber))
+          case 9 => spawnQueueBottom = spawnQueueBottom :+ Enemy(FishID, difficulty(waveNumber))
+          case 10 => spawnQueueBottom = spawnQueueBottom :+ Enemy(JellyfishID, difficulty(waveNumber))
+          case 11 => spawnQueueBottom = spawnQueueBottom :+ Enemy(SharkID, difficulty(waveNumber))
+          case 12 => spawnQueueBottom = spawnQueueBottom :+ Enemy(WhaleID, difficulty(waveNumber))
+          case 13 => spawnQueueBottom = spawnQueueBottom :+ Enemy(MegalodonID, difficulty(waveNumber))
         }
       }
     }
@@ -252,7 +252,7 @@ class Game {
         } else {
           timeToSpawnBottom = spawnRate
         }
-      } 
+      }
     }else {
         timeToSpawnBottom -= 1
     }
@@ -285,7 +285,7 @@ class Game {
       }
     }
     val sellValue = layer match {
-      case BothLayers => 
+      case BothLayers =>
         val moneyVal: Int = map.foldLeft(0)((sum, m) => math.max(sum, m(r, c).flatMap(_.getTower.map(_.sell)).getOrElse(0)))
         map.foreach(_.removeTower(r, c))
         moneyVal
@@ -304,11 +304,6 @@ class Game {
     numTicks
   }
 
-  var isGameOver = false
-  def gameOver() = {
-    isGameOver = true
-  }
-
   def getLives() = lives
   def getWaveNumber() = waveNumber
 
@@ -319,5 +314,4 @@ class Game {
       money -= cost
     }
   }
-
 }

@@ -60,8 +60,8 @@ trait TowerType {
 		ret
 	}
 	def init() = {
-    var att = TowerMap.towerMap((id,1))
-    var att1 = TowerMap.towerMap((id,2))
+    val att = TowerMap.towerMap((id,1))
+    val att1 = TowerMap.towerMap((id,2))
     damage = att.dmg.toFloat
     fireRate = att.rate
     range = att.range
@@ -94,7 +94,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
   towerType.name = towerType.basename + " Level 1"
 
   def upgradable () = level < 3
-  
+
   var damage = towerType.damage
   var fireRate = towerType.fireRate
   var range = towerType.range
@@ -106,9 +106,9 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
   var cost = towerType.cost
 
 	def upgrade() = {
-    var att = TowerMap.towerMap((id,level+1))
+    val att = TowerMap.towerMap((id,level+1))
     if (level != 2) {
-      var att1 = TowerMap.towerMap((id,level+2))
+      val att1 = TowerMap.towerMap((id,level+2))
       cost = att1.cost
     } else {
       cost = 0
@@ -123,13 +123,13 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
     name = basename + s" Level $level"
   }
 
-    
+
 
 	def upgradeCost() : Int = {
     if (level >=3 ) {
       return 0
     }
-    var att = TowerMap.towerMap((id,level+1))
+    val att = TowerMap.towerMap((id,level+1))
     att.cost
   }
 
@@ -137,7 +137,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 
 	def setRotation(tar: Enemy) {
 		val rVec = tar.r - r
-    	var cVec = tar.c - c
+    	val cVec = tar.c - c
     	val theta = atan2(rVec, cVec)
       	rotation = toDegrees(theta).asInstanceOf[Float] + 90f
 	}
@@ -183,7 +183,7 @@ abstract class Tower(xc: Float, yc: Float, towerType: TowerType) extends GameObj
 		}
 		ret = ret ++ List(
 			s"Current AI: ${currAI}",
-			s"Kills: $kills", 
+			s"Kills: $kills",
 			f"Damage Dealt: $dmgDone%.1f",
 			s"Description: ${kind.description}"
 		)
@@ -197,13 +197,12 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 
   override def upgrade = {
     super.upgrade()
-    var att = TowerMap.towerMap((id,level))
-    println(s"${att.slow}")
+    val att = TowerMap.towerMap((id,level))
     slowMult = 1f - att.slow
   }
-    
 
-          
+
+
 	override def tick() : List[Projectile] = {
 		if (nextShot == 0) {
 			val enemies = map.aoe(r,c, range)
@@ -222,12 +221,12 @@ abstract class SlowingTower(xc: Float, yc: Float, towerType: SlowingTowerType) e
 		}
 	}
 
-	
+
 
 	override def describe() : List[String] = {
 		val time = towerType.slowTime / GameConfig.FrameRate.toFloat
 		val mult = ((1f - slowMult) * 100).toInt
-		var ret = List(
+		val ret = List(
 			s"Value: ${value}",
       if (cost == 0) {
         "Max Level"
@@ -256,7 +255,7 @@ trait SlowingTowerType extends TowerType {
 	override def describe() : List[String] = {
 		val time = slowTime / GameConfig.FrameRate.toFloat
 		val mult = ((1f - slowMult) * 100).toInt
-		var ret = List(
+		List(
 			s"Value: ${value}",
       if (cost ==0) {
         "Max Level"
@@ -269,13 +268,12 @@ trait SlowingTowerType extends TowerType {
 			s"Description: ${description}",
 			s"Hotkey: ${hotkey}"
 		)
-		ret
 	}
 
 	override def init() : Unit = {
 		super.init()
-		var att = TowerMap.towerMap((id,1))
-		slowMult = 1f - att.slow 
+		val att = TowerMap.towerMap((id,1))
+		slowMult = 1f - att.slow
 	}
 }
 
@@ -389,7 +387,7 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 
   var cash = 30
 	override def upgrade() = {
-    var att = TowerMap.towerMap((id,level+1))
+    val att = TowerMap.towerMap((id,level+1))
     super.upgrade()
     cash = att.money
   }
@@ -399,7 +397,7 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 	}
 
 	override def describe() : List[String] = {
-		var ret = List(
+		List(
 			s"Value: ${value}",
       if (cost == 0) {
         "Max Level"
@@ -409,7 +407,6 @@ class OilDrillTower(xc: Float, yc: Float) extends MazingTower(xc, yc, OilDrillTo
 			s"Cash Earned per Round: $cash",
 			s"Description: ${kind.description}"
 		)
-		ret
 	}
 }
 
@@ -432,13 +429,12 @@ object OilDrillTower extends TowerType {
 
 	override def describe() : List[String] = {
     val cash = 30
-		var ret = List(
+		List(
 			s"Value: ${value}",
       s"Upgrade Cost: $cash",
 			s"Cash Earned per Round: $cash",
 			s"Description: ${description}"
 		)
-		ret
 	}
   init
 }
@@ -654,10 +650,10 @@ class SteamTower(xc: Float, yc: Float) extends Tower(xc, yc, SteamTower) {
 
 	override def tick(): List[Projectile] = {
 		if(nextShot == 0) {
-			var enemiesU = Set[Enemy]()
-			var enemiesL = Set[Enemy]()
-			var enemiesD = Set[Enemy]()
-			var enemiesR = Set[Enemy]()
+			val enemiesU = Set[Enemy]()
+			val enemiesL = Set[Enemy]()
+			val enemiesD = Set[Enemy]()
+			val enemiesR = Set[Enemy]()
 
 			for(i <- 1 to range.toInt) {
 				map(r+i,c) match {

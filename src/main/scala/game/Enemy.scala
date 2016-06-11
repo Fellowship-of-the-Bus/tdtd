@@ -3,7 +3,7 @@ package tdtd
 package game
 
 import lib.util.rand
-import lib.game.Lifebar
+import lib.slick2d.game.Lifebar
 import scala.math._
 import IDMap._
 import TopLayer._
@@ -49,9 +49,9 @@ trait EnemyType {
   def height: Float
   def description: String
   def describe(waveNum: Int) : List[String] = {
-    var hp = maxHp*Game.difficulty(waveNum)
-    var arm = armor*Game.difficulty(waveNum)
-    var ret = List(
+    val hp = maxHp*Game.difficulty(waveNum)
+    val arm = armor*Game.difficulty(waveNum)
+    val ret = List(
       s"Hp: $hp",
       s"Armour: $arm",
       s"Speed: $speed",
@@ -62,14 +62,14 @@ trait EnemyType {
   }
 }
 
-// tuple containing the magnitude and time remaining on a slow effect 
+// tuple containing the magnitude and time remaining on a slow effect
 class SlowEffect(val mult: Float, var time: Int) {}
 
 // triple containing info projectile needs when it hits an enemy
 class GotHit(val dmg: Float, val money: Int) {}
 // Might need to update for jellyfish duplication
 
-abstract class Enemy (val mult: Float, val base: EnemyType) extends GameObject(0,0) with Lifebar { 
+abstract class Enemy (val mult: Float, val base: EnemyType) extends GameObject(0,0) with Lifebar {
 	val id = base.id
   var hp = (base.maxHp * mult)
   var armor = (base.armor * mult)
@@ -87,12 +87,12 @@ abstract class Enemy (val mult: Float, val base: EnemyType) extends GameObject(0
  	def special(game:Game) {}
 
   def maxHp = base.maxHp * mult
-  
+
 
   def tick(game: Game) : Boolean = {
   	var maxSlow = 1.0f
     var dist = speed
-  	
+
   	def updateSlow(lst: List[SlowEffect], eff: SlowEffect) = {
   		eff.time -= 1
   		 if (eff.mult < maxSlow) {
@@ -148,7 +148,7 @@ abstract class Enemy (val mult: Float, val base: EnemyType) extends GameObject(0
 	}
 
 	def hit(dmg: Float) : GotHit = {
-		var dmgDone = max(dmg - armor, dmg * 0.3f)
+		val dmgDone = max(dmg - armor, dmg * 0.3f)
     hp -= dmgDone
 		if (hp <= 0) {
 			place.deregister(this)
@@ -168,9 +168,9 @@ abstract class Enemy (val mult: Float, val base: EnemyType) extends GameObject(0
       place = map(r,c).get
   }
   def describe(level: Int) : List[String] = {
-    var hp = maxHp*difficulty(level)
-    var arm = armor*difficulty(level)
-    var ret = List(
+    val hp = maxHp*difficulty(level)
+    val arm = armor*difficulty(level)
+    val ret = List(
       s"Hp: $hp",
       s"Armour: $arm",
       s"Speed: $speed",
@@ -193,7 +193,7 @@ object Fish extends EnemyType {
   val description = "Underwater enemy \n that comes in swarms"
 }
 
-class Fish(mult: Float) extends Enemy(mult, Fish) {} 
+class Fish(mult: Float) extends Enemy(mult, Fish) {}
 
 object Hippo extends EnemyType {
   val id = HippoID
@@ -207,7 +207,7 @@ object Hippo extends EnemyType {
   val description = "Surface enemy with high\n health, but has slower movespeed."
 }
 
-class Hippo(mult: Float) extends Enemy(mult, Hippo) {} 
+class Hippo(mult: Float) extends Enemy(mult, Hippo) {}
 
 object Alligator extends EnemyType {
   val id = AlligatorID
@@ -220,7 +220,7 @@ object Alligator extends EnemyType {
   val description = "Basic surface enemy \n with no special abilities."
 }
 
-class Alligator(mult: Float) extends Enemy(mult, Alligator) {} 
+class Alligator(mult: Float) extends Enemy(mult, Alligator) {}
 
 object Turtle extends EnemyType {
   val id = TurtleID
@@ -233,7 +233,7 @@ object Turtle extends EnemyType {
   val description = "Surface enemy that is \n armoured, but has \n slower movespeed."
 }
 
-class Turtle(mult: Float) extends Enemy(mult, Turtle) {} 
+class Turtle(mult: Float) extends Enemy(mult, Turtle) {}
 
 object Dolphin extends EnemyType {
   val id = DolphinID
@@ -257,7 +257,7 @@ class Dolphin(mult: Float) extends Enemy(mult, Dolphin) {
         oldDir = dir
       }
   }
-} 
+}
 
 object Penguin extends EnemyType {
   val id = PenguinID
@@ -270,7 +270,7 @@ object Penguin extends EnemyType {
   val description =  "placeholder"
 }
 
-class Penguin(mult: Float) extends Enemy(mult, Penguin) {} 
+class Penguin(mult: Float) extends Enemy(mult, Penguin) {}
 
 object Kraken extends EnemyType {
   val id = KrakenID
@@ -283,7 +283,7 @@ object Kraken extends EnemyType {
   val description =  "placeholder"
 }
 
-class Kraken(mult: Float) extends Enemy(mult, Kraken) {} 
+class Kraken(mult: Float) extends Enemy(mult, Kraken) {}
 
 object Hydra extends EnemyType {
   val id = HydraID
@@ -300,7 +300,7 @@ class Hydra(mult: Float) extends Enemy(mult, Hydra) {
   override def special(game:Game) {
     hp = min(maxHp, hp + (maxHp * 0.001f))
   }
-} 
+}
 
 object Crab extends EnemyType {
   val id = CrabID
@@ -313,7 +313,7 @@ object Crab extends EnemyType {
   val description = "Underwater enemy that is\n armoured, but moves slower."
 }
 
-class Crab(mult: Float) extends Enemy(mult, Crab) {} 
+class Crab(mult: Float) extends Enemy(mult, Crab) {}
 
 object Squid extends EnemyType {
   val id = SquidID
@@ -327,7 +327,7 @@ object Squid extends EnemyType {
   val description = "Underwater enemy that has\n high movespeed."
 }
 
-class Squid(mult: Float) extends Enemy(mult, Squid) {} 
+class Squid(mult: Float) extends Enemy(mult, Squid) {}
 
 object Jellyfish extends EnemyType {
   val id = JellyfishID
@@ -337,7 +337,7 @@ object Jellyfish extends EnemyType {
   val speed = 0.04f
   val width = 0.5f
   val height = 0.5f
-  
+
   val description = "Underwater enemy that \n duplicates itself every \n so often."
 }
 
@@ -346,7 +346,7 @@ class Jellyfish(mult: Float) extends Enemy(mult, Jellyfish) {
   var timeToSplit = 60
   override def special(game:Game) = {
     if (timeToSplit == 0) {
-      var e = Enemy(JellyfishID, mult)
+      val e = Enemy(JellyfishID, mult)
       e.hp = hp
       game.enemies = e:: game.enemies
       game.map(Layer.layer2Int(BottomLayer)).spawn(e, r.toInt, c)
@@ -355,7 +355,7 @@ class Jellyfish(mult: Float) extends Enemy(mult, Jellyfish) {
       timeToSplit -= 1
     }
   }
-} 
+}
 
 object Whale extends EnemyType {
   val id = WhaleID
@@ -369,7 +369,7 @@ object Whale extends EnemyType {
   val description =  "Underwater enemy that has \n high health, but move slower."
 }
 
-class Whale(mult: Float) extends Enemy(mult, Whale) {} 
+class Whale(mult: Float) extends Enemy(mult, Whale) {}
 
 object Shark extends EnemyType {
   val id = SharkID
@@ -383,7 +383,7 @@ object Shark extends EnemyType {
   val description = "Basic underwater enemy\n with no special abilities."
 }
 
-class Shark(mult: Float) extends Enemy(mult, Shark) {} 
+class Shark(mult: Float) extends Enemy(mult, Shark) {}
 
 object Megalodon extends EnemyType {
   val id = MegalodonID
@@ -396,4 +396,4 @@ object Megalodon extends EnemyType {
   val description =  "Underwater boss enemy,\n very high health."
 }
 
-class Megalodon(mult: Float) extends Enemy(mult, Megalodon) {} 
+class Megalodon(mult: Float) extends Enemy(mult, Megalodon) {}

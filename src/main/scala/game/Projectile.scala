@@ -38,7 +38,7 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
       null
     }
   }
-  
+
   def tick() = {
     val rVec = tar.r - r
     val cVec = tar.c - c
@@ -50,7 +50,7 @@ class Projectile (x: Float, y: Float, val tar: Enemy, val tower:Tower) extends G
     if (dist < speed) {
       val enemies = map.aoe(tar.r, tar.c, aoe)
       for (e <- enemies) {
-        var data = e.hit(dmg)
+        val data = e.hit(dmg)
         totalDmg += data.dmg
         money += data.money
         if (data.money != 0) {
@@ -95,12 +95,12 @@ class Steam(x: Float, y: Float, val dir: Int, tower:Tower) extends Projectile(x,
 
           if (nTiles < 4) {
             var totalDmg = 0.0f
-            
+
             var kills = 0
             val enemies = tile.enemies
 
             for (e <- enemies) {
-              var data = e.hit(dmg)
+              val data = e.hit(dmg)
               totalDmg += data.dmg
               money += data.money
               if (data.money != 0) {
@@ -116,9 +116,9 @@ class Steam(x: Float, y: Float, val dir: Int, tower:Tower) extends Projectile(x,
         }
         (money, null)
 
-      case _ => 
+      case _ =>
         inactivate
-        (0, null) 
+        (0, null)
     }
   }
 }

@@ -1,7 +1,7 @@
 package com.github.fellowship_of_the_bus
 package tdtd.game
 
-import lib.ui.{Image, Animation, Drawable}
+import lib.slick2d.ui.{Image, Animation, Drawable}
 
 object IDMap {
 
@@ -37,7 +37,7 @@ object IDMap {
   val UnderTEnd = 2203
 
   val TIDRanges = Array(TopTStart, TopTEnd, EitherTStart, EitherTEnd, BothTStart, BothTEnd, UnderTStart, UnderTEnd)
-  
+
   //Enemies
   val UnderStart = 3001
   val FishID = 3001
@@ -81,10 +81,10 @@ object IDMap {
   val imageMap = Map(
     FotBLogoID -> "img/FotB-Logo.png",
     GameOverID -> "img/GameOver.png",
-    
+
     HarpoonTowerID -> "img/HarpoonTower.png",
     OilDrillTowerID -> "img/OilTop.png",
-  
+
     CannonTowerID -> "img/CannonTower.png",
     IceTowerTopID -> "img/IceTowerTop.png",
     DepthChargeTowerID -> "img/DepthChargeTower.png",

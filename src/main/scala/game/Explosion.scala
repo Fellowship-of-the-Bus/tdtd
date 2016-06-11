@@ -12,7 +12,7 @@ class Explosion(val r: Float, val c: Float, val aoe: Float, val map: GameMap) {
 
 	private var isActive = true
   def active = isActive
-  def inactivate = isActive = false
+  def inactivate() = isActive = false
 
   def tick() = {
   	time -= 1;

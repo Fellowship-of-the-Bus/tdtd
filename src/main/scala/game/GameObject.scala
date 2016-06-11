@@ -17,7 +17,7 @@ abstract class GameObject(xc: Float, yc: Float) {
 
   private var isActive = true
   def active = isActive
-  def inactivate = isActive = false
+  def inactivate() = isActive = false
 
   def topLeftCoord = (r-width/2, c-height/2)
   def setMap (m: GameMap) = {

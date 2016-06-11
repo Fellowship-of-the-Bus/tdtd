@@ -5,8 +5,7 @@ package ui
 
 import org.newdawn.slick.{GameContainer, Graphics, Color}
 import org.newdawn.slick.state.{StateBasedGame}
-import lib.ui.Button
-import lib.ui.Pane
+import lib.slick2d.ui.{Button}
 
 import GameUI.Dimensions._
 import game._
@@ -24,7 +23,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
           game.sell(t)
           GameUI.displaySelection = NoSelection
         }
-      
+
       case _ => ()
     }
   }
@@ -100,7 +99,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
         g.setColor(Color.lightGray)
         g.fillRect(0,0,width,height)
         g.setColor(Color.black)
-        var linew = g.getLineWidth()
+        val linew = g.getLineWidth()
         g.setLineWidth(3)
         g.drawRect(0,0,width,height)
         g.setLineWidth(linew)
@@ -148,8 +147,8 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 
     GameUI.displaySelection match {
         case IDSelection(id) => {
-          var t = Tower(id)
-          var w = font.getWidth(t.name)
+          val t = Tower(id)
+          val w = font.getWidth(t.name)
           g.drawString(t.name, width/2 - w/2, 5)
           var y = 40
           for (line <- t.describe()) {
@@ -159,7 +158,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
           }
         }
         case TowerSelection(t) => {
-          var w = font.getWidth(t.kind.name)
+          val w = font.getWidth(t.kind.name)
           g.drawString(t.name, width/2 - w/2, 5)
           var y = 40
           for (line <- t.describe()) {
@@ -176,7 +175,7 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
     g.setLineWidth(lineWidth)
   }
 
-  val aiVisible: () => Boolean = 
+  val aiVisible: () => Boolean =
     () => GameUI.displaySelection match {
       case TowerSelection(t) =>
         t.id match {
@@ -186,23 +185,23 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
       case _ => false
     }
 
-  val aiSelectable: () => Boolean = 
+  val aiSelectable: () => Boolean =
     () => GameUI.displaySelection match {
       case TowerSelection(t) => t.boughtAI
       case _ => false
     }
 
    override def init(gc: GameContainer, sbg: StateBasedGame): Unit = {
-		var g = gc.getGraphics()
+		val g = gc.getGraphics()
 		val font = g.getFont()
 		var w = font.getWidth("Sell for 50%")
 		var h = font.getHeight("Sell fot 50%")
 
-		val sellButton = new Button("Sell for 50%", width - w - 10, 40, w + 5, h + 5, sell)  
+		val sellButton = new Button("Sell for 50%", width - w - 10, 40, w + 5, h + 5, sell)
 		w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
 		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 65, w + 5, h + 5, upgrade)
-    upgradeButton.setSelectable(() => 
+    upgradeButton.setSelectable(() =>
       GameUI.displaySelection match {
         case TowerSelection(tower) => tower.upgradable && game.getMoney >= tower.upgradeCost()
         case _ => false
