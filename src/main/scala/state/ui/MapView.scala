@@ -91,9 +91,9 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         val enemies = tile.enemies
         for (e <- enemies; if (e.active)) {
           val (ex, ey) = convert(e)
-          e.draw(g, ex, ey)
+          e.draw(g, ex, ey) // lifebar
           drawObject(e, g)
-          if (Layer.layer2Int(layer) == 1) {
+          if (layer == BottomLayer) {
             drawOffset(e, g)
           }
         }
@@ -102,7 +102,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         if (! tower.isEmpty) {
           val t = tower.get
           drawObject(t, g)
-          if (Layer.layer2Int(layer) == 1) {
+          if (layer == BottomLayer) {
             drawOffset(t, g)
           }
         }
@@ -112,13 +112,13 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     for (p <- game.projectiles; if (p.active)) {
       if (p.getMap == map) {
         drawObject(p, g)
-        if (Layer.layer2Int(layer) == 1) {
+        if (layer == BottomLayer) {
             drawOffset(p, g)
         }
       }
     }
 
-    if (Layer.layer2Int(layer) == 1) {
+    if (layer == BottomLayer) {
         g.setColor(new Color(0, 99, 0xcc, 50))
         g.fillRect(0,0,mapWidth,mapHeight)
     }
@@ -127,7 +127,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
 
     // Draw explosions. May want to encapsulate better
     for (e <- game.explosions; if (e.active)) {
-      if (Layer.layer2Int(layer) == 0 || e.getMap == map) {
+      if (layer == TopLayer || e.getMap == map) {
         val (ex, ey) = convert(e.r, e.c)
         val ew = e.size * widthRatio
         val eh = e.size * heightRatio
@@ -182,7 +182,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         }
       }
     } else {
-      if (Layer.layer2Int(layer) == 0) { //topLayer
+      if (layer == TopLayer) {
         t match {
           case HarpoonTowerID |
                CannonTowerID  |
@@ -213,7 +213,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
           case _ => ()
 
         }
-      } else if (Layer.layer2Int(layer) == 1) { //bottomlayer
+      } else if (layer == BottomLayer) {
         t match {
           case SteamTowerID |
                HarpoonTowerID => {

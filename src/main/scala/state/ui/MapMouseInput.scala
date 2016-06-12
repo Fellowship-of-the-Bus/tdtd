@@ -136,7 +136,7 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
     if (isMouseOver || isMouseClick || onOther || isMouseDown) {
       if (GameUI.placeSelection != NoTowerID) {
         val t = Tower(GameUI.placeSelection)
-        val l = Layer.layer2Int(view.layer)
+        val l = view.layer
 
         def drawRange() {
           val rx = t.range * view.widthRatio
@@ -160,14 +160,14 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
                  MissileTowerID |
                  NetTowerID     |
                  WhirlpoolBottomID =>
-                  if (l == 0) {
+                  if (l == TopLayer) {
                     drawRange()
                   }
 
             case SteamTowerID     |
                  IceTowerBottomID |
                  DepthChargeTowerID =>
-                  if (l == 1) {
+                  if (l == BottomLayer) {
                     drawRange()
                   }
 
@@ -191,8 +191,8 @@ class MapInput( x: Float, y:Float, width: Float, height:Float, action: (Float, F
         }
 
         if ((t.id >= IDMap.EitherTStart && t.id <= IDMap.BothTEnd) ||
-            (l == 0 && t.id >= IDMap.TopTStart && t.id <= IDMap.TopTEnd) ||
-            (l == 1 && t.id >= IDMap.UnderTStart && t.id <= IDMap.UnderTEnd)) {
+            (l == TopLayer && t.id >= IDMap.TopTStart && t.id <= IDMap.TopTEnd) ||
+            (l == BottomLayer && t.id >= IDMap.UnderTStart && t.id <= IDMap.UnderTEnd)) {
           if (!onOther || t.id == OilDrillTowerID) {
             drawSprite()
             drawRanges()
