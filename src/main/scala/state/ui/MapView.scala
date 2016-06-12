@@ -13,7 +13,8 @@ import game.Layer._
 import game.IDMap._
 import game.GameMap._
 
-import lib.slick2d.ui.{Drawable}
+import lib.slick2d.ui.{Drawable, XColor, NoColor, SomeColor, ColorImplicits}
+import ColorImplicits._
 
 class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer, gameArea : GameArea)(implicit bg: Color) extends Pane(x, y, width, height) {
   def this(x: Float, y: Float, layer: Layer, gameArea: GameArea)(implicit bg: Color) = this(x, y, mapWidth, mapHeight, layer, gameArea)
@@ -32,17 +33,17 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     convert(r - (0.5f * go.width), c - (0.5f * go.height))
   }
 
-  def drawScaledImage(im: Drawable, x: Float, y: Float, width: Float, height: Float, g: Graphics) = {
+  def drawScaledImage(im: Drawable, x: Float, y: Float, width: Float, height: Float, g: Graphics, filter: XColor = NoColor) = {
     val scaleX = width*widthRatio/im.getWidth
     val scaleY = height*heightRatio/im.getHeight
     g.scale(scaleX,scaleY)
 
-    im.draw(x * im.getWidth/width/widthRatio, y*im.getHeight/height/heightRatio)
+    im.draw(x * im.getWidth/width/widthRatio, y*im.getHeight/height/heightRatio, false, false, filter)
 
     g.scale(1/scaleX, 1/scaleY)
   }
 
-  def drawObject(e: GameObject, g: Graphics) {
+  def drawObject(e: GameObject, g: Graphics, filter: XColor = NoColor) {
     val (ex, ey) = convert(e)
 
     val exPos = ex + 0.5f * (e.width * widthRatio)
@@ -52,7 +53,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     g.rotate(0 , 0 , e.rotation)
     g.translate(-exPos, -eyPos)
 
-    drawScaledImage(IDMap.images(e.id), ex, ey, e.width, e.height, g)
+    drawScaledImage(IDMap.images(e.id), ex, ey, e.width, e.height, g, filter)
 
     g.translate(exPos, eyPos)
     g.rotate(0 , 0 , -e.rotation)
@@ -101,7 +102,12 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         val tower = tile.tower
         if (! tower.isEmpty) {
           val t = tower.get
-          drawObject(t, g)
+          val filter = t.level match {
+            case 1 => NoColor
+            case 2 => SomeColor(Color.red.opacity(0.5f))
+            case 3 => SomeColor(Color.blue.opacity(0.5f))
+          }
+          drawObject(t, g, filter)
           if (layer == BottomLayer) {
             drawOffset(t, g)
           }

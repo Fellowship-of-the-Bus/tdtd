@@ -7,7 +7,7 @@ import org.newdawn.slick.state.{BasicGameState, StateBasedGame}
 import IDMap._
 import Game._
 import lib.game.GameConfig.{Height,Width}
-import scala.collection.mutable.{LinkedList}
+import scala.collection.mutable.{ListBuffer}
 import scala.collection.immutable.Queue
 
 
@@ -81,8 +81,8 @@ class Game extends lib.slick2d.game.Game {
   var projectiles = List[Projectile]()
   var explosions = List[Explosion]()
   var waves = Queue[Wave]()
-  var spawnQueueTop = LinkedList[Enemy]()
-  var spawnQueueBottom = LinkedList[Enemy]()
+  var spawnQueueTop = ListBuffer[Enemy]()
+  var spawnQueueBottom = ListBuffer[Enemy]()
   waves = waves.enqueue(new Wave(1,   0,10,0,0,0,0,0,     0,0,0,0,0,0,0))   //normal/none
   waves = waves.enqueue(new Wave(2,   0,0,0,0,0,0,0,     0,0,0,0,10,0,0))   //none/normal
   waves = waves.enqueue(new Wave(3,   0,15,0,0,0,0,0,     0,0,0,0,15,0,0))  //normal/normal
