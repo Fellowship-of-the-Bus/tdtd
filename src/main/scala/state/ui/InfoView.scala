@@ -197,10 +197,10 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 		var w = font.getWidth("Sell for 50%")
 		var h = font.getHeight("Sell fot 50%")
 
-		val sellButton = new Button("Sell for 50%", width - w - 10, 40, w + 5, h + 5, sell)
+		val sellButton = new Button("Sell for 50%", width - w - 10, 40, w + 5, h + 5, () => sell())
 		w = font.getWidth("Upgrade")
 		h = font.getHeight("Upgrade")
-		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 65, w + 5, h + 5, upgrade)
+		val upgradeButton = new Button("Upgrade", width - (w * 1.2f) - 5, 65, w + 5, h + 5, () => upgrade())
     upgradeButton.setSelectable(() =>
       GameUI.displaySelection match {
         case TowerSelection(tower) => tower.upgradable && game.getMoney >= tower.upgradeCost()
@@ -209,23 +209,23 @@ class InfoView(x: Float, y: Float, width: Float, height: Float)(implicit bg: Col
 
 		w = font.getWidth("Random")
 		h = font.getHeight("Random")
-		val randomButton = new Button("Random", 5, 400, w + 5, h + 5, setRandom)
+		val randomButton = new Button("Random", 5, 400, w + 5, h + 5, () => setRandom())
       .setSelectable(aiSelectable).setIsVisible(aiVisible)
 
 		val oldw = w
 		w = font.getWidth("Closest to Tower")
 		h = font.getHeight("Closest to Tower")
-		val closestButton = new Button("Closest to Tower", oldw + 40, 400, w + 5, h + 5, setClosest)
+		val closestButton = new Button("Closest to Tower", oldw + 40, 400, w + 5, h + 5, () => setClosest())
       .setSelectable(aiSelectable).setIsVisible(aiVisible)
 
 		w = font.getWidth("Closest to Goal")
 		h = font.getHeight("Closest to Goal")
-		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 435, w + 5, h + 5, setClosestGoal)
+		val closestGoalButton = new Button("Closest to Goal", oldw + 40, 435, w + 5, h + 5, () => setClosestGoal())
       .setSelectable(aiSelectable).setIsVisible(aiVisible)
 
 		w = font.getWidth(s"Buy AI for $$$aiCost")
 		h = font.getHeight(s"Buy AI for $$$aiCost")
-		val buyAIButton = new Button(s"Buy AI for $$$aiCost", oldw + 40, 362.5f, w + 5, h + 5, buyAI)
+		val buyAIButton = new Button(s"Buy AI for $$$aiCost", oldw + 40, 362.5f, w + 5, h + 5, () => buyAI())
     .setSelectable(() => {
       val bought = aiSelectable()
       val enoughMoney = game.money >= aiCost
