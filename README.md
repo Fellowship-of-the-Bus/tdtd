@@ -6,10 +6,10 @@ This game was originally created for the University of Waterloo Games Institute 
 ## Installation
 There are two recommended options for running this game.
 
-1. Download one of the pre-built executable JAR files under [releases]. Run by either double clicking the JAR file or entering the command `java -jar <jar-name>` on the commandline.
-2. Build from source. The easiest way to do so is to use [sbt]
+1. Download one of the pre-built executable JAR files under [releases]. Run it by either double-clicking the JAR file or entering the command `java -jar <jar-name>` on the command line.
+2. Build from source. The easiest way to do so is to use [sbt]:
     1. Install sbt.
-    2. Run sbt from the commandline.
+    2. Run sbt from the command line in the project root directory.
     3. At the prompt, type `run`.
 
 ## Controls:
