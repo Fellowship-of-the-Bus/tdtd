@@ -243,14 +243,5 @@ Underwater
 
 [screenshot]: http://fellowship-of-the-bus.github.io/tdtd/images/screenshot.png
 [logo]: src/main/resources/img/FotB-Logo.png
-[releases]: ./releases
+[releases]: ../../releases
 [sbt]: http://www.scala-sbt.org/
-
-[health]: src/main/resources/img/PowerHP.png
-[shot]: src/main/resources/img/PowerShots.png
-
-[cosmic bee]: src/main/resources/img/CosmicBee.png
-[drone]: src/main/resources/img/Drone.png
-[fighter]: src/main/resources/img/Fighter.png
-[galactic dragon]: src/main/resources/img/GalacticDragon.png
-[space turtle]: src/main/resources/img/SpaceTurtle.png
