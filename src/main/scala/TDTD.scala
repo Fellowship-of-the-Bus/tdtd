@@ -12,9 +12,10 @@ import lib.slick2d.game.SlickGameConfig
 
 class TDTD(gamename: String) extends StateBasedGame(gamename) {
   def initStatesList(gc: GameContainer) = {
-    gc.setShowFPS(true)
+    gc.setShowFPS(false)
     addState(Menu)
     addState(GameUI)
+    addState(Options)
     addState(Encyclopedia)
   }
 }
