@@ -234,6 +234,8 @@ Enemies are spawned in waves from the top of the screen. The first few waves con
 
 ### Special Thanks
 * This game was heavily inspired by Bloons Tower Defense, Gem Tower Defense, and various other tower defense games
+* [Mf Sippin On Sunshine](http://www.fontspace.com/mistis-fonts/mf-sippin-on-sunshine) font created by Misti's Fonts
+* [Ringbearer](http://www.fontspace.com/pete-klassen/ringbearer) font created by Pete Klassen
 
 [Rob Schluntz]: https://github.com/saitou1024
 [Abraham Dubrisingh]: https://github.com/Greatrabe
