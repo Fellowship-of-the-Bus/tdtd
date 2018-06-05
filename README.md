@@ -1,4 +1,5 @@
-# Two-Dimensional Tower Defense (tdtd)
+![Two-Dimensional Tower Defense (tdtd)][game logo]
+
 This game was originally created for the University of Waterloo Games Institute Jam (Spring 2015)
 
 ![Fellowship of the Bus][logo]
@@ -34,7 +35,7 @@ This game is primarily controlled by clicking on buttons in the interface. There
 ## How to Play
 The object of the game is to defeat as many enemies as possible before losing all of your lives. Your current number of lives is displayed in the top left of the screen. You lose one life each time an enemy reaches the destination at the bottom of the playing field.
 
-![TDTD][screenshot]
+![TDTD][setup]
 
 TDTD is a "mazing" tower defense game. By strategically placing your towers, you influence the route that enemies can take to reach their goal. Build your own custom maze to corral enemies away from the exit, or to utilize advanced tactics such as enemy juggling.
 
@@ -243,7 +244,12 @@ Enemies are spawned in waves from the top of the screen. The first few waves con
 [Erin Blackmere]: https://github.com/erin2kb
 [Travis Bartlett]: https://github.com/kjifs
 
-[screenshot]: http://fellowship-of-the-bus.github.io/tdtd/images/screenshot.png
+[setup]: images/setup.png
+[video]: https://www.youtube.com/watch?v=WSZujCk0FkE
+[video image]: images/video.png
+[screenshot]: images/screenshot.png
+
+[game logo]: src/main/resources/img/GameLogo.png
 [logo]: src/main/resources/img/FotB-Logo.png
 [releases]: ../../releases
 [sbt]: http://www.scala-sbt.org/
