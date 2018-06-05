@@ -35,11 +35,13 @@ This game is primarily controlled by clicking on buttons in the interface. There
 ## How to Play
 The object of the game is to defeat as many enemies as possible before losing all of your lives. Your current number of lives is displayed in the top left of the screen. You lose one life each time an enemy reaches the destination at the bottom of the playing field.
 
-![TDTD][setup]
+[![video image]][video]
 
 TDTD is a "mazing" tower defense game. By strategically placing your towers, you influence the route that enemies can take to reach their goal. Build your own custom maze to corral enemies away from the exit, or to utilize advanced tactics such as enemy juggling.
 
 The element that separates TDTD from other tower defense games is its double-layer playing field, wherein you must mount a defense above and below the water. On the left side of the screen is the top layer, where enemies like alligators, dolphins, and the resilient hydra dwell. On the right side is the bottom layer, where you must defend against enemies such as squid, sharks, and the immortal jellyfish.
+
+![TDTD][setup]
 
 Each time you defeat an enemy, you receive a set amount of money. You can use money to buy new towers, upgrade existing towers, and purchase AI customization options. If you find that a tower is not performing as well as you had hoped, you can sell it for 50% of its current value.
 
