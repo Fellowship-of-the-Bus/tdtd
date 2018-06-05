@@ -3,10 +3,13 @@ package tdtd
 package game
 import IDMap._
 import lib.game.GameConfig.{Width}
+import lib.game.CenteredCoordinates
 
-abstract class GameObject(xc: Float, yc: Float) {
+abstract class GameObject(xc: Float, yc: Float) extends CenteredCoordinates {
   var r = xc
   var c = yc
+  def x = r
+  def y = c
   var rotation = 0f
 
   protected var map : GameMap = null
@@ -19,7 +22,6 @@ abstract class GameObject(xc: Float, yc: Float) {
   def active = isActive
   def inactivate() = isActive = false
 
-  def topLeftCoord = (r-width/2, c-height/2)
   def setMap (m: GameMap) = {
       map = m
   }

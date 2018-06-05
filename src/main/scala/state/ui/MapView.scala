@@ -29,7 +29,8 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
   }
 
   def convert(go: GameObject): (Float, Float) = {
-    val (r,c) = (go.r, go.c)//go.topLeftCoord
+    // ideally this needs to be done in GameObject since it needs to display lifebars
+    val (r,c) = (go.r, go.c)
     convert(r - (0.5f * go.width), c - (0.5f * go.height))
   }
 
@@ -43,7 +44,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
     g.scale(1/scaleX, 1/scaleY)
   }
 
-  def drawObject(e: GameObject, g: Graphics, filter: XColor = NoColor) {
+  def drawObject(e: GameObject, g: Graphics, filter: XColor = NoColor) = {
     val (ex, ey) = convert(e)
 
     val exPos = ex + 0.5f * (e.width * widthRatio)
@@ -92,7 +93,7 @@ class MapView(x: Float, y: Float, width: Float, height: Float, val layer: Layer,
         val enemies = tile.enemies
         for (e <- enemies; if (e.active)) {
           val (ex, ey) = convert(e)
-          e.draw(g, ex, ey) // lifebar
+          e.draw(g, ex, ey, 20, 5) // lifebar
           drawObject(e, g)
           if (layer == BottomLayer) {
             drawOffset(e, g)

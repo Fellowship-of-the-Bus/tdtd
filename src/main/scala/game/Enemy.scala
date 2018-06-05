@@ -3,7 +3,7 @@ package tdtd
 package game
 
 import lib.util.rand
-import lib.slick2d.game.Lifebar
+import lib.slick2d.game.{Lifebar}
 import scala.math._
 import IDMap._
 import TopLayer._
