@@ -28,7 +28,7 @@ This game is primarily controlled by clicking on buttons in the interface. There
 * Steam Tower: S
 * Sell currently selected tower: Shift + S
 * Upgrade the currently selected tower: U
-* Clears the current selection: Esc
+* Clear the current selection: Esc
 * Toggle fast-forward mode: F
 * Start next wave: Space
 
