@@ -111,7 +111,7 @@ The base stats of the various towers are listed below.
 7. <img src="src/main/resources/img/WhirlpoolTower.png" width="80"><p> Whirlpool Tower
     * Range: 1
     * Cost: $20
-    * Slows enemies to 2/5 speed. Can only be placed on the bottom layer. Affects enemies within range on both layers.
+    * Slows enemies to 2/5 speed. Simultaneously takes up space on both layers. Affects enemies within range on the top layer.
 8. <img src="src/main/resources/img/MissileTower.png" width="80"><p> Missile Tower
     * Damage: 25
     * Firing Rate: 1.5 seconds
