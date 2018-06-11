@@ -69,14 +69,19 @@ Challenge yourself to survive as many waves as you can!
 
 The base stats of the various towers are listed below.
 
-1. <img src="src/main/resources/img/HarpoonTower.png" width="80"><p> Harpoon Tower
+1. <img src="src/main/resources/img/HarpoonTower.png" width="80">
+    
+    Harpoon Tower
     * Damage: 5
     * Firing Rate: 1 second
     * Range: 2
     * Projectile Speed: 24
     * Cost: $10
     * Cheap, weak tower. Useful for mazing. Can be placed on the top or bottom layer.
-2. <img src="src/main/resources/img/CannonTower.png" width="80"><p> Cannon Tower
+
+2. <img src="src/main/resources/img/CannonTower.png" width="80">
+
+    Cannon Tower
     * Damage: 15
     * Firing Rate: 2 seconds
     * Range: 2.5
@@ -84,23 +89,35 @@ The base stats of the various towers are listed below.
     * Projectile Speed: 12
     * Cost: $30
     * Strong, Area of Effect damaging tower. Can only be placed on the top layer.
-3. <img src="src/main/resources/img/TorpedoTower.png" width="80"><p> Torpedo Tower
+    
+3. <img src="src/main/resources/img/TorpedoTower.png" width="80">
+
+    Torpedo Tower
     * Damage: 20
     * Firing Rate: 1.5 seconds
     * Range: 3.5
     * Projectile Speed: 18
     * Cost: $20
     * Medium cost, medium damage tower. Can only be placed on the bottom layer. Can fire at enemies on either layer.
-4. <img src="src/main/resources/img/OilTop.png" width="80"><p> Oil Drill
+
+4. <img src="src/main/resources/img/OilTop.png" width="80">
+
+    Oil Drill
     * Cost: $200
     * Provides a bonus $30 at the end of each wave.
     * Simultaneously takes up space on both layers.
-5. <img src="src/main/resources/img/IceTowerBottom.png" width="80"><p> Ice Tower
+
+5. <img src="src/main/resources/img/IceTowerBottom.png" width="80">
+
+    Ice Tower
     * Range: 2
     * Cost: $20
     * Slows enemies to 1/4 speed when in range
     * Simultaneously takes up space on both layers. Targets enemies only on the bottom layer.
-6. <img src="src/main/resources/img/DepthChargeTower.png" width="80"><p> Depth Charge Tower
+
+6. <img src="src/main/resources/img/DepthChargeTower.png" width="80">
+    
+    Depth Charge Tower
     * Damage: 15
     * Firing Rate: 0.7 seconds
     * Range: 1.5
@@ -108,25 +125,37 @@ The base stats of the various towers are listed below.
     * Projectile Speed: 12
     * Cost: $20
     * Can only be placed on the top layer. Can only fire at enemies on the bottom layer.
-7. <img src="src/main/resources/img/WhirlpoolTower.png" width="80"><p> Whirlpool Tower
+    
+7. <img src="src/main/resources/img/WhirlpoolTower.png" width="80">
+
+    Whirlpool Tower
     * Range: 1
     * Cost: $20
     * Slows enemies to 2/5 speed. Simultaneously takes up space on both layers. Affects enemies within range on the top layer.
-8. <img src="src/main/resources/img/MissileTower.png" width="80"><p> Missile Tower
+    
+8. <img src="src/main/resources/img/MissileTower.png" width="80">
+
+    Missile Tower
     * Damage: 25
     * Firing Rate: 1.5 seconds
     * Range: 3
     * Projectile Speed: 18
     * Cost: $50
     * Can only be placed on the top layer. Shoots 3 fast projectiles at enemies within range on the top layer.
-9. <img src="src/main/resources/img/NetTower.png" width="80"><p> Net Tower
+
+9. <img src="src/main/resources/img/NetTower.png" width="80">
+
+    Net Tower
     * Firing Rate: 1.5 seconds
     * Range: 2
     * AOE Radius: 0.1
     * Projectile Speed: 24
     * Cost: $25
     * Can only be placed on the top layer. Completely ensnares enemies caught in the net, preventing movement.
-10. <img src="src/main/resources/img/SteamTower.png" width="80"><p> Steam Tower
+    
+10. <img src="src/main/resources/img/SteamTower.png" width="80">
+
+    Steam Tower
     * Damage: 10
     * Firing Rate: 1 second
     * Range: 3
@@ -148,76 +177,111 @@ Enemies are spawned in waves from the top of the screen. The first few waves con
 
 #### Above Water
 
-1. <img src="src/main/resources/img/Alligator.png" width="80"><p> Alligator
+1. <img src="src/main/resources/img/Alligator.png" width="80">
+
+    Alligator
     * Health: 22
     * Armor:  0
     * Speed: 2.4
     * Bounty: $3
     * Standard, weak enemy
-1. <img src="src/main/resources/img/Dolphin.png" width="80"><p> Dolphin
+    
+1. <img src="src/main/resources/img/Dolphin.png" width="80">
+
+    Dolphin
     * Health: 18
     * Armor: 0
     * Speed: 3
     * Bounty: $4
     * Fast and frail. It accelerates on straight paths.
-1. <img src="src/main/resources/img/Turtle.png" width="80"><p> Turtle
+    
+1. <img src="src/main/resources/img/Turtle.png" width="80">
+
+    Turtle
     * Health: 25
     * Armor: 4
     * Speed: 2.1
     * Bounty: $7
     * Armored, but has slower movement speed.
-1. <img src="src/main/resources/img/Whale.png" width="80"><p> Hippo
+    
+1. <img src="src/main/resources/img/Whale.png" width="80">
+    
+    Hippo
     * Health: 30
     * Armor: 0
     * Speed: 1.8
     * Bounty: $1
     * High health, but has slower movement speed.
-1. <img src="src/main/resources/img/Hydra.png" width="80"><p> Hydra
+    
+1. <img src="src/main/resources/img/Hydra.png" width="80">
+    
+    Hydra
     * Health: 300
     * Armor: 0
     * Speed: 1.8
     * Bounty: $100
     * Boss enemy. Regenerates health over time.
+    
 
 #### Underwater
 
-1. <img src="src/main/resources/img/Fish.png" width="80"><p> Fish
+1. <img src="src/main/resources/img/Fish.png" width="80">
+
+    Fish
     * Health: 10
     * Armor: 0
     * Speed: 2.4
     * Bounty: $1
     * Standard, weak enemy. Comes in swarms.
-1. <img src="src/main/resources/img/Shark.png" width="80"><p> Shark
+    
+1. <img src="src/main/resources/img/Shark.png" width="80">
+
+    Shark
     * Health: 20
     * Armor: 0
     * Speed: 2.4
     * Bounty: $3
     * Standard, weak enemy.
-1. <img src="src/main/resources/img/Crab.png" width="80"><p> Crab
+
+1. <img src="src/main/resources/img/Crab.png" width="80">
+
+    Crab
     * Health: 25
     * Armor: 3
     * Speed: 2.1
     * Bounty: $6
     * Armored, but has slower movement speed.
-1. <img src="src/main/resources/img/Jellyfish.png" width="80"><p> Jellyfish
+    
+1. <img src="src/main/resources/img/Jellyfish.png" width="80">
+
+    Jellyfish
     * Health: 50
     * Armor: 0
     * Speed: 2.4
     * Bounty: $5
     * Duplicates itself every so often.
-1. <img src="src/main/resources/img/Squid.png" width="80"><p> Squid
+    
+1. <img src="src/main/resources/img/Squid.png" width="80">
+
+    Squid
     * Health: 15
     * Armor: 0
     * Speed: 3
     * Bounty: $2
     * High movement speed.
-1. <img src="src/main/resources/img/Whale.png" width="80"><p> Whale
+    
+1. <img src="src/main/resources/img/Whale.png" width="80">
+
+    Whale
     * Health: 100
     * Armor: 0
     * Speed: 1.8
     * Bounty: $10
     * High health, but moves slower.
-1. <img src="src/main/resources/img/Shark.png" width="80"><p> Megalodon
+    
+1. <img src="src/main/resources/img/Shark.png" width="80">
+
+    Megalodon
     * Health: 700
     * Armor: 0
     * Speed: 2.1
